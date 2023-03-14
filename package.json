@@ -18,6 +18,7 @@
   "devDependencies": {
     "@types/jest": "^29.4.1",
     "@types/node": "^18.15.2",
+    "@types/validator": "^13.7.14",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.1",
@@ -40,5 +41,8 @@
       "npm run test:staged",
       "git add"
     ]
+  },
+  "dependencies": {
+    "validator": "^13.9.0"
   }
 }
