@@ -1,9 +1,27 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
-    "module": "CommonJS",
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "target": "es2017",
-    "esModuleInterop": true,
-    "allowJs": true
-  }
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": false,
+    "allowJs": true,
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "typeRoots": ["@types", "./node_modules/@types"]
+  },
+  "exclude": ["node_modules", ".vscode", "dist", ".docker"]
 }
