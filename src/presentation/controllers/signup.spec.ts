@@ -3,23 +3,27 @@ import { EmailValidator } from '../protocols';
 import { SignUpController } from './signup';
 
 interface CreateUser {
-  name: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
+  name?: string;
+  email?: string;
+  password?: string;
+  passwordConfirmation?: string;
 }
 
 interface SutTypes {
   sut: SignUpController;
   emailValidatorStub: EmailValidator;
 }
-function makeSut(): SutTypes {
+function makeEmailValidator(): EmailValidator {
   class EmailValidatorStub implements EmailValidator {
     isValid(email: string): boolean {
       return true;
     }
   }
-  const emailValidatorStub = new EmailValidatorStub();
+  return new EmailValidatorStub();
+}
+
+function makeSut(): SutTypes {
+  const emailValidatorStub = makeEmailValidator();
   const sut = new SignUpController(emailValidatorStub);
 
   return { sut, emailValidatorStub };

@@ -20,12 +20,12 @@ export class SignUpController implements Controller {
       ];
 
       for (const field of requiredFields) {
-        if (!httpRequest.body[field]) {
+        if (!httpRequest.body?.[field]) {
           return badRequest(new MissingParamError(field));
         }
       }
 
-      const isValid = this.emailValidator.isValid(httpRequest.body.email);
+      const isValid = this.emailValidator.isValid(httpRequest.body?.email);
 
       if (!isValid) {
         return badRequest(new InvalidParamError('email'));
