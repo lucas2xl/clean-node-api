@@ -3,7 +3,7 @@ import {
   MissingParamError,
   ServerError,
 } from '@/presentation/errors';
-import { SignUpController } from './signup';
+import { SignUpController } from './signup-controller';
 import {
   AccountModel,
   AddAccount,
