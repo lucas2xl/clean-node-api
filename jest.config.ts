@@ -8,8 +8,13 @@ export default {
   transform: {
     '^.+\\.ts$': 'ts-jest',
   },
-  collectCoverageFrom: ['<rootDir>/src/**/*ts'],
-  coverageDirectory: '../coverage',
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.ts',
+    '!<rootDir>/src/**/*-protocols.ts',
+    '!<rootDir>/src/**/index.ts',
+    '!**/test/**',
+  ],
+  coverageDirectory: 'coverage',
   testEnvironment: 'node',
   modulePaths: [compilerOptions.baseUrl],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),

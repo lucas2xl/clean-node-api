@@ -6,7 +6,7 @@ import {
   EmailValidator,
   HttpRequest,
   HttpResponse,
-} from './signup-protocol';
+} from './signup-protocols';
 
 export class SignUpController implements Controller {
   constructor(
@@ -45,6 +45,7 @@ export class SignUpController implements Controller {
 
       return ok(account);
     } catch (error) {
+      console.error(error);
       return serverError();
     }
   }

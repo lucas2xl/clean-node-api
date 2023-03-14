@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
-    "test": "jest --passWithNoTests --watch",
-    "test:staged": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
+    "test:debug": "jest --passWithNoTests",
+    "test:watch": "npm test -- --watch",
+    "test:cov": "npm test -- --coverage",
+    "test:e2e": "npm test -- --config ./test/jest-e2e.json",
+    "test:staged": "npm test --"
   },
   "keywords": [],
   "author": "",

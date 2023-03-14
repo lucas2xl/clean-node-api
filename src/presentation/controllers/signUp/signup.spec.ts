@@ -9,7 +9,7 @@ import {
   AddAccount,
   AddAccountModel,
   EmailValidator,
-} from './signup-protocol';
+} from './signup-protocols';
 
 interface SutTypes {
   sut: SignUpController;
