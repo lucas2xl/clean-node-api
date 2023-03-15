@@ -35,7 +35,7 @@ function makeAddAccount(): AddAccount {
         password: 'valid_password',
       };
 
-      return new Promise(resolve => resolve(fakeAccount));
+      return Promise.resolve(fakeAccount);
     }
   }
 
