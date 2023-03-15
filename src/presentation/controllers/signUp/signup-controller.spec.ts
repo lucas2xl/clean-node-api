@@ -1,15 +1,12 @@
+import { EmailValidator } from '@/presentation/protocols/email-validator';
+import { AccountModel } from '@/domain/models';
 import {
   InvalidParamError,
   MissingParamError,
   ServerError,
 } from '@/presentation/errors';
-import { SignUpController } from './signup-controller';
-import {
-  AccountModel,
-  AddAccount,
-  AddAccountModel,
-  EmailValidator,
-} from './signup-protocols';
+import { SignUpController } from '@/presentation/controllers/signUp/signup-controller';
+import { AddAccount, AddAccountModel } from '@/domain/usecases';
 
 interface SutTypes {
   sut: SignUpController;
@@ -23,8 +20,10 @@ function makeEmailValidator(): EmailValidator {
       return true;
     }
   }
+
   return new EmailValidatorStub();
 }
+
 function makeAddAccount(): AddAccount {
   class AddAccountStub implements AddAccount {
     async add(account: AddAccountModel): Promise<AccountModel> {
@@ -38,6 +37,7 @@ function makeAddAccount(): AddAccount {
       return new Promise(resolve => resolve(fakeAccount));
     }
   }
+
   return new AddAccountStub();
 }
 

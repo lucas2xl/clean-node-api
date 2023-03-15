@@ -1,6 +1,6 @@
 import { EmailValidator } from '@/presentation/protocols/email-validator';
+import { EmailValidatorAdapter } from '@/utils/email-validator-adapter';
 import validator from 'validator';
-import { EmailValidatorAdapter } from './email-validator-adapter';
 
 function makeSut(): EmailValidator {
   return new EmailValidatorAdapter();
