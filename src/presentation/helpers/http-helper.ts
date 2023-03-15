@@ -1,5 +1,5 @@
-import { ServerError } from '@/presentation/errors';
-import { HttpResponse } from '@/presentation/protocols';
+import { HttpResponse } from '@/presentation/protocols/http';
+import { ServerError } from '@/presentation/errors/server-error';
 
 export function badRequest(error: Error): HttpResponse {
   return {

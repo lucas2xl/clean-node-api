@@ -1,12 +1,14 @@
+import { HttpRequest, HttpResponse } from '@/presentation/protocols/http';
 import {
-  Controller,
-  HttpRequest,
-  HttpResponse,
-} from '@/presentation/protocols';
+  badRequest,
+  ok,
+  serverError,
+} from '@/presentation/helpers/http-helper';
 import { EmailValidator } from '@/presentation/protocols/email-validator';
-import { AddAccount } from '@/domain/usecases';
-import { badRequest, ok, serverError } from '@/presentation/helpers';
-import { InvalidParamError, MissingParamError } from '@/presentation/errors';
+import { MissingParamError } from '@/presentation/errors/missing-param-error';
+import { InvalidParamError } from '@/presentation/errors/invalid-param-error';
+import { Controller } from '@/presentation/protocols/controller';
+import { AddAccount } from '@/domain/usecases/add-account-usecase';
 
 export class SignUpController implements Controller {
   constructor(

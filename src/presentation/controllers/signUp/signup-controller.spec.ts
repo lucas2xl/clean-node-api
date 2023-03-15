@@ -1,12 +1,13 @@
 import { EmailValidator } from '@/presentation/protocols/email-validator';
-import { AccountModel } from '@/domain/models';
-import {
-  InvalidParamError,
-  MissingParamError,
-  ServerError,
-} from '@/presentation/errors';
+import { ServerError } from '@/presentation/errors/server-error';
 import { SignUpController } from '@/presentation/controllers/signUp/signup-controller';
-import { AddAccount, AddAccountModel } from '@/domain/usecases';
+import { MissingParamError } from '@/presentation/errors/missing-param-error';
+import { InvalidParamError } from '@/presentation/errors/invalid-param-error';
+import { AccountModel } from '@/domain/models/account-model';
+import {
+  AddAccount,
+  AddAccountModel,
+} from '@/domain/usecases/add-account-usecase';
 
 interface SutTypes {
   sut: SignUpController;
@@ -16,7 +17,7 @@ interface SutTypes {
 
 function makeEmailValidator(): EmailValidator {
   class EmailValidatorStub implements EmailValidator {
-    isValid(email: string): boolean {
+    isValid(_: string): boolean {
       return true;
     }
   }
@@ -26,7 +27,7 @@ function makeEmailValidator(): EmailValidator {
 
 function makeAddAccount(): AddAccount {
   class AddAccountStub implements AddAccount {
-    async add(account: AddAccountModel): Promise<AccountModel> {
+    async add(_: AddAccountModel): Promise<AccountModel> {
       const fakeAccount = {
         id: 'valid_id',
         name: 'valid_name',
