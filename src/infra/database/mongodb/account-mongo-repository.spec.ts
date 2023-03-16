@@ -1,5 +1,6 @@
 import { AccountMongoRepository } from '@/infra/database/mongodb/account-mongo-repository';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
+import * as process from 'process';
 
 function makeSut(): AccountMongoRepository {
   return new AccountMongoRepository();
@@ -7,7 +8,7 @@ function makeSut(): AccountMongoRepository {
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
-    await MongoHelper.connect();
+    await MongoHelper.connect(process.env.MONGO_URL);
   });
 
   afterAll(async () => {
