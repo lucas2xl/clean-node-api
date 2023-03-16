@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import app from '@/main/config/app';
 import env from '@/main/config/env';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
