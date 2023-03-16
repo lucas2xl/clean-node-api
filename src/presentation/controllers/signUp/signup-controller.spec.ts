@@ -29,10 +29,10 @@ function makeAddAccount(): AddAccount {
   class AddAccountStub implements AddAccount {
     async add(_: AddAccountModel): Promise<AccountModel> {
       const fakeAccount = {
-        id: 'valid_id',
-        name: 'valid_name',
-        email: 'valid_email',
-        password: 'hashed_password',
+        id: 'valid-id',
+        name: 'valid-name',
+        email: 'valid-email',
+        password: 'hashed-password',
       };
 
       return Promise.resolve(fakeAccount);
@@ -55,9 +55,9 @@ describe('SignUp Controller', () => {
     const { sut } = makeSut();
     const httpRequest = {
       body: {
-        email: 'any_email',
-        password: 'any_password',
-        passwordConfirmation: 'any_password',
+        email: 'any-email',
+        password: 'any-password',
+        passwordConfirmation: 'any-password',
       },
     };
 
@@ -70,9 +70,9 @@ describe('SignUp Controller', () => {
     const { sut } = makeSut();
     const httpRequest = {
       body: {
-        name: 'any_name',
-        password: 'any_password',
-        passwordConfirmation: 'any_password',
+        name: 'any-name',
+        password: 'any-password',
+        passwordConfirmation: 'any-password',
       },
     };
 
@@ -85,9 +85,9 @@ describe('SignUp Controller', () => {
     const { sut } = makeSut();
     const httpRequest = {
       body: {
-        name: 'any_name',
-        email: 'any_email',
-        passwordConfirmation: 'any_password',
+        name: 'any-name',
+        email: 'any-email',
+        passwordConfirmation: 'any-password',
       },
     };
 
@@ -100,9 +100,9 @@ describe('SignUp Controller', () => {
     const { sut } = makeSut();
     const httpRequest = {
       body: {
-        name: 'any_name',
-        email: 'any_email',
-        password: 'any_password',
+        name: 'any-name',
+        email: 'any-email',
+        password: 'any-password',
       },
     };
 
@@ -117,10 +117,10 @@ describe('SignUp Controller', () => {
     const { sut } = makeSut();
     const httpRequest = {
       body: {
-        name: 'any_name',
-        email: 'any_email',
-        password: 'any_password',
-        passwordConfirmation: 'invalid_password',
+        name: 'any-name',
+        email: 'any-email',
+        password: 'any-password',
+        passwordConfirmation: 'invalid-password',
       },
     };
 
@@ -137,10 +137,10 @@ describe('SignUp Controller', () => {
 
     const httpRequest = {
       body: {
-        name: 'any_name',
-        email: 'invalid_email',
-        password: 'any_password',
-        passwordConfirmation: 'any_password',
+        name: 'any-name',
+        email: 'invalid-email',
+        password: 'any-password',
+        passwordConfirmation: 'any-password',
       },
     };
 
@@ -157,10 +157,10 @@ describe('SignUp Controller', () => {
 
     const httpRequest = {
       body: {
-        name: 'any_name',
-        email: 'invalid_email',
-        password: 'any_password',
-        passwordConfirmation: 'any_password',
+        name: 'any-name',
+        email: 'invalid-email',
+        password: 'any-password',
+        passwordConfirmation: 'any-password',
       },
     };
 
@@ -175,10 +175,10 @@ describe('SignUp Controller', () => {
 
     const httpRequest = {
       body: {
-        name: 'any_name',
-        email: 'any_email',
-        password: 'any_password',
-        passwordConfirmation: 'any_password',
+        name: 'any-name',
+        email: 'any-email',
+        password: 'any-password',
+        passwordConfirmation: 'any-password',
       },
     };
 
@@ -193,15 +193,15 @@ describe('SignUp Controller', () => {
 
     const httpRequest = {
       body: {
-        name: 'any_name',
-        email: 'any_email',
-        password: 'any_password',
-        passwordConfirmation: 'any_password',
+        name: 'any-name',
+        email: 'any-email',
+        password: 'any-password',
+        passwordConfirmation: 'any-password',
       },
     };
 
     await sut.handle(httpRequest);
-    expect(isValidSpy).toHaveBeenCalledWith('any_email');
+    expect(isValidSpy).toHaveBeenCalledWith('any-email');
   });
 
   it('Should call AddAccount with correct values', async () => {
@@ -209,18 +209,18 @@ describe('SignUp Controller', () => {
     const addSpy = jest.spyOn(addAccountStub, 'add');
     const httpRequest = {
       body: {
-        name: 'any_name',
-        email: 'any_email',
-        password: 'any_password',
-        passwordConfirmation: 'any_password',
+        name: 'any-name',
+        email: 'any-email',
+        password: 'any-password',
+        passwordConfirmation: 'any-password',
       },
     };
 
     await sut.handle(httpRequest);
     expect(addSpy).toHaveBeenCalledWith({
-      name: 'any_name',
-      email: 'any_email',
-      password: 'any_password',
+      name: 'any-name',
+      email: 'any-email',
+      password: 'any-password',
     });
   });
 
@@ -228,20 +228,20 @@ describe('SignUp Controller', () => {
     const { sut } = makeSut();
     const httpRequest = {
       body: {
-        name: 'valid_name',
-        email: 'valid_email',
-        password: 'valid_password',
-        passwordConfirmation: 'valid_password',
+        name: 'valid-name',
+        email: 'valid-email',
+        password: 'valid-password',
+        passwordConfirmation: 'valid-password',
       },
     };
 
     const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(200);
     expect(httpResponse.body).toEqual({
-      id: 'valid_id',
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'hashed_password',
+      id: 'valid-id',
+      name: 'valid-name',
+      email: 'valid-email',
+      password: 'hashed-password',
     });
   });
 });
