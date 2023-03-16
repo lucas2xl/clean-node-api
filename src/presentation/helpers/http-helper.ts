@@ -4,14 +4,14 @@ import { ServerError } from '@/presentation/errors/server-error';
 export function badRequest(error: Error): HttpResponse {
   return {
     statusCode: 400,
-    body: { error: error.message },
+    body: error,
   };
 }
 
 export function serverError(): HttpResponse {
   return {
     statusCode: 500,
-    body: { error: new ServerError().message },
+    body: new ServerError(),
   };
 }
 
