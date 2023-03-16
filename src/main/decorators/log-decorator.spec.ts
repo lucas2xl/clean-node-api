@@ -1,0 +1,51 @@
+import { LogDecorator } from '@/main/decorators/log-decorator';
+import { HttpRequest, HttpResponse } from '@/presentation/protocols/http';
+import { Controller } from '@/presentation/protocols/controller';
+
+interface SutTypes {
+  sut: Controller;
+  controllerStub: Controller;
+}
+
+function makeController(): Controller {
+  class ControllerStub implements Controller {
+    async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+      const httpResponse: HttpResponse = {
+        statusCode: 200,
+        body: {
+          name: 'any-name',
+          email: 'any-email',
+          password: 'any-password',
+        },
+      };
+      return httpResponse;
+    }
+  }
+
+  return new ControllerStub();
+}
+
+function makeSut(): SutTypes {
+  const controllerStub = makeController();
+  const sut = new LogDecorator(controllerStub);
+
+  return { sut, controllerStub };
+}
+
+describe('Log Decorator', () => {
+  it('should call controller handle ', async () => {
+    const { sut, controllerStub } = makeSut();
+    const handleSpy = jest.spyOn(controllerStub, 'handle');
+    const httpRequest: HttpRequest = {
+      body: {
+        name: 'any-name',
+        email: 'any-email',
+        password: 'any-password',
+        passwordConfirmation: 'any-password',
+      },
+    };
+    await sut.handle(httpRequest);
+
+    expect(handleSpy).toHaveBeenCalledWith(httpRequest);
+  });
+});
