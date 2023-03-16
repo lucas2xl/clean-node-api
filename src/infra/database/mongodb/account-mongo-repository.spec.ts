@@ -2,10 +2,14 @@ import { AccountMongoRepository } from '@/infra/database/mongodb/account-mongo-r
 import { Db, MongoClient } from 'mongodb';
 import * as process from 'process';
 
-describe('Account Mongo Repository', () => {
-  let connection: MongoClient;
-  let db: Db;
+let connection: MongoClient;
+let db: Db;
 
+function makeSut(): AccountMongoRepository {
+  return new AccountMongoRepository(db);
+}
+
+describe('Account Mongo Repository', () => {
   beforeAll(async () => {
     connection = await MongoClient.connect(process.env.MONGO_URL);
     db = await connection.db();
@@ -16,7 +20,7 @@ describe('Account Mongo Repository', () => {
   });
 
   it('should return an account on success', async () => {
-    const sut = new AccountMongoRepository(db);
+    const sut = makeSut();
     const account = await sut.add({
       name: 'any_name',
       email: 'any_email',
