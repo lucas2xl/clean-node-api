@@ -12,11 +12,7 @@ export class AccountMongoRepository implements AddAccountRepository {
     const { insertedId } = await accountCollection.insertOne(accountData);
     const account = await accountCollection.findOne({ _id: insertedId });
 
-    return {
-      id: account._id,
-      name: account.name,
-      email: account.email,
-      password: account.password,
-    };
+    const { _id, ...accountWithOutId } = account;
+    return { ...accountWithOutId, id: _id } as AccountModel;
   }
 }
