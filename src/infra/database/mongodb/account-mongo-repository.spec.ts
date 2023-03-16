@@ -1,26 +1,21 @@
 import { AccountMongoRepository } from '@/infra/database/mongodb/account-mongo-repository';
-import { Db, MongoClient } from 'mongodb';
-import * as process from 'process';
-
-let connection: MongoClient;
-let db: Db;
+import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 
 function makeSut(): AccountMongoRepository {
-  return new AccountMongoRepository(db);
+  return new AccountMongoRepository();
 }
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
-    connection = await MongoClient.connect(process.env.MONGO_URL);
-    db = await connection.db();
+    await MongoHelper.connect();
   });
 
   afterAll(async () => {
-    await connection.close();
+    await MongoHelper.disconnect();
   });
 
   beforeEach(async () => {
-    const accountCollection = db.collection('account');
+    const accountCollection = await MongoHelper.getCollection('account');
     await accountCollection.deleteMany({});
   });
 
