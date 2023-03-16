@@ -1,12 +1,11 @@
 import { Collection, Db, MongoClient } from 'mongodb';
-import * as process from 'process';
 
 export const MongoHelper = {
   connection: null as MongoClient,
   database: null as Db,
 
-  async connect(): Promise<void> {
-    this.connection = await MongoClient.connect(process.env.MONGO_URL);
+  async connect(url: string): Promise<void> {
+    this.connection = await MongoClient.connect(url);
     this.database = await this.connection.db();
   },
 

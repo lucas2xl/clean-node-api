@@ -1,5 +1,13 @@
 import app from '@/main/config/app';
+import env from '@/main/config/env';
+import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 
-app.listen(3000, () =>
-  console.log(`🚀 Server running at http://localhost:3000`),
-);
+async function bootstrap() {
+  await MongoHelper.connect(env.mongoUrl);
+
+  app.listen(env.port, () =>
+    console.log(`🚀 Server running at http://localhost:${env.port}`),
+  );
+}
+
+bootstrap();
