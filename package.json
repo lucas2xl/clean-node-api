@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register src/main/server.ts",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand --forceExit",
-    "test:debug": "jest --passWithNoTests",
+    "test:debug": "jest --passWithNoTests --forceExit",
     "test:watch": "npm test -- --watch",
     "test:cov": "npm test -- --coverage",
     "test:e2e": "jest --passWithNoTests --noStackTrace --runInBand --forceExit --config jest-e2e.config.ts "
