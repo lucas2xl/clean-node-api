@@ -1,10 +1,18 @@
 import { ServerError } from '@/presentation/errors/server-error';
+import { UnauthorizedError } from '@/presentation/errors/unauthorized-error';
 import { HttpResponse } from '@/presentation/protocols/http';
 
 export function badRequest(error: Error): HttpResponse {
   return {
     statusCode: 400,
     body: error,
+  };
+}
+
+export function unauthorized(): HttpResponse {
+  return {
+    statusCode: 401,
+    body: new UnauthorizedError(),
   };
 }
 
