@@ -6,6 +6,7 @@ import {
   ok,
   serverError,
 } from '@/presentation/helpers/http-helper';
+import { Validation } from '@/presentation/helpers/validators/validation';
 import { Controller } from '@/presentation/protocols/controller';
 import { EmailValidator } from '@/presentation/protocols/email-validator';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/http';
@@ -14,10 +15,12 @@ export class SignUpController implements Controller {
   constructor(
     private readonly emailValidator: EmailValidator,
     private readonly addAccount: AddAccount,
+    private readonly validation: Validation,
   ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      this.validation.validate(httpRequest.body);
       const requiredFields = [
         'name',
         'email',
