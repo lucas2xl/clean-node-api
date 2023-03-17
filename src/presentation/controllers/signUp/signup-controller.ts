@@ -1,14 +1,14 @@
-import { HttpRequest, HttpResponse } from '@/presentation/protocols/http';
+import { AddAccount } from '@/domain/usecases/add-account-usecase';
+import { InvalidParamError } from '@/presentation/errors/invalid-param-error';
+import { MissingParamError } from '@/presentation/errors/missing-param-error';
 import {
   badRequest,
   ok,
   serverError,
 } from '@/presentation/helpers/http-helper';
-import { EmailValidator } from '@/presentation/protocols/email-validator';
-import { MissingParamError } from '@/presentation/errors/missing-param-error';
-import { InvalidParamError } from '@/presentation/errors/invalid-param-error';
 import { Controller } from '@/presentation/protocols/controller';
-import { AddAccount } from '@/domain/usecases/add-account-usecase';
+import { EmailValidator } from '@/presentation/protocols/email-validator';
+import { HttpRequest, HttpResponse } from '@/presentation/protocols/http';
 
 export class SignUpController implements Controller {
   constructor(
@@ -47,7 +47,7 @@ export class SignUpController implements Controller {
 
       return ok(account);
     } catch (error) {
-      return serverError();
+      return serverError(error);
     }
   }
 }

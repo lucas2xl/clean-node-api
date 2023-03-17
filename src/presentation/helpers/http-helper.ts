@@ -1,5 +1,5 @@
-import { HttpResponse } from '@/presentation/protocols/http';
 import { ServerError } from '@/presentation/errors/server-error';
+import { HttpResponse } from '@/presentation/protocols/http';
 
 export function badRequest(error: Error): HttpResponse {
   return {
@@ -8,10 +8,10 @@ export function badRequest(error: Error): HttpResponse {
   };
 }
 
-export function serverError(): HttpResponse {
+export function serverError(error: Error): HttpResponse {
   return {
     statusCode: 500,
-    body: new ServerError(),
+    body: new ServerError(error.stack),
   };
 }
 

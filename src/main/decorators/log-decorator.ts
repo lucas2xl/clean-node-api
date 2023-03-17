@@ -7,7 +7,9 @@ export class LogDecorator implements Controller {
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     const httpResponse = await this.controller.handle(httpRequest);
 
-    console.log('LogDecorator');
+    if (httpResponse.statusCode === 500) {
+      console.log('LogDecorator');
+    }
 
     return httpResponse;
   }
