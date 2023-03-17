@@ -12,6 +12,7 @@ import {
   ok,
   serverError,
 } from '@/presentation/helpers/http-helper';
+import { Validation } from '@/presentation/helpers/validators/validation';
 import { EmailValidator } from '@/presentation/protocols/email-validator';
 import { HttpRequest } from '@/presentation/protocols/http';
 
@@ -19,6 +20,7 @@ interface SutTypes {
   sut: SignUpController;
   emailValidatorStub: EmailValidator;
   addAccountStub: AddAccount;
+  validationStub: Validation;
 }
 
 function makeFakeRequest(): HttpRequest {
@@ -61,12 +63,27 @@ function makeAddAccount(): AddAccount {
   return new AddAccountStub();
 }
 
+function makeValidation(): Validation {
+  class ValidationStub implements Validation {
+    validate<T>(_: T): Error {
+      return null;
+    }
+  }
+
+  return new ValidationStub();
+}
+
 function makeSut(): SutTypes {
   const emailValidatorStub = makeEmailValidator();
   const addAccountStub = makeAddAccount();
-  const sut = new SignUpController(emailValidatorStub, addAccountStub);
+  const validationStub = makeValidation();
+  const sut = new SignUpController(
+    emailValidatorStub,
+    addAccountStub,
+    validationStub,
+  );
 
-  return { sut, emailValidatorStub, addAccountStub };
+  return { sut, emailValidatorStub, addAccountStub, validationStub };
 }
 
 describe('SignUp Controller', () => {
@@ -149,6 +166,13 @@ describe('SignUp Controller', () => {
     expect(httpResponse).toEqual(serverError(new ServerError()));
   });
 
+  it('Should return 200 if valid data is provided', async () => {
+    const { sut } = makeSut();
+    const httpResponse = await sut.handle(makeFakeRequest());
+
+    expect(httpResponse).toEqual(ok(makeFakeAccount()));
+  });
+
   it('Should call EmailValidator with correct email', async () => {
     const { sut, emailValidatorStub } = makeSut();
     const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid');
@@ -170,10 +194,13 @@ describe('SignUp Controller', () => {
     });
   });
 
-  it('Should return 200 if valid data is provided', async () => {
-    const { sut } = makeSut();
-    const httpResponse = await sut.handle(makeFakeRequest());
+  it('Should call Validation with correct value', async () => {
+    const { sut, validationStub } = makeSut();
+    const validateSpy = jest.spyOn(validationStub, 'validate');
 
-    expect(httpResponse).toEqual(ok(makeFakeAccount()));
+    const httpRequest = makeFakeRequest();
+    await sut.handle(httpRequest);
+
+    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body);
   });
 });
