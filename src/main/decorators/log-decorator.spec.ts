@@ -1,6 +1,6 @@
 import { LogDecorator } from '@/main/decorators/log-decorator';
-import { HttpRequest, HttpResponse } from '@/presentation/protocols/http';
 import { Controller } from '@/presentation/protocols/controller';
+import { HttpRequest, HttpResponse } from '@/presentation/protocols/http';
 
 interface SutTypes {
   sut: Controller;
@@ -9,7 +9,7 @@ interface SutTypes {
 
 function makeController(): Controller {
   class ControllerStub implements Controller {
-    async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+    async handle(_: HttpRequest): Promise<HttpResponse> {
       const httpResponse: HttpResponse = {
         statusCode: 200,
         body: {
@@ -18,7 +18,7 @@ function makeController(): Controller {
           password: 'any-password',
         },
       };
-      return httpResponse;
+      return Promise.resolve(httpResponse);
     }
   }
 
