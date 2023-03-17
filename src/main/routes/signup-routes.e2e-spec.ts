@@ -1,19 +1,21 @@
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import app from '@/main/config/app';
-import * as request from 'supertest';
 import * as process from 'process';
+import * as request from 'supertest';
 
 describe('SignUp Routes', () => {
   beforeAll(async () => {
-    await MongoHelper.connect(process.env.MONGO_URL);
+    await MongoHelper.instance.connect(process.env.MONGO_URL);
   });
 
   afterAll(async () => {
-    await MongoHelper.disconnect();
+    await MongoHelper.instance.disconnect();
   });
 
   beforeEach(async () => {
-    const accountCollection = await MongoHelper.getCollection('accounts');
+    const accountCollection = await MongoHelper.instance.getCollection(
+      'accounts',
+    );
     await accountCollection.deleteMany({});
   });
 

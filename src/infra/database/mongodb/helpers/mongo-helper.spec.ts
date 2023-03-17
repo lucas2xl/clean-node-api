@@ -3,19 +3,19 @@ import * as process from 'process';
 
 describe('Mongo Helper', () => {
   beforeAll(async () => {
-    await sut.connect(process.env.MONGO_URL);
+    await sut.instance.connect(process.env.MONGO_URL);
   });
 
   afterAll(async () => {
-    await sut.disconnect();
+    await sut.instance.disconnect();
   });
 
   it('Should reconnect if mongodb is down', async () => {
-    let accountCollection = await sut.getCollection('accounts');
+    let accountCollection = await sut.instance.getCollection('accounts');
 
     expect(accountCollection).toBeTruthy();
-    await sut.disconnect();
-    accountCollection = await sut.getCollection('accounts');
+    await sut.instance.disconnect();
+    accountCollection = await sut.instance.getCollection('accounts');
     expect(accountCollection).toBeTruthy();
   });
 });

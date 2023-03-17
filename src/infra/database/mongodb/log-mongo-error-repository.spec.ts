@@ -11,15 +11,15 @@ function makeSut(): LogErrorRepository {
 describe('Log Mongo Error Repository', () => {
   let errorCollection: Collection;
   beforeAll(async () => {
-    await MongoHelper.connect(process.env.MONGO_URL);
+    await MongoHelper.instance.connect(process.env.MONGO_URL);
   });
 
   afterAll(async () => {
-    await MongoHelper.disconnect();
+    await MongoHelper.instance.disconnect();
   });
 
   beforeEach(async () => {
-    errorCollection = await MongoHelper.getCollection('errors');
+    errorCollection = await MongoHelper.instance.getCollection('errors');
     await errorCollection.deleteMany({});
   });
 

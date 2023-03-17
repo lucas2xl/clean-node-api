@@ -8,15 +8,17 @@ function makeSut(): AccountMongoRepository {
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
-    await MongoHelper.connect(process.env.MONGO_URL);
+    await MongoHelper.instance.connect(process.env.MONGO_URL);
   });
 
   afterAll(async () => {
-    await MongoHelper.disconnect();
+    await MongoHelper.instance.disconnect();
   });
 
   beforeEach(async () => {
-    const accountCollection = await MongoHelper.getCollection('account');
+    const accountCollection = await MongoHelper.instance.getCollection(
+      'account',
+    );
     await accountCollection.deleteMany({});
   });
 
