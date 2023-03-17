@@ -3,7 +3,7 @@ import {
   AddAccount,
   AddAccountModel,
 } from '@/domain/usecases/add-account-usecase';
-import { SignUpController } from '@/presentation/controllers/signUp/signup-controller';
+import { SignUpController } from '@/presentation/controllers/signup/signup-controller';
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error';
 import { MissingParamError } from '@/presentation/errors/missing-param-error';
 import { ServerError } from '@/presentation/errors/server-error';
