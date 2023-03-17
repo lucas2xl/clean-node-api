@@ -1,6 +1,5 @@
 import { AddAccount } from '@/domain/usecases/add-account-usecase';
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error';
-import { MissingParamError } from '@/presentation/errors/missing-param-error';
 import {
   badRequest,
   ok,
@@ -24,18 +23,6 @@ export class SignUpController implements Controller {
 
       if (error) {
         return badRequest(error);
-      }
-      const requiredFields = [
-        'name',
-        'email',
-        'password',
-        'passwordConfirmation',
-      ];
-
-      for (const field of requiredFields) {
-        if (!httpRequest.body?.[field]) {
-          return badRequest(new MissingParamError(field));
-        }
       }
 
       const { name, email, password, passwordConfirmation } = httpRequest.body;
