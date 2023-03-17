@@ -33,9 +33,23 @@ function makeSut(): SutTypes {
 }
 
 describe('Log Decorator', () => {
-  it('should call controller handle ', async () => {
+  it('should call controller handle', async () => {
     const { sut, controllerStub } = makeSut();
     const handleSpy = jest.spyOn(controllerStub, 'handle');
+    const httpRequest: HttpRequest = {
+      body: {
+        name: 'any-name',
+        email: 'any-email',
+        password: 'any-password',
+      },
+    };
+    await sut.handle(httpRequest);
+
+    expect(handleSpy).toHaveBeenCalledWith(httpRequest);
+  });
+
+  it('should return the same return the controller', async () => {
+    const { sut } = makeSut();
     const httpRequest: HttpRequest = {
       body: {
         name: 'any-name',
@@ -44,8 +58,16 @@ describe('Log Decorator', () => {
         passwordConfirmation: 'any-password',
       },
     };
-    await sut.handle(httpRequest);
 
-    expect(handleSpy).toHaveBeenCalledWith(httpRequest);
+    const httpResponse = await sut.handle(httpRequest);
+
+    expect(httpResponse).toEqual({
+      statusCode: 200,
+      body: {
+        name: 'any-name',
+        email: 'any-email',
+        password: 'any-password',
+      },
+    });
   });
 });
