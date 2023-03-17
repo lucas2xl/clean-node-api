@@ -4,6 +4,10 @@ import { badRequest } from '@/presentation/helpers/http-helper';
 import { Controller } from '@/presentation/protocols/controller';
 import { HttpRequest } from '@/presentation/protocols/http';
 
+interface SutTypes {
+  sut: Controller;
+}
+
 function makePostFake(): HttpRequest {
   return {
     body: {
@@ -13,13 +17,15 @@ function makePostFake(): HttpRequest {
   };
 }
 
-function makeSut(): Controller {
-  return new LoginController();
+function makeSut(): SutTypes {
+  const sut = new LoginController();
+
+  return { sut };
 }
 
 describe('Login Controller', () => {
   it('Should return 400 if no email is provider', async () => {
-    const sut = makeSut();
+    const { sut } = makeSut();
     const httRequest = makePostFake();
     delete httRequest.body.email;
     const httpResponse = await sut.handle(httRequest);
@@ -28,7 +34,7 @@ describe('Login Controller', () => {
   });
 
   it('Should return 400 if no password is provider', async () => {
-    const sut = makeSut();
+    const { sut } = makeSut();
     const httRequest = makePostFake();
     delete httRequest.body.password;
     const httpResponse = await sut.handle(httRequest);
