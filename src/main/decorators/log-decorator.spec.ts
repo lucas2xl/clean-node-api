@@ -1,10 +1,13 @@
+import { LogErrorRepository } from '@/data/protocols/log-error-repository';
 import { LogDecorator } from '@/main/decorators/log-decorator';
+import { serverError } from '@/presentation/helpers/http-helper';
 import { Controller } from '@/presentation/protocols/controller';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/http';
 
 interface SutTypes {
   sut: Controller;
   controllerStub: Controller;
+  logErrorRepositoryStub: LogErrorRepository;
 }
 
 function makeController(): Controller {
@@ -25,11 +28,22 @@ function makeController(): Controller {
   return new ControllerStub();
 }
 
+function makeLogErrorRepository(): LogErrorRepository {
+  class LogErrorRepositoryStub implements LogErrorRepository {
+    async log(_: string): Promise<void> {
+      return Promise.resolve();
+    }
+  }
+
+  return new LogErrorRepositoryStub();
+}
+
 function makeSut(): SutTypes {
   const controllerStub = makeController();
-  const sut = new LogDecorator(controllerStub);
+  const logErrorRepositoryStub = makeLogErrorRepository();
+  const sut = new LogDecorator(controllerStub, logErrorRepositoryStub);
 
-  return { sut, controllerStub };
+  return { sut, controllerStub, logErrorRepositoryStub };
 }
 
 describe('Log Decorator', () => {
@@ -69,5 +83,29 @@ describe('Log Decorator', () => {
         password: 'any-password',
       },
     });
+  });
+
+  it('should call LogErrorRepository with correct error if controller returns a server error', async () => {
+    const { sut, controllerStub, logErrorRepositoryStub } = makeSut();
+    const logSpy = jest.spyOn(logErrorRepositoryStub, 'log');
+
+    const fakeError = new Error();
+    fakeError.stack = 'any-stack';
+    const error = serverError(fakeError);
+    jest
+      .spyOn(controllerStub, 'handle')
+      .mockReturnValueOnce(Promise.resolve(error));
+
+    const httpRequest: HttpRequest = {
+      body: {
+        name: 'any-name',
+        email: 'any-email',
+        password: 'any-password',
+        passwordConfirmation: 'any-password',
+      },
+    };
+
+    await sut.handle(httpRequest);
+    expect(logSpy).toHaveBeenCalledWith('any-stack');
   });
 });
