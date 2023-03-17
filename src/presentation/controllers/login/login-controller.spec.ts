@@ -2,10 +2,12 @@ import { LoginController } from '@/presentation/controllers/login/login-controll
 import { MissingParamError } from '@/presentation/errors/missing-param-error';
 import { badRequest } from '@/presentation/helpers/http-helper';
 import { Controller } from '@/presentation/protocols/controller';
+import { EmailValidator } from '@/presentation/protocols/email-validator';
 import { HttpRequest } from '@/presentation/protocols/http';
 
 interface SutTypes {
   sut: Controller;
+  emailValidatorStub: EmailValidator;
 }
 
 function makePostFake(): HttpRequest {
@@ -17,10 +19,21 @@ function makePostFake(): HttpRequest {
   };
 }
 
-function makeSut(): SutTypes {
-  const sut = new LoginController();
+function makeEmailValidator(): EmailValidator {
+  class EmailValidatorStub implements EmailValidator {
+    isValid(_: string): boolean {
+      return true;
+    }
+  }
 
-  return { sut };
+  return new EmailValidatorStub();
+}
+
+function makeSut(): SutTypes {
+  const emailValidatorStub = makeEmailValidator();
+  const sut = new LoginController(emailValidatorStub);
+
+  return { sut, emailValidatorStub };
 }
 
 describe('Login Controller', () => {
@@ -40,5 +53,16 @@ describe('Login Controller', () => {
     const httpResponse = await sut.handle(httRequest);
 
     expect(httpResponse).toEqual(badRequest(new MissingParamError('password')));
+  });
+
+  it('Should call EmailValidator with correct email', async () => {
+    const { sut, emailValidatorStub } = makeSut();
+    const isValid = jest
+      .spyOn(emailValidatorStub, 'isValid')
+      .mockReturnValueOnce(false);
+    const httRequest = makePostFake();
+    await sut.handle(httRequest);
+
+    expect(isValid).toHaveBeenCalledWith('any-email');
   });
 });
