@@ -18,6 +18,5 @@ export function makeSignUpController(): Controller {
     emailValidatorAdapter,
     dbAddAccount,
   );
-
   return new LogDecorator(signUpController, logErrorRepository);
 }

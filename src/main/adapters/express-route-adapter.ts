@@ -1,6 +1,6 @@
 import { Controller } from '@/presentation/protocols/controller';
-import { Request, Response } from 'express';
 import { HttpRequest } from '@/presentation/protocols/http';
+import { Request, Response } from 'express';
 
 interface ExpressReturn {
   (request: Request, response: Response): Promise<void>;
@@ -13,6 +13,12 @@ export function ExpressRouteAdapter(controller: Controller): ExpressReturn {
     };
 
     const httpResponse = await controller.handle(httpRequest);
-    response.status(httpResponse.statusCode).json(httpResponse.body);
+    if (httpResponse.statusCode === 200) {
+      response.status(httpResponse.statusCode).json(httpResponse.body);
+    } else {
+      response.status(httpResponse.statusCode).json({
+        message: httpResponse.body.message,
+      });
+    }
   };
 }
