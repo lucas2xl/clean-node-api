@@ -5,7 +5,11 @@ import {
 import { LoginController } from '@/presentation/controllers/login/login-controller';
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error';
 import { MissingParamError } from '@/presentation/errors/missing-param-error';
-import { badRequest, serverError } from '@/presentation/helpers/http-helper';
+import {
+  badRequest,
+  serverError,
+  unauthorized,
+} from '@/presentation/helpers/http-helper';
 import { Controller } from '@/presentation/protocols/controller';
 import { EmailValidator } from '@/presentation/protocols/email-validator';
 import { HttpRequest } from '@/presentation/protocols/http';
@@ -79,6 +83,15 @@ describe('Login Controller', () => {
     const httpResponse = await sut.handle(httRequest);
 
     expect(httpResponse).toEqual(badRequest(new InvalidParamError('email')));
+  });
+
+  it('Should return 401 if an invalid credentials are provided', async () => {
+    const { sut, authenticationStub } = makeSut();
+    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(null);
+    makeFakeRequest();
+    const httpResponse = await sut.handle(makeFakeRequest());
+
+    expect(httpResponse).toEqual(unauthorized());
   });
 
   it('Should return 500 if EmailValidator throws', async () => {
