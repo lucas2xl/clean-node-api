@@ -9,7 +9,8 @@
     "test:debug": "jest --passWithNoTests --forceExit",
     "test:watch": "npm test -- --watch",
     "test:cov": "npm test -- --coverage",
-    "test:e2e": "jest --passWithNoTests --noStackTrace --runInBand --forceExit --config jest-e2e.config.ts "
+    "test:e2e": "jest --passWithNoTests --noStackTrace --runInBand --forceExit --config jest-e2e.config.ts",
+    "test:all": "npm run test -- && npm run test:e2e --"
   },
   "keywords": [],
   "author": "",
