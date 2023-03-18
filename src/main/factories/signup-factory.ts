@@ -3,6 +3,7 @@ import { BcryptAdapter } from '@/infra/criptograph/bcrypt-adapter';
 import { AccountMongoRepository } from '@/infra/database/mongodb/account-mongo-repository';
 import { LogMongoErrorRepository } from '@/infra/database/mongodb/log-mongo-error-repository';
 import { LogDecorator } from '@/main/decorators/log-decorator';
+import { makeSignUpValidation } from '@/main/factories/signup-validation-factory';
 import { SignUpController } from '@/presentation/controllers/signup/signup-controller';
 import { Controller } from '@/presentation/protocols/controller';
 import { EmailValidatorAdapter } from '@/utils/email-validator-adapter';
@@ -17,6 +18,7 @@ export function makeSignUpController(): Controller {
   const signUpController = new SignUpController(
     emailValidatorAdapter,
     dbAddAccount,
+    makeSignUpValidation(),
   );
   return new LogDecorator(signUpController, logErrorRepository);
 }
