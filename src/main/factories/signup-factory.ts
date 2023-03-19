@@ -6,17 +6,14 @@ import { LogDecorator } from '@/main/decorators/log-decorator';
 import { makeSignUpValidation } from '@/main/factories/signup-validation-factory';
 import { SignUpController } from '@/presentation/controllers/signup/signup-controller';
 import { Controller } from '@/presentation/protocols/controller';
-import { EmailValidatorAdapter } from '@/utils/email-validator-adapter';
 
 export function makeSignUpController(): Controller {
   const salt = 12;
   const bcryptAdapter = new BcryptAdapter(salt);
-  const emailValidatorAdapter = new EmailValidatorAdapter();
   const addAccountRepository = new AccountMongoRepository();
   const logErrorRepository = new LogMongoErrorRepository();
   const dbAddAccount = new DbAddAccount(bcryptAdapter, addAccountRepository);
   const signUpController = new SignUpController(
-    emailValidatorAdapter,
     dbAddAccount,
     makeSignUpValidation(),
   );

@@ -8,7 +8,7 @@ export class ComparerFieldsValidation implements Validation {
   ) {}
 
   validate<T>(input: T): Error {
-    if (this.fieldName !== this.fieldToComparerName) {
+    if (input[this.fieldName] !== input[this.fieldToComparerName]) {
       return new InvalidParamError(this.fieldToComparerName);
     }
   }
