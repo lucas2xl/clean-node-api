@@ -10,7 +10,7 @@ import {
   badRequest,
   ok,
   serverError,
-} from '@/presentation/helpers/http-helper';
+} from '@/presentation/helpers/http/http-helper';
 import { Validation } from '@/presentation/helpers/validators/validation';
 import { HttpRequest } from '@/presentation/protocols/http';
 

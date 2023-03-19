@@ -9,7 +9,7 @@ import {
   ok,
   serverError,
   unauthorized,
-} from '@/presentation/helpers/http-helper';
+} from '@/presentation/helpers/http/http-helper';
 import { Validation } from '@/presentation/helpers/validators/validation';
 import { Controller } from '@/presentation/protocols/controller';
 import { HttpRequest } from '@/presentation/protocols/http';

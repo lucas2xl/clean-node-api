@@ -3,7 +3,7 @@ import {
   badRequest,
   ok,
   serverError,
-} from '@/presentation/helpers/http-helper';
+} from '@/presentation/helpers/http/http-helper';
 import { Validation } from '@/presentation/helpers/validators/validation';
 import { Controller } from '@/presentation/protocols/controller';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/http';
