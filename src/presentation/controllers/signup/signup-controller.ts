@@ -4,9 +4,9 @@ import {
   ok,
   serverError,
 } from '@/presentation/helpers/http/http-helper';
-import { Validation } from '@/presentation/helpers/validators/validation';
 import { Controller } from '@/presentation/protocols/controller';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/http';
+import { Validation } from '@/presentation/protocols/validation';
 
 export class SignUpController implements Controller {
   constructor(

@@ -11,8 +11,8 @@ import {
   ok,
   serverError,
 } from '@/presentation/helpers/http/http-helper';
-import { Validation } from '@/presentation/helpers/validators/validation';
 import { HttpRequest } from '@/presentation/protocols/http';
+import { Validation } from '@/presentation/protocols/validation';
 
 interface SutTypes {
   sut: SignUpController;

@@ -10,9 +10,9 @@ import {
   serverError,
   unauthorized,
 } from '@/presentation/helpers/http/http-helper';
-import { Validation } from '@/presentation/helpers/validators/validation';
 import { Controller } from '@/presentation/protocols/controller';
 import { HttpRequest } from '@/presentation/protocols/http';
+import { Validation } from '@/presentation/protocols/validation';
 
 interface SutTypes {
   sut: Controller;

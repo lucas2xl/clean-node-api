@@ -1,5 +1,5 @@
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error';
-import { Validation } from '@/presentation/helpers/validators/validation';
+import { Validation } from '@/presentation/protocols/validation';
 
 export class ComparerFieldsValidation implements Validation {
   constructor(

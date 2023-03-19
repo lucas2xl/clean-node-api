@@ -1,6 +1,6 @@
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error';
 import { ComparerFieldsValidation } from '@/presentation/helpers/validators/comparer-fields-validation';
-import { Validation } from '@/presentation/helpers/validators/validation';
+import { Validation } from '@/presentation/protocols/validation';
 
 function makeSut(): Validation {
   return new ComparerFieldsValidation('field', 'fieldToCompare');
