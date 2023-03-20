@@ -15,7 +15,7 @@ export class AccountMongoRepository
     const { insertedId } = await accountCollection.insertOne(accountData);
     const account = await accountCollection.findOne({ _id: insertedId });
 
-    return MongoHelper.instance.map<AccountModel>(account);
+    return account && MongoHelper.instance.map<AccountModel>(account);
   }
 
   async loadByEmail(email: string): Promise<AccountModel> {
@@ -26,6 +26,6 @@ export class AccountMongoRepository
     const account = await accountCollection.findOne({ email });
     console.log(account);
 
-    return MongoHelper.instance.map<AccountModel>(account);
+    return account && MongoHelper.instance.map<AccountModel>(account);
   }
 }
