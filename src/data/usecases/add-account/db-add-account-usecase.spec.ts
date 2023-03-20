@@ -29,7 +29,7 @@ function makeFakeAccount(): AccountModel {
 
 function makeEncrypter(): Encrypter {
   class EncrypterStub implements Encrypter {
-    async encrypt(_: string): Promise<string> {
+    async encrypt(): Promise<string> {
       return 'hashed-password';
     }
   }
@@ -39,7 +39,7 @@ function makeEncrypter(): Encrypter {
 
 function makeAddAccountRepository(): AddAccountRepository {
   class AddAccountRepositoryStub implements AddAccountRepository {
-    async add(_: AddAccountModel): Promise<AccountModel> {
+    async add(): Promise<AccountModel> {
       return makeFakeAccount();
     }
   }

@@ -1,8 +1,5 @@
 import { AccountModel } from '@/domain/models/account-model';
-import {
-  AddAccount,
-  AddAccountModel,
-} from '@/domain/usecases/add-account-usecase';
+import { AddAccount } from '@/domain/usecases/add-account-usecase';
 import { SignUpController } from '@/presentation/controllers/signup/signup-controller';
 import { MissingParamError } from '@/presentation/errors/missing-param-error';
 import { ServerError } from '@/presentation/errors/server-error';
@@ -42,7 +39,7 @@ function makeFakeAccount(): AccountModel {
 
 function makeAddAccount(): AddAccount {
   class AddAccountStub implements AddAccount {
-    async add(_: AddAccountModel): Promise<AccountModel> {
+    async add(): Promise<AccountModel> {
       return makeFakeAccount();
     }
   }
@@ -52,7 +49,7 @@ function makeAddAccount(): AddAccount {
 
 function makeValidation(): Validation {
   class ValidationStub implements Validation {
-    validate<T>(_: T): Error {
+    validate(): Error {
       return null;
     }
   }

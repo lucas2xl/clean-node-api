@@ -39,7 +39,7 @@ async function makeFakeServerError(): Promise<HttpResponse> {
 
 function makeController(): Controller {
   class ControllerStub implements Controller {
-    async handle(_: HttpRequest): Promise<HttpResponse> {
+    async handle(): Promise<HttpResponse> {
       return ok(makeFakeResponse());
     }
   }
@@ -49,7 +49,7 @@ function makeController(): Controller {
 
 function makeLogErrorRepository(): LogErrorRepository {
   class LogErrorRepositoryStub implements LogErrorRepository {
-    async logError(_: string): Promise<void> {
+    async logError(): Promise<void> {
       return;
     }
   }

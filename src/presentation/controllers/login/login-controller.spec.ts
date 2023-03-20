@@ -1,7 +1,4 @@
-import {
-  Authentication,
-  AuthenticationModel,
-} from '@/domain/usecases/authentication';
+import { Authentication } from '@/domain/usecases/authentication';
 import { LoginController } from '@/presentation/controllers/login/login-controller';
 import { MissingParamError } from '@/presentation/errors/missing-param-error';
 import {
@@ -31,7 +28,7 @@ function makeFakeRequest(): HttpRequest {
 
 function makeAuthentication(): Authentication {
   class AuthenticationStub implements Authentication {
-    async auth(_: AuthenticationModel): Promise<string> {
+    async auth(): Promise<string> {
       return 'any-token';
     }
   }
@@ -41,7 +38,7 @@ function makeAuthentication(): Authentication {
 
 function makeValidation(): Validation {
   class ValidationStub implements Validation {
-    validate<T>(_: T): Error {
+    validate(): Error {
       return null;
     }
   }

@@ -8,7 +8,7 @@ import { Validation } from '@/presentation/protocols/validation';
 
 function makeEmailValidator(): EmailValidator {
   class EmailValidatorStub implements EmailValidator {
-    isValid(_: string): boolean {
+    isValid(): boolean {
       return true;
     }
   }

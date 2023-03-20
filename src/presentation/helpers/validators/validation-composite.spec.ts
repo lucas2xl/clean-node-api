@@ -9,7 +9,7 @@ interface SutTypes {
 
 function makeValidation(): Validation {
   class ValidationStub implements Validation {
-    validate<T>(_: T): Error {
+    validate(): Error {
       return null;
     }
   }
