@@ -1,4 +1,5 @@
 import { HashComparer } from '@/data/protocols/criptography/hash-comparer';
+import { TokenGenerator } from '@/data/protocols/criptography/token-generator';
 import { LoadAccountByEmailRepository } from '@/data/protocols/database/load-account-by-email-repository';
 import { DbAuthentication } from '@/data/usecases/authentication/db-authentication';
 import { AccountModel } from '@/domain/models/account-model';
@@ -8,6 +9,7 @@ interface SutTypes {
   sut: DbAuthentication;
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository;
   hashCompareStub: HashComparer;
+  tokenGeneratorStub: TokenGenerator;
 }
 
 function makeFakeAccount(): AccountModel {
@@ -36,6 +38,16 @@ function makeHashCompare(): HashComparer {
   return new HashCompareStub();
 }
 
+function makeTokenGenerator(): TokenGenerator {
+  class TokenGeneratorStub implements TokenGenerator {
+    async generate(_: string): Promise<string> {
+      return 'any-token';
+    }
+  }
+
+  return new TokenGeneratorStub();
+}
+
 function makeLoadAccountByEmailRepository(): LoadAccountByEmailRepository {
   class LoadAccountByEmailRepositoryStub
     implements LoadAccountByEmailRepository
@@ -51,12 +63,19 @@ function makeLoadAccountByEmailRepository(): LoadAccountByEmailRepository {
 function makeSut(): SutTypes {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository();
   const hashCompareStub = makeHashCompare();
+  const tokenGeneratorStub = makeTokenGenerator();
   const sut = new DbAuthentication(
     loadAccountByEmailRepositoryStub,
     hashCompareStub,
+    tokenGeneratorStub,
   );
 
-  return { sut, loadAccountByEmailRepositoryStub, hashCompareStub };
+  return {
+    sut,
+    loadAccountByEmailRepositoryStub,
+    hashCompareStub,
+    tokenGeneratorStub,
+  };
 }
 
 describe('DbAuthentication UseCase', () => {
@@ -94,6 +113,14 @@ describe('DbAuthentication UseCase', () => {
     await sut.auth(makeFakeAuthenticationData());
 
     expect(compareSpy).toHaveBeenCalledWith('any-password', 'hashed-password');
+  });
+
+  it('should call TokenGenerator with correct id', async () => {
+    const { sut, tokenGeneratorStub } = makeSut();
+    const generateSpy = jest.spyOn(tokenGeneratorStub, 'generate');
+    await sut.auth(makeFakeAuthenticationData());
+
+    expect(generateSpy).toHaveBeenCalledWith('any-id');
   });
 
   it('should throw if LoadAccountByEmailRepository throws', async () => {
