@@ -23,7 +23,7 @@ export class DbAuthentication implements Authentication {
     if (!isValid) return null;
 
     const token = await this.encrypter.encrypt(account.id);
-    await this.updateAccessTokenRepository.update(account.id, token);
+    await this.updateAccessTokenRepository.updateAccessToken(account.id, token);
 
     return token;
   }
