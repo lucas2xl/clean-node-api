@@ -78,6 +78,16 @@ describe('DbAuthentication UseCase', () => {
     expect(token).toBe(null);
   });
 
+  it('should return null if HashComparer return false', async () => {
+    const { sut, hashCompareStub } = makeSut();
+    jest
+      .spyOn(hashCompareStub, 'compare')
+      .mockReturnValueOnce(Promise.resolve(false));
+    const token = await sut.auth(makeFakeAuthenticationData());
+
+    expect(token).toBe(null);
+  });
+
   it('should call HashComparer with correct values', async () => {
     const { sut, hashCompareStub } = makeSut();
     const compareSpy = jest.spyOn(hashCompareStub, 'compare');
