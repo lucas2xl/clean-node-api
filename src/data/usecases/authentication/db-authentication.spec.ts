@@ -101,7 +101,7 @@ describe('DbAuthentication UseCase', () => {
     const { sut, hashCompareStub } = makeSut();
     jest
       .spyOn(hashCompareStub, 'compare')
-      .mockReturnValueOnce(Promise.resolve(false));
+      .mockReturnValueOnce(Promise.resolve(null));
     const token = await sut.auth(makeFakeAuthenticationData());
 
     expect(token).toBe(null);
@@ -149,5 +149,12 @@ describe('DbAuthentication UseCase', () => {
     const promise = sut.auth(makeFakeAuthenticationData());
 
     await expect(promise).rejects.toThrow();
+  });
+
+  it('should call TokenGenerator with correct id', async () => {
+    const { sut } = makeSut();
+    const token = await sut.auth(makeFakeAuthenticationData());
+
+    expect(token).toBe('any-token');
   });
 });
