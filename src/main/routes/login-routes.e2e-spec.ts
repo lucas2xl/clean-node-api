@@ -19,7 +19,7 @@ describe('Login Routes', () => {
     await accountCollection.deleteMany({});
   });
 
-  describe('POST /signup', function () {
+  describe('POST /signup', () => {
     it('Should return 200 on signup', async () => {
       await request(app)
         .post('/api/signup')
