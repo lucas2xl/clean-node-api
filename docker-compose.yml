@@ -1,0 +1,22 @@
+services:
+  app:
+    build: .
+    entrypoint: .docker/entrypoint.sh
+    container_name: clean-node-api-app
+    restart: always
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - .:/home/node/app
+    depends_on:
+      - db
+
+  db:
+    image: mongo:latest
+    container_name: clean-node-api-db
+    restart: always
+    tty: true
+    volumes:
+      - .docker/dbdata:/data/db
+    ports:
+      - ${DATABASE_PORT}:27017
