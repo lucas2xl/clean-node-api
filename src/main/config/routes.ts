@@ -7,10 +7,9 @@ export default (app: Express): void => {
 
   readdirSync(`${__dirname}/../routes`).map(async file => {
     const isValidFile = new RegExp('.*\\.(ts|js)$').test(file);
-    const notIncludeTypes = !file.includes('.d.ts');
     const notIncludeTests = !file.includes('e2e-spec.ts');
 
-    if (isValidFile && notIncludeTypes && notIncludeTests) {
+    if (isValidFile && notIncludeTests) {
       (await import(`../routes/${file}`)).default(router);
     }
   });
