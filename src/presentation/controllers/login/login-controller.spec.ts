@@ -1,4 +1,4 @@
-import { Authentication } from '@/domain/usecases/authentication';
+import { AuthenticationUsecase } from '@/domain/usecases/authentication-usecase';
 import { LoginController } from '@/presentation/controllers/login/login-controller';
 import { MissingParamError } from '@/presentation/errors/missing-param-error';
 import {
@@ -14,7 +14,7 @@ import { Validation } from '@/presentation/protocols/validation';
 interface SutTypes {
   sut: Controller;
   validationStub: Validation;
-  authenticationStub: Authentication;
+  authenticationStub: AuthenticationUsecase;
 }
 
 function makeFakeRequest(): HttpRequest {
@@ -26,8 +26,8 @@ function makeFakeRequest(): HttpRequest {
   };
 }
 
-function makeAuthentication(): Authentication {
-  class AuthenticationStub implements Authentication {
+function makeAuthentication(): AuthenticationUsecase {
+  class AuthenticationStub implements AuthenticationUsecase {
     async auth(): Promise<string> {
       return 'any-token';
     }

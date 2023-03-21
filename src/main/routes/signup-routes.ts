@@ -1,4 +1,4 @@
-import { ExpressRouteAdapter } from '@/main/adapters/express-route-adapter';
+import { ExpressRouteAdapter } from '@/main/adapters/express/express-route-adapter';
 import { makeSignUpController } from '@/main/factories/signup/signup-factory';
 import { Router } from 'express';
 

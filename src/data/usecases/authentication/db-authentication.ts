@@ -3,11 +3,11 @@ import { HashComparer } from '@/data/protocols/criptography/hash-comparer';
 import { LoadAccountByEmailRepository } from '@/data/protocols/database/account/load-account-by-email-repository';
 import { UpdateAccessTokenRepository } from '@/data/protocols/database/account/update-access-token-repository';
 import {
-  Authentication,
   AuthenticationModel,
-} from '@/domain/usecases/authentication';
+  AuthenticationUsecase,
+} from '@/domain/usecases/authentication-usecase';
 
-export class DbAuthentication implements Authentication {
+export class DbAuthentication implements AuthenticationUsecase {
   constructor(
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
     private readonly updateAccessTokenRepository: UpdateAccessTokenRepository,
