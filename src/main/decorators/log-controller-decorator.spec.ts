@@ -1,5 +1,5 @@
-import { LogErrorRepository } from '@/data/protocols/database/log-error-repository';
-import { LogDecorator } from '@/main/decorators/log-decorator';
+import { LogErrorRepository } from '@/data/protocols/database/log/log-error-repository';
+import { LogControllerDecorator } from '@/main/decorators/log-controller-decorator';
 import { ok, serverError } from '@/presentation/helpers/http/http-helper';
 import { Controller } from '@/presentation/protocols/controller';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/http';
@@ -60,12 +60,15 @@ function makeLogErrorRepository(): LogErrorRepository {
 function makeSut(): SutTypes {
   const controllerStub = makeController();
   const logErrorRepositoryStub = makeLogErrorRepository();
-  const sut = new LogDecorator(controllerStub, logErrorRepositoryStub);
+  const sut = new LogControllerDecorator(
+    controllerStub,
+    logErrorRepositoryStub,
+  );
 
   return { sut, controllerStub, logErrorRepositoryStub };
 }
 
-describe('Log Decorator', () => {
+describe('Log Controller Decorator', () => {
   it('should call controller handle', async () => {
     const { sut, controllerStub } = makeSut();
     const handleSpy = jest.spyOn(controllerStub, 'handle');

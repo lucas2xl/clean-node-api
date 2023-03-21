@@ -1,5 +1,5 @@
 import { Hasher } from '@/data/protocols/criptography/hasher';
-import { AddAccountRepository } from '@/data/protocols/database/add-account-repository';
+import { AddAccountRepository } from '@/data/protocols/database/account/add-account-repository';
 import { DbAddAccount } from '@/data/usecases/add-account/db-add-account-usecase';
 import { AccountModel } from '@/domain/models/account-model';
 import { AddAccountModel } from '@/domain/usecases/add-account-usecase';

@@ -1,8 +1,8 @@
 import { DbAddAccount } from '@/data/usecases/add-account/db-add-account-usecase';
 import { BcryptAdapter } from '@/infra/criptograph/bcrypt/bcrypt-adapter';
-import { AccountMongoRepository } from '@/infra/database/mongodb/account-mongo-repository';
-import { LogMongoErrorRepository } from '@/infra/database/mongodb/log-mongo-error-repository';
-import { LogDecorator } from '@/main/decorators/log-decorator';
+import { AccountMongoRepository } from '@/infra/database/mongodb/repositories/account/account-mongo-repository';
+import { LogMongoErrorRepository } from '@/infra/database/mongodb/repositories/log/log-mongo-error-repository';
+import { LogControllerDecorator } from '@/main/decorators/log-controller-decorator';
 import { makeSignUpValidation } from '@/main/factories/signup/signup-validation-factory';
 import { SignUpController } from '@/presentation/controllers/signup/signup-controller';
 import { Controller } from '@/presentation/protocols/controller';
@@ -17,5 +17,5 @@ export function makeSignUpController(): Controller {
     dbAddAccount,
     makeSignUpValidation(),
   );
-  return new LogDecorator(signUpController, logErrorRepository);
+  return new LogControllerDecorator(signUpController, logErrorRepository);
 }

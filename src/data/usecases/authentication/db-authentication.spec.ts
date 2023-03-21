@@ -1,7 +1,7 @@
 import { Encrypter } from '@/data/protocols/criptography/encrypter';
 import { HashComparer } from '@/data/protocols/criptography/hash-comparer';
-import { LoadAccountByEmailRepository } from '@/data/protocols/database/load-account-by-email-repository';
-import { UpdateAccessTokenRepository } from '@/data/protocols/database/update-access-token-repository';
+import { LoadAccountByEmailRepository } from '@/data/protocols/database/account/load-account-by-email-repository';
+import { UpdateAccessTokenRepository } from '@/data/protocols/database/account/update-access-token-repository';
 import { DbAuthentication } from '@/data/usecases/authentication/db-authentication';
 import { AccountModel } from '@/domain/models/account-model';
 import { AuthenticationModel } from '@/domain/usecases/authentication';

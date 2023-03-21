@@ -1,6 +1,6 @@
 import { AddAccountModel } from '@/domain/usecases/add-account-usecase';
-import { AccountMongoRepository } from '@/infra/database/mongodb/account-mongo-repository';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
+import { AccountMongoRepository } from '@/infra/database/mongodb/repositories/account/account-mongo-repository';
 import * as process from 'process';
 
 function makeAddAccountModel(): AddAccountModel {

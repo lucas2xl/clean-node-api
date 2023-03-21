@@ -1,6 +1,6 @@
-import { LogErrorRepository } from '@/data/protocols/database/log-error-repository';
+import { LogErrorRepository } from '@/data/protocols/database/log/log-error-repository';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
-import { LogMongoErrorRepository } from '@/infra/database/mongodb/log-mongo-error-repository';
+import { LogMongoErrorRepository } from '@/infra/database/mongodb/repositories/log/log-mongo-error-repository';
 import { Collection } from 'mongodb';
 import * as process from 'process';
 
