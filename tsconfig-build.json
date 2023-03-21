@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    ".vscode",
+    ".idea",
+    "coverage",
+    "dist",
+    ".husky",
+    ".docker",
+    "**/*.spec.ts",
+    "**/*.e2e-spec.ts"
+  ]
+}

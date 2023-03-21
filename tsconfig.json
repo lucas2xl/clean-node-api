@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "CommonJS",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES5",
+    "target": "ES2017",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
@@ -18,7 +18,6 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": false,
     "resolveJsonModule": true,
-    "allowJs": true,
     "paths": {
       "@/*": [
         "src/*"
@@ -28,11 +27,5 @@
       "@types",
       "./node_modules/@types"
     ]
-  },
-  "exclude": [
-    "node_modules",
-    ".vscode",
-    "dist",
-    ".docker"
-  ]
+  }
 }
