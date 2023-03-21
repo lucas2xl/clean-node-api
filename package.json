@@ -59,8 +59,7 @@
       "eslint src/** --fix",
       "prettier --write",
       "npm run test --",
-      "npm run test:e2e --",
-      "git add"
+      "npm run test:e2e --"
     ]
   }
 }
