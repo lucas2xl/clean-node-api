@@ -2,6 +2,7 @@ import { AddSurvey } from '@/domain/usecases/add-survey-usecase';
 import { AddSurveyController } from '@/presentation/controllers/survey/add-survey-controller';
 import {
   badRequest,
+  created,
   serverError,
 } from '@/presentation/helpers/http/http-helper';
 import { Controller } from '@/presentation/protocols/controller';
@@ -83,5 +84,12 @@ describe('AddSurvey Controller', () => {
     const httpResponse = await sut.handle(makeFakeRequest());
 
     expect(httpResponse).toEqual(serverError(new Error()));
+  });
+
+  it('should return 201 on success', async () => {
+    const { sut } = makeSut();
+    const httpResponse = await sut.handle(makeFakeRequest());
+
+    expect(httpResponse).toEqual(created());
   });
 });
