@@ -8,6 +8,6 @@ export interface AddSurveyModel {
   answers: SurveyAnswers[];
 }
 
-export interface AddSurvey {
+export interface AddSurveyUsecase {
   add(surveyData: AddSurveyModel): Promise<void>;
 }

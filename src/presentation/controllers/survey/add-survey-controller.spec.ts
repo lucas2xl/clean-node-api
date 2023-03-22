@@ -1,4 +1,4 @@
-import { AddSurvey } from '@/domain/usecases/add-survey-usecase';
+import { AddSurveyUsecase } from '@/domain/usecases/add-survey-usecase';
 import { AddSurveyController } from '@/presentation/controllers/survey/add-survey-controller';
 import {
   badRequest,
@@ -12,7 +12,7 @@ import { Validation } from '@/presentation/protocols/validation';
 interface SutTypes {
   sut: Controller;
   validationStub: Validation;
-  addSurveyStub: AddSurvey;
+  addSurveyStub: AddSurveyUsecase;
 }
 
 function makeFakeRequest(): HttpRequest {
@@ -34,8 +34,8 @@ function makeValidation(): Validation {
   return new ValidationStub();
 }
 
-function makeAddSurvey(): AddSurvey {
-  class AddSurveyStub implements AddSurvey {
+function makeAddSurvey(): AddSurveyUsecase {
+  class AddSurveyStub implements AddSurveyUsecase {
     add(): Promise<void> {
       return Promise.resolve(undefined);
     }

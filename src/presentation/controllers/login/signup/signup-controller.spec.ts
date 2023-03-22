@@ -1,6 +1,6 @@
 import { AccountModel } from '@/domain/models/account-model';
-import { AddAccount } from '@/domain/usecases/add-account-usecase';
-import { Authentication } from '@/domain/usecases/authentication';
+import { AddAccountUsecase } from '@/domain/usecases/add-account-usecase';
+import { AuthenticationUsecase } from '@/domain/usecases/authentication-usecase';
 import { SignUpController } from '@/presentation/controllers/login/signup/signup-controller';
 import { EmailInUseError } from '@/presentation/errors/email-in-use-error';
 import { MissingParamError } from '@/presentation/errors/missing-param-error';
@@ -16,9 +16,9 @@ import { Validation } from '@/presentation/protocols/validation';
 
 interface SutTypes {
   sut: SignUpController;
-  addAccountStub: AddAccount;
+  addAccountStub: AddAccountUsecase;
   validationStub: Validation;
-  authenticationStub: Authentication;
+  authenticationStub: AuthenticationUsecase;
 }
 
 function makeFakeRequest(): HttpRequest {
@@ -41,8 +41,8 @@ function makeFakeAccount(): AccountModel {
   };
 }
 
-function makeAddAccount(): AddAccount {
-  class AddAccountStub implements AddAccount {
+function makeAddAccount(): AddAccountUsecase {
+  class AddAccountStub implements AddAccountUsecase {
     async add(): Promise<AccountModel> {
       return makeFakeAccount();
     }
@@ -51,8 +51,8 @@ function makeAddAccount(): AddAccount {
   return new AddAccountStub();
 }
 
-function makeAuthentication(): Authentication {
-  class AuthenticationStub implements Authentication {
+function makeAuthentication(): AuthenticationUsecase {
+  class AuthenticationStub implements AuthenticationUsecase {
     async auth(): Promise<string> {
       return 'any-token';
     }

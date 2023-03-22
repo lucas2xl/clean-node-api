@@ -1,4 +1,4 @@
-import { AddSurvey } from '@/domain/usecases/add-survey-usecase';
+import { AddSurveyUsecase } from '@/domain/usecases/add-survey-usecase';
 import {
   badRequest,
   created,
@@ -11,7 +11,7 @@ import { Validation } from '@/presentation/protocols/validation';
 export class AddSurveyController implements Controller {
   constructor(
     private readonly validation: Validation,
-    private readonly addSurvey: AddSurvey,
+    private readonly addSurvey: AddSurveyUsecase,
   ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {

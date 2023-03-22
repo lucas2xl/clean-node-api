@@ -3,11 +3,11 @@ import { AddAccountRepository } from '@/data/protocols/database/account/add-acco
 import { LoadAccountByEmailRepository } from '@/data/protocols/database/account/load-account-by-email-repository';
 import { AccountModel } from '@/domain/models/account-model';
 import {
-  AddAccount,
   AddAccountModel,
+  AddAccountUsecase,
 } from '@/domain/usecases/add-account-usecase';
 
-export class DbAddAccount implements AddAccount {
+export class DbAddAccount implements AddAccountUsecase {
   constructor(
     private readonly hasher: Hasher,
     private readonly addAccountRepository: AddAccountRepository,

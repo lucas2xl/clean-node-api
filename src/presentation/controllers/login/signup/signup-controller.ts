@@ -1,5 +1,5 @@
-import { AddAccount } from '@/domain/usecases/add-account-usecase';
-import { Authentication } from '@/domain/usecases/authentication';
+import { AddAccountUsecase } from '@/domain/usecases/add-account-usecase';
+import { AuthenticationUsecase } from '@/domain/usecases/authentication-usecase';
 import { EmailInUseError } from '@/presentation/errors/email-in-use-error';
 import {
   badRequest,
@@ -13,9 +13,9 @@ import { Validation } from '@/presentation/protocols/validation';
 
 export class SignUpController implements Controller {
   constructor(
-    private readonly addAccount: AddAccount,
+    private readonly addAccount: AddAccountUsecase,
     private readonly validation: Validation,
-    private readonly authentication: Authentication,
+    private readonly authentication: AuthenticationUsecase,
   ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {

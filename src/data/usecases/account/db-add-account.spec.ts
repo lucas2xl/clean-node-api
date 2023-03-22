@@ -1,12 +1,15 @@
 import { Hasher } from '@/data/protocols/criptography/hasher';
 import { AddAccountRepository } from '@/data/protocols/database/account/add-account-repository';
 import { LoadAccountByEmailRepository } from '@/data/protocols/database/account/load-account-by-email-repository';
-import { DbAddAccount } from '@/data/usecases/add-account/db-add-account-usecase';
+import { DbAddAccount } from '@/data/usecases/account/db-add-account';
 import { AccountModel } from '@/domain/models/account-model';
-import { AddAccountModel } from '@/domain/usecases/add-account-usecase';
+import {
+  AddAccountModel,
+  AddAccountUsecase,
+} from '@/domain/usecases/add-account-usecase';
 
 interface SutTypes {
-  sut: DbAddAccount;
+  sut: AddAccountUsecase;
   hasherStub: Hasher;
   addAccountRepositoryStub: AddAccountRepository;
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository;
