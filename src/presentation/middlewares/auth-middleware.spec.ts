@@ -1,7 +1,11 @@
 import { AccountModel } from '@/domain/models/account-model';
 import { LoadAccountByTokenUsecase } from '@/domain/usecases/load-account-by-token-usecase';
 import { AccessDeniedError } from '@/presentation/errors/access-denied-error';
-import { forbidden, ok } from '@/presentation/helpers/http/http-helper';
+import {
+  forbidden,
+  ok,
+  serverError,
+} from '@/presentation/helpers/http/http-helper';
 import { AuthMiddleware } from '@/presentation/middlewares/auth-middleware';
 import { HttpRequest } from '@/presentation/protocols/http';
 
@@ -57,6 +61,16 @@ describe('Auth Middleware', () => {
     const httpResponse = await sut.handle(makeFakeRequest());
 
     expect(httpResponse).toEqual(forbidden(new AccessDeniedError()));
+  });
+
+  it('should return 500 if LoadAccountByToken throws', async () => {
+    const { sut, loadAccountByTokenStub } = makeSut();
+    jest
+      .spyOn(loadAccountByTokenStub, 'load')
+      .mockRejectedValueOnce(new Error());
+    const httpResponse = await sut.handle(makeFakeRequest());
+
+    expect(httpResponse).toEqual(serverError(new Error()));
   });
 
   it('should call LoadAccountByToken with correct token', async () => {
