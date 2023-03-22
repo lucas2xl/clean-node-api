@@ -9,7 +9,7 @@
     "pretest": "docker-compose up -d dbtest",
     "test": "jest --passWithNoTests --runInBand --forceExit",
     "posttest": "docker-compose stop dbtest && docker-compose rm -f dbtest",
-    "test:watch": "npm test -- --watch --silent --noStackTrace",
+    "test:watch": "npm test -- --watchAll --silent --noStackTrace",
     "test:e2e": "npm test -- --config jest-e2e.config.ts"
   },
   "devDependencies": {
@@ -53,7 +53,8 @@
     "*ts": [
       "eslint src/** --fix",
       "prettier --write",
-      "npm run test --"
+      "npm run test --",
+      "npm run test:e2e --"
     ]
   }
 }
