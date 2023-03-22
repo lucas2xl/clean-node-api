@@ -1,6 +1,6 @@
 import { LoadAccountByTokenUsecase } from '@/domain/usecases/load-account-by-token-usecase';
 import { AccessDeniedError } from '@/presentation/errors/access-denied-error';
-import { forbidden } from '@/presentation/helpers/http/http-helper';
+import { forbidden, ok } from '@/presentation/helpers/http/http-helper';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/http';
 import { Middleware } from '@/presentation/protocols/middleware';
 
@@ -13,6 +13,12 @@ export class AuthMiddleware implements Middleware {
       return forbidden(new AccessDeniedError());
     }
 
-    await this.loadAccountByToken.load(token);
+    const account = await this.loadAccountByToken.load(token);
+
+    if (!account) {
+      return forbidden(new AccessDeniedError());
+    }
+
+    return ok(account);
   }
 }
