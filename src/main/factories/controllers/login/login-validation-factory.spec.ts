@@ -1,9 +1,9 @@
 import { makeLoginValidation } from '@/main/factories/controllers/login/login-validation-factory';
-import { EmailValidation } from '@/presentation/helpers/validators/email-validation';
-import { RequiredFieldValidation } from '@/presentation/helpers/validators/required-field-validation';
-import { ValidationComposite } from '@/presentation/helpers/validators/validation-composite';
-import { EmailValidator } from '@/presentation/protocols/email-validator';
 import { Validation } from '@/presentation/protocols/validation';
+import { EmailValidator } from '@/validations/protocols/email-validator';
+import { EmailValidation } from '@/validations/validators/email-validation';
+import { RequiredFieldValidation } from '@/validations/validators/required-field-validation';
+import { ValidationComposite } from '@/validations/validators/validation-composite';
 
 function makeEmailValidator(): EmailValidator {
   class EmailValidatorStub implements EmailValidator {
@@ -15,7 +15,7 @@ function makeEmailValidator(): EmailValidator {
   return new EmailValidatorStub();
 }
 
-jest.mock('@/presentation/helpers/validators/validation-composite');
+jest.mock('@/validations/validators/validation-composite');
 
 describe('LoginValidation Factory', () => {
   it('should call ValidationComposite with all validations', () => {

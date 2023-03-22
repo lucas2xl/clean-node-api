@@ -1,6 +1,6 @@
 import { MissingParamError } from '@/presentation/errors/missing-param-error';
-import { RequiredFieldValidation } from '@/presentation/helpers/validators/required-field-validation';
 import { Validation } from '@/presentation/protocols/validation';
+import { RequiredFieldValidation } from '@/validations/validators/required-field-validation';
 
 function makeSut(): Validation {
   return new RequiredFieldValidation('field');
