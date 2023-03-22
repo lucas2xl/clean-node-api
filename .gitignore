@@ -3,6 +3,7 @@
 /node_modules
 .env
 .docker/dbdata
+.docker/dbdatatest
 
 # Logs
 logs

@@ -4,7 +4,7 @@ import { LoadAccountByEmailRepository } from '@/data/protocols/database/account/
 import { UpdateAccessTokenRepository } from '@/data/protocols/database/account/update-access-token-repository';
 import { DbAuthentication } from '@/data/usecases/authentication/db-authentication';
 import { AccountModel } from '@/domain/models/account-model';
-import { AuthenticationModel } from '@/domain/usecases/authentication-usecase';
+import { AuthenticationModel } from '@/domain/usecases/authentication';
 
 interface SutTypes {
   sut: DbAuthentication;

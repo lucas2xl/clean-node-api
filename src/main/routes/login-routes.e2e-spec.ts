@@ -2,8 +2,8 @@ import { AddAccountModel } from '@/domain/usecases/add-account-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { AccountMongoRepository } from '@/infra/database/mongodb/repositories/account/account-mongo-repository';
 import app from '@/main/config/app';
+import env from '@/main/config/env';
 import { hash } from 'bcrypt';
-import * as process from 'process';
 import * as request from 'supertest';
 
 async function makeAddAccountModel(): Promise<AddAccountModel> {
@@ -21,7 +21,7 @@ function makeAccountMongoRepository(): AccountMongoRepository {
 
 describe('Login Routes', () => {
   beforeAll(async () => {
-    await MongoHelper.instance.connect(process.env.MONGO_URL);
+    await MongoHelper.instance.connect(env.mongoUrl);
   });
 
   afterAll(async () => {
@@ -65,7 +65,7 @@ describe('Login Routes', () => {
         .expect(200);
     });
 
-    it('Should return 4001 on login', async () => {
+    it('Should return 401 on login', async () => {
       await request(app)
         .post('/api/login')
         .send({

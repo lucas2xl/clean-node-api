@@ -2,23 +2,18 @@
   "name": "clean-node-api",
   "version": "1.1.0",
   "description": "NodeJs Rest API using TDD, Clean Architecture and Typescript",
-  "main": "index.js",
   "scripts": {
     "start": "node dist/main/server.js",
     "build": "rimraf dist && tsc --project tsconfig-build.json && tscpaths -p tsconfig.json -s ./src -o ./dist",
     "dev": "ts-node-dev -r tsconfig-paths/register src/main/server.ts",
-    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand --forceExit",
-    "test:debug": "jest --passWithNoTests --forceExit",
+    "test:silent": "--silent --noStackTrace",
+    "pretest": "docker-compose up -d dbtest",
+    "test": "jest --passWithNoTests --runInBand --forceExit",
+    "posttest": "docker-compose stop dbtest && docker-compose rm -f dbtest",
     "test:watch": "npm test -- --watch",
-    "test:cov": "npm test -- --coverage",
-    "test:e2e": "jest --passWithNoTests --runInBand --forceExit --config jest-e2e.config.ts",
-    "test:all": "jest --all && jest --all --config jest-e2e.config.ts"
+    "test:e2e": "npm test -- --config jest-e2e.config.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "@shelf/jest-mongodb": "^4.1.7",
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.17",
     "@types/jest": "^29.4.1",
@@ -59,8 +54,7 @@
     "*ts": [
       "eslint src/** --fix",
       "prettier --write",
-      "npm run test --",
-      "npm run test:e2e --"
+      "npm run test --"
     ]
   }
 }

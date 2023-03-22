@@ -9,7 +9,6 @@ export default {
     '^.+\\.ts$': 'ts-jest',
   },
   testEnvironment: 'node',
-  preset: '@shelf/jest-mongodb',
   modulePaths: [compilerOptions.baseUrl],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
 };

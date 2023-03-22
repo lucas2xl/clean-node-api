@@ -17,6 +17,7 @@ export class MongoHelper {
   }
 
   async connect(url: string): Promise<void> {
+    console.log({ url });
     this.connection = await MongoClient.connect(url);
     this.database = await this.connection.db();
     this.url = url;

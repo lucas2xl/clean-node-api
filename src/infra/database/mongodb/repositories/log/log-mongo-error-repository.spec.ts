@@ -1,8 +1,8 @@
 import { LogErrorRepository } from '@/data/protocols/database/log/log-error-repository';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { LogMongoErrorRepository } from '@/infra/database/mongodb/repositories/log/log-mongo-error-repository';
+import env from '@/main/config/env';
 import { Collection } from 'mongodb';
-import * as process from 'process';
 
 function makeSut(): LogErrorRepository {
   return new LogMongoErrorRepository();
@@ -11,7 +11,7 @@ function makeSut(): LogErrorRepository {
 describe('Log Mongo Error Repository', () => {
   let errorCollection: Collection;
   beforeAll(async () => {
-    await MongoHelper.instance.connect(process.env.MONGO_URL);
+    await MongoHelper.instance.connect(env.mongoUrl);
   });
 
   afterAll(async () => {

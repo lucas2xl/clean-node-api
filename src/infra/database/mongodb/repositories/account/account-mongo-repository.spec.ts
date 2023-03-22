@@ -1,7 +1,7 @@
 import { AddAccountModel } from '@/domain/usecases/add-account-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { AccountMongoRepository } from '@/infra/database/mongodb/repositories/account/account-mongo-repository';
-import * as process from 'process';
+import env from '@/main/config/env';
 
 function makeAddAccountModel(): AddAccountModel {
   return {
@@ -17,7 +17,7 @@ function makeSut(): AccountMongoRepository {
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
-    await MongoHelper.instance.connect(process.env.MONGO_URL);
+    await MongoHelper.instance.connect(env.mongoUrl);
   });
 
   afterAll(async () => {

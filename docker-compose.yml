@@ -20,3 +20,11 @@ services:
       - .docker/dbdata:/data/db
     ports:
       - ${DATABASE_PORT}:27017
+
+  dbtest:
+    image: mongo:latest
+    container_name: dbtest
+    restart: always
+    tty: true
+    ports:
+      - 27018:27017

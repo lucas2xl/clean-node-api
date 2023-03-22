@@ -6,4 +6,5 @@ export default {
   port: process.env.PORT || 3000,
   databaseUrl: process.env.DATABASE_URL,
   jwtSecret: process.env.JWT_SECRET,
+  mongoUrl: process.env.MONGO_URL,
 };

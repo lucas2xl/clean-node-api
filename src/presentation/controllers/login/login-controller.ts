@@ -1,4 +1,4 @@
-import { AuthenticationUsecase } from '@/domain/usecases/authentication-usecase';
+import { Authentication } from '@/domain/usecases/authentication';
 import {
   badRequest,
   ok,
@@ -11,7 +11,7 @@ import { Validation } from '@/presentation/protocols/validation';
 
 export class LoginController implements Controller {
   constructor(
-    private readonly authentication: AuthenticationUsecase,
+    private readonly authentication: Authentication,
     private readonly validation: Validation,
   ) {}
 
