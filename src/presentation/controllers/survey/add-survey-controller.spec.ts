@@ -1,6 +1,9 @@
 import { AddSurvey } from '@/domain/usecases/add-survey-usecase';
 import { AddSurveyController } from '@/presentation/controllers/survey/add-survey-controller';
-import { badRequest } from '@/presentation/helpers/http/http-helper';
+import {
+  badRequest,
+  serverError,
+} from '@/presentation/helpers/http/http-helper';
 import { Controller } from '@/presentation/protocols/controller';
 import { HttpRequest } from '@/presentation/protocols/http';
 import { Validation } from '@/presentation/protocols/validation';
@@ -72,5 +75,13 @@ describe('AddSurvey Controller', () => {
     await sut.handle(httpRequest);
 
     expect(addSpy).toHaveBeenCalledWith(httpRequest.body);
+  });
+
+  it('should return 500 if AddSurvey throws', async () => {
+    const { sut, addSurveyStub } = makeSut();
+    jest.spyOn(addSurveyStub, 'add').mockRejectedValueOnce(new Error());
+    const httpResponse = await sut.handle(makeFakeRequest());
+
+    expect(httpResponse).toEqual(serverError(new Error()));
   });
 });
