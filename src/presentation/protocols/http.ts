@@ -5,4 +5,5 @@ export interface HttpResponse {
 
 export interface HttpRequest {
   body?: { [key: string]: any };
+  headers?: { [key: string]: any };
 }
