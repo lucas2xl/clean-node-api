@@ -1,6 +1,7 @@
 import { AddSurvey } from '@/domain/usecases/add-survey-usecase';
 import {
   badRequest,
+  created,
   serverError,
 } from '@/presentation/helpers/http/http-helper';
 import { Controller } from '@/presentation/protocols/controller';
@@ -23,7 +24,8 @@ export class AddSurveyController implements Controller {
       const { question, answers } = httpRequest.body;
 
       await this.addSurvey.add({ question, answers });
-      return null;
+
+      return created();
     } catch (e) {
       return serverError(e);
     }

@@ -36,3 +36,17 @@ export function ok(data: { [key: string]: any }): HttpResponse {
     body: data,
   };
 }
+
+export function noContent(): HttpResponse {
+  return {
+    statusCode: 204,
+    body: null,
+  };
+}
+
+export function created(data?: { [key: string]: any }): HttpResponse {
+  return {
+    statusCode: 201,
+    body: data,
+  };
+}
