@@ -1,7 +1,7 @@
 import { AccountModel } from '@/domain/models/account-model';
 import { AddAccount } from '@/domain/usecases/add-account-usecase';
 import { Authentication } from '@/domain/usecases/authentication';
-import { SignUpController } from '@/presentation/controllers/signup/signup-controller';
+import { SignUpController } from '@/presentation/controllers/login/signup/signup-controller';
 import { EmailInUseError } from '@/presentation/errors/email-in-use-error';
 import { MissingParamError } from '@/presentation/errors/missing-param-error';
 import { ServerError } from '@/presentation/errors/server-error';

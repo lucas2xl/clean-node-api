@@ -1,5 +1,5 @@
 import { Authentication } from '@/domain/usecases/authentication';
-import { LoginController } from '@/presentation/controllers/login/login-controller';
+import { LoginController } from '@/presentation/controllers/login/login/login-controller';
 import { MissingParamError } from '@/presentation/errors/missing-param-error';
 import {
   badRequest,
