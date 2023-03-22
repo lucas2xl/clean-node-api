@@ -9,6 +9,5 @@ export class DbAddSurvey implements AddSurveyUsecase {
 
   async add(surveyData: AddSurveyModel): Promise<void> {
     await this.addSurveyRepository.add(surveyData);
-    return Promise.resolve(undefined);
   }
 }

@@ -1,4 +1,4 @@
-import { makeSignUpValidation } from '@/main/factories/controllers/signup/signup-validation-factory';
+import { makeSignUpValidation } from '@/main/factories/controllers/login/signup/signup-validation-factory';
 import { Validation } from '@/presentation/protocols/validation';
 import { EmailValidator } from '@/validations/protocols/email-validator';
 import { ComparerFieldsValidation } from '@/validations/validators/comparer-fields-validation';
