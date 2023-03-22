@@ -8,7 +8,7 @@
     "dev": "ts-node-dev -r tsconfig-paths/register src/main/server.ts",
     "pretest": "docker-compose up -d dbtest",
     "test": "jest --passWithNoTests --runInBand --forceExit",
-    "posttest": "docker-compose stop dbtest && docker-compose rm -f dbtest",
+    "posttest": "docker-compose stop dbtest",
     "test:watch": "npm test -- --watch --silent --noStackTrace",
     "test:e2e": "npm test -- --config jest-e2e.config.ts"
   },

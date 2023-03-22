@@ -3,6 +3,7 @@
 clear
 echo "🚀 Installing dependencies"
 npm install
+npm rebuild bcrypt
 
 clear
 echo "🚀 Generating the build"
