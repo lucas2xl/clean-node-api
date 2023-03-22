@@ -41,9 +41,9 @@ function makeLoadAccountByToken(): LoadAccountByTokenUsecase {
   return new LoadAccountByTokenStub();
 }
 
-function makeSut(): SutTypes {
+function makeSut(role?: string): SutTypes {
   const loadAccountByTokenStub = makeLoadAccountByToken();
-  const sut = new AuthMiddleware(loadAccountByTokenStub);
+  const sut = new AuthMiddleware(loadAccountByTokenStub, role);
   return { sut, loadAccountByTokenStub };
 }
 
@@ -78,7 +78,16 @@ describe('Auth Middleware', () => {
     const loadSpy = jest.spyOn(loadAccountByTokenStub, 'load');
     await sut.handle(makeFakeRequest());
 
-    expect(loadSpy).toHaveBeenCalledWith('any-token');
+    expect(loadSpy).toHaveBeenCalledWith('any-token', undefined);
+  });
+
+  it('should call LoadAccountByToken with correct token and role', async () => {
+    const role = 'any-role';
+    const { sut, loadAccountByTokenStub } = makeSut(role);
+    const loadSpy = jest.spyOn(loadAccountByTokenStub, 'load');
+    await sut.handle(makeFakeRequest());
+
+    expect(loadSpy).toHaveBeenCalledWith('any-token', role);
   });
 
   it('should return 200 if LoadAccountByToken returns an account', async () => {
