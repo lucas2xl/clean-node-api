@@ -3,10 +3,16 @@ import { LoadAccountByTokenRepository } from '@/data/protocols/database/account/
 import { AccountModel } from '@/domain/models/account-model';
 
 export class DbLoadAccountByToken implements LoadAccountByTokenRepository {
-  constructor(private readonly decrypter: Decrypter) {}
+  constructor(
+    private readonly loadAccountByTokenRepository: LoadAccountByTokenRepository,
+    private readonly decrypter: Decrypter,
+  ) {}
 
   async loadByToken(token: string, role?: string): Promise<AccountModel> {
-    await this.decrypter.decrypt(token);
-    return Promise.resolve(null);
+    const accessToken = await this.decrypter.decrypt(token);
+
+    if (!accessToken) return null;
+
+    await this.loadAccountByTokenRepository.loadByToken(token, role);
   }
 }
