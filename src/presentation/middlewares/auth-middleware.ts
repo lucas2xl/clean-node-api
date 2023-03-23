@@ -1,4 +1,4 @@
-import { LoadAccountByTokenUsecase } from '@/domain/usecases/load-account-by-token-usecase';
+import { LoadAccountByTokenRepository } from '@/data/protocols/database/account/load-account-by-token-repository';
 import { AccessDeniedError } from '@/presentation/errors/access-denied-error';
 import {
   forbidden,
@@ -10,7 +10,7 @@ import { Middleware } from '@/presentation/protocols/middleware';
 
 export class AuthMiddleware implements Middleware {
   constructor(
-    private readonly loadAccountByToken: LoadAccountByTokenUsecase,
+    private readonly loadAccountByToken: LoadAccountByTokenRepository,
     private readonly role: string,
   ) {}
 
@@ -21,7 +21,10 @@ export class AuthMiddleware implements Middleware {
         return forbidden(new AccessDeniedError());
       }
 
-      const account = await this.loadAccountByToken.load(token, this.role);
+      const account = await this.loadAccountByToken.loadByToken(
+        token,
+        this.role,
+      );
 
       if (!account) {
         return forbidden(new AccessDeniedError());

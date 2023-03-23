@@ -1,5 +1,6 @@
 import { AddAccountRepository } from '@/data/protocols/database/account/add-account-repository';
 import { LoadAccountByEmailRepository } from '@/data/protocols/database/account/load-account-by-email-repository';
+import { LoadAccountByTokenRepository } from '@/data/protocols/database/account/load-account-by-token-repository';
 import { UpdateAccessTokenRepository } from '@/data/protocols/database/account/update-access-token-repository';
 import { AccountModel } from '@/domain/models/account-model';
 import { AddAccountModel } from '@/domain/usecases/add-account-usecase';
@@ -9,7 +10,8 @@ export class AccountMongoRepository
   implements
     AddAccountRepository,
     LoadAccountByEmailRepository,
-    UpdateAccessTokenRepository
+    UpdateAccessTokenRepository,
+    LoadAccountByTokenRepository
 {
   async add(accountData: AddAccountModel): Promise<AccountModel> {
     const accountCollection = await MongoHelper.instance.getCollection(
@@ -44,5 +46,9 @@ export class AccountMongoRepository
         },
       },
     );
+  }
+
+  async loadByToken(token: string, role?: string): Promise<AccountModel> {
+    return Promise.resolve(undefined);
   }
 }
