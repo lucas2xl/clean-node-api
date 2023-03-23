@@ -1,11 +1,6 @@
 import { AccountModel } from '@/domain/models/account-model';
 
-export type AddAccountModel = {
-  name: string;
-  email: string;
-  password: string;
-  role?: string;
-};
+export type AddAccountModel = Omit<AccountModel, 'id'>;
 
 export interface AddAccountUsecase {
   add(accountData: AddAccountModel): Promise<AccountModel>;
