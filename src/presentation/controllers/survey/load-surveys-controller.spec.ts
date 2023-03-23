@@ -1,7 +1,7 @@
 import { SurveyModel } from '@/domain/models/survey-model';
 import { LoadSurveysUsecase } from '@/domain/usecases/load-surveys-usecase';
 import { LoadSurveysController } from '@/presentation/controllers/survey/load-surveys-controller';
-import { ok } from '@/presentation/helpers/http/http-helper';
+import { ok, serverError } from '@/presentation/helpers/http/http-helper';
 import { Controller } from '@/presentation/protocols/controller';
 import * as mockdate from 'mockdate';
 
@@ -55,5 +55,13 @@ describe('LoadSurveys Controller', () => {
     const httpResponse = await sut.handle({});
 
     expect(httpResponse).toEqual(ok(makeFakeSurveys()));
+  });
+
+  it('should return 500 if LoadSurveys throws', async () => {
+    const { sut, loadSurveyStub } = makeSut();
+    jest.spyOn(loadSurveyStub, 'load').mockRejectedValueOnce(new Error());
+    const httpResponse = await sut.handle({});
+
+    expect(httpResponse).toEqual(serverError(new Error()));
   });
 });
