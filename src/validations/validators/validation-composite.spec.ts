@@ -2,10 +2,10 @@ import { MissingParamError } from '@/presentation/errors/missing-param-error';
 import { Validation } from '@/presentation/protocols/validation';
 import { ValidationComposite } from '@/validations/validators/validation-composite';
 
-interface SutTypes {
+type SutTypes = {
   sut: ValidationComposite;
   validationStubs: Validation[];
-}
+};
 
 function makeValidation(): Validation {
   class ValidationStub implements Validation {

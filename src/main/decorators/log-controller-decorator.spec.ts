@@ -4,11 +4,11 @@ import { ok, serverError } from '@/presentation/helpers/http/http-helper';
 import { Controller } from '@/presentation/protocols/controller';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/http';
 
-interface SutTypes {
+type SutTypes = {
   sut: Controller;
   controllerStub: Controller;
   logErrorRepositoryStub: LogErrorRepository;
-}
+};
 
 function makeFakeRequest(): HttpRequest {
   return {

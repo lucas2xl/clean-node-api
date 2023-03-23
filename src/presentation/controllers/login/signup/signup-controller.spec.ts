@@ -14,12 +14,12 @@ import {
 import { HttpRequest } from '@/presentation/protocols/http';
 import { Validation } from '@/presentation/protocols/validation';
 
-interface SutTypes {
+type SutTypes = {
   sut: SignUpController;
   addAccountStub: AddAccountUsecase;
   validationStub: Validation;
   authenticationStub: AuthenticationUsecase;
-}
+};
 
 function makeFakeRequest(): HttpRequest {
   return {

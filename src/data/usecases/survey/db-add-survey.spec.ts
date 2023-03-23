@@ -6,10 +6,10 @@ import {
 } from '@/domain/usecases/add-survey-usecase';
 import * as mockdate from 'mockdate';
 
-interface SutTypes {
+type SutTypes = {
   sut: AddSurveyUsecase;
   addSurveyRepositoryStub: AddSurveyRepository;
-}
+};
 
 function makeFakeSurveyData(): AddSurveyModel {
   return {

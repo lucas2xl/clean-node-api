@@ -10,11 +10,11 @@ import { HttpRequest } from '@/presentation/protocols/http';
 import { Validation } from '@/presentation/protocols/validation';
 import * as mockdate from 'mockdate';
 
-interface SutTypes {
+type SutTypes = {
   sut: Controller;
   validationStub: Validation;
   addSurveyStub: AddSurveyUsecase;
-}
+};
 
 function makeFakeRequest(): HttpRequest {
   return {

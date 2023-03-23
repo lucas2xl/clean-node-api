@@ -3,11 +3,11 @@ import { LoadAccountByTokenRepository } from '@/data/protocols/database/account/
 import { DbLoadAccountByToken } from '@/data/usecases/account/db-load-account-by-token';
 import { AccountModel } from '@/domain/models/account-model';
 
-interface SutTypes {
+type SutTypes = {
   sut: DbLoadAccountByToken;
   decrypterStub: Decrypter;
   loadAccountByTokenRepositoryStub: LoadAccountByTokenRepository;
-}
+};
 
 function makeFakeAccount(): AccountModel {
   return {

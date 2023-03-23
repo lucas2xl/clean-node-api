@@ -9,13 +9,13 @@ import {
   AuthenticationUsecase,
 } from '@/domain/usecases/authentication-usecase';
 
-interface SutTypes {
+type SutTypes = {
   sut: AuthenticationUsecase;
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository;
   updateAccessTokenRepositoryStub: UpdateAccessTokenRepository;
   hashCompareStub: HashComparer;
   encrypterStub: Encrypter;
-}
+};
 
 function makeFakeAccount(): AccountModel {
   return {

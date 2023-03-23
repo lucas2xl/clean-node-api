@@ -9,10 +9,10 @@ import {
 import { Controller } from '@/presentation/protocols/controller';
 import * as mockdate from 'mockdate';
 
-interface SutTypes {
+type SutTypes = {
   sut: Controller;
   loadSurveyStub: LoadSurveysUsecase;
-}
+};
 
 function makeFakeSurveys(): SurveyModel[] {
   return [

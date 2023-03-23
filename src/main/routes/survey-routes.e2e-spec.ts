@@ -8,10 +8,10 @@ import env from '@/main/config/env';
 import { sign } from 'jsonwebtoken';
 import * as request from 'supertest';
 
-interface MongoTypes {
+type MongoTypes = {
   accountMongo: AccountMongoRepository;
   surveyMongo: SurveyMongoRepository;
-}
+};
 
 function makeAddAccount(): AddAccountModel {
   return {

@@ -2,9 +2,9 @@ import { HttpRequest } from '@/presentation/protocols/http';
 import { Middleware } from '@/presentation/protocols/middleware';
 import { NextFunction, Request, Response } from 'express';
 
-interface ExpressReturn {
+type ExpressReturn = {
   (request: Request, response: Response, next: NextFunction): Promise<void>;
-}
+};
 
 export function ExpressMiddlewareAdapter(
   middleware: Middleware,

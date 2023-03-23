@@ -8,12 +8,12 @@ import {
   AddAccountUsecase,
 } from '@/domain/usecases/add-account-usecase';
 
-interface SutTypes {
+type SutTypes = {
   sut: AddAccountUsecase;
   hasherStub: Hasher;
   addAccountRepositoryStub: AddAccountRepository;
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository;
-}
+};
 
 function makeFakeAccountData(): AddAccountModel {
   return {

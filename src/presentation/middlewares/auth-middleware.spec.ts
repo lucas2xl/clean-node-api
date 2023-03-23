@@ -9,10 +9,10 @@ import {
 import { AuthMiddleware } from '@/presentation/middlewares/auth-middleware';
 import { HttpRequest } from '@/presentation/protocols/http';
 
-interface SutTypes {
+type SutTypes = {
   sut: AuthMiddleware;
   loadAccountByTokenStub: LoadAccountByTokenRepository;
-}
+};
 
 function makeFakeAccount(): AccountModel {
   return {

@@ -4,10 +4,10 @@ import { SurveyModel } from '@/domain/models/survey-model';
 import { LoadSurveysUsecase } from '@/domain/usecases/load-surveys-usecase';
 import mockdate from 'mockdate';
 
-interface SutTypes {
+type SutTypes = {
   sut: LoadSurveysUsecase;
   loadSurveysRepositoryStub: LoadSurveysRepository;
-}
+};
 
 function makeFakeSurveys(): SurveyModel[] {
   return [

@@ -2,9 +2,9 @@ import { Controller } from '@/presentation/protocols/controller';
 import { HttpRequest } from '@/presentation/protocols/http';
 import { Request, Response } from 'express';
 
-interface ExpressReturn {
+type ExpressReturn = {
   (request: Request, response: Response): Promise<void>;
-}
+};
 
 export function ExpressRouteAdapter(controller: Controller): ExpressReturn {
   return async (request: Request, response: Response): Promise<void> => {
