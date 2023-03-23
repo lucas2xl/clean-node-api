@@ -92,5 +92,20 @@ describe('Account Mongo Repository', () => {
       expect(account).toHaveProperty('id');
       expect(account.token).toBe('any-token');
     });
+
+    it('should return an account on loadByToken with role', async () => {
+      const sut = makeSut();
+      await accountCollection.insertOne({
+        ...makeAddAccountModel(),
+        token: 'any-token',
+        role: 'any-role',
+      });
+      const account = await sut.loadByToken('any-token', 'any-role');
+
+      expect(account).toBeTruthy();
+      expect(account).toHaveProperty('id');
+      expect(account.token).toBe('any-token');
+      expect(account.role).toBe('any-role');
+    });
   });
 });

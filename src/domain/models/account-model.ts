@@ -4,4 +4,5 @@ export interface AccountModel {
   email: string;
   password: string;
   token?: string;
+  role?: string;
 }
