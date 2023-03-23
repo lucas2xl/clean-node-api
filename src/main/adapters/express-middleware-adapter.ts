@@ -20,7 +20,7 @@ export function ExpressMiddlewareAdapter(
 
     const httpResponse = await middleware.handle(httpRequest);
     if (httpResponse.statusCode === 200) {
-      request.accountId = httpRequest.body.id;
+      Object.assign(request, httpRequest.body);
       next();
     } else {
       response.status(httpResponse.statusCode).json({
