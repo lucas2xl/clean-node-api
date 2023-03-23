@@ -34,16 +34,18 @@ describe('Survey Mongo Repository', () => {
     await surveyCollection.deleteMany({});
   });
 
-  it('should add a survey on success', async () => {
-    const sut = makeSut();
-    await sut.add(makeAddSurveyModel());
-    const survey = MongoHelper.instance.map<AddSurveyModel>(
-      await surveyCollection.findOne({ question: 'any-question' }),
-    );
+  describe('add()', () => {
+    it('should add a survey on success', async () => {
+      const sut = makeSut();
+      await sut.add(makeAddSurveyModel());
+      const survey = MongoHelper.instance.map<AddSurveyModel>(
+        await surveyCollection.findOne({ question: 'any-question' }),
+      );
 
-    expect(survey).toBeTruthy();
-    expect(survey).toHaveProperty('id');
-    expect(survey).toHaveProperty('question');
-    expect(survey).toHaveProperty('answers');
+      expect(survey).toBeTruthy();
+      expect(survey).toHaveProperty('id');
+      expect(survey).toHaveProperty('question');
+      expect(survey).toHaveProperty('answers');
+    });
   });
 });
