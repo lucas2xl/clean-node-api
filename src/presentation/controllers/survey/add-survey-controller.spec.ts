@@ -8,6 +8,7 @@ import {
 import { Controller } from '@/presentation/protocols/controller';
 import { HttpRequest } from '@/presentation/protocols/http';
 import { Validation } from '@/presentation/protocols/validation';
+import * as mockdate from 'mockdate';
 
 interface SutTypes {
   sut: Controller;
@@ -20,6 +21,7 @@ function makeFakeRequest(): HttpRequest {
     body: {
       question: 'any-question',
       answers: [{ image: 'any-image', answer: 'any-answer' }],
+      createdAt: new Date(),
     },
   };
 }
@@ -52,6 +54,8 @@ function makeSut(): SutTypes {
 }
 
 describe('AddSurvey Controller', () => {
+  beforeAll(() => mockdate.set(new Date()));
+
   it('should call Validation with correct values', async () => {
     const { sut, validationStub } = makeSut();
     const validateSpy = jest.spyOn(validationStub, 'validate');

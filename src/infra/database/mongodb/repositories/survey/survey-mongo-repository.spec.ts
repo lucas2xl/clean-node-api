@@ -2,12 +2,14 @@ import { AddSurveyModel } from '@/domain/usecases/add-survey-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { SurveyMongoRepository } from '@/infra/database/mongodb/repositories/survey/survey-mongo-repository';
 import env from '@/main/config/env';
+import * as mockdate from 'mockdate';
 import { Collection } from 'mongodb';
 
 function makeAddSurveyModel(): AddSurveyModel {
   return {
     question: 'any-question',
     answers: [{ image: 'any-image', answer: 'any-answer' }],
+    createdAt: new Date(),
   };
 }
 
@@ -19,6 +21,7 @@ describe('Survey Mongo Repository', () => {
   let surveyCollection: Collection;
 
   beforeAll(async () => {
+    mockdate.set(new Date());
     await MongoHelper.instance.connect(env.mongoUrl);
   });
 
