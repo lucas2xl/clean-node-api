@@ -22,6 +22,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+      - rum: npm run install
       - run: npx run eslint src/**
       - run: npm run build
       - run: npm test -- --coverage
