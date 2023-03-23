@@ -48,4 +48,15 @@ describe('Survey Mongo Repository', () => {
       expect(survey).toHaveProperty('answers');
     });
   });
+
+  describe('loadAll()', () => {
+    it('should loadAll a survey on success', async () => {
+      const sut = makeSut();
+      await sut.add(makeAddSurveyModel());
+      const surveys = await sut.loadAll();
+
+      expect(surveys.length).toBe(1);
+      expect(surveys[0].question).toBe('any-question');
+    });
+  });
 });
