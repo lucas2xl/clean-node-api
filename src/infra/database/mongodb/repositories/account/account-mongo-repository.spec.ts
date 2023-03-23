@@ -107,5 +107,12 @@ describe('Account Mongo Repository', () => {
       expect(account.token).toBe('any-token');
       expect(account.role).toBe('any-role');
     });
+
+    it('should return null if loadByToken fails', async () => {
+      const sut = makeSut();
+      const account = await sut.loadByToken('any-token');
+
+      expect(account).toBeFalsy();
+    });
   });
 });
