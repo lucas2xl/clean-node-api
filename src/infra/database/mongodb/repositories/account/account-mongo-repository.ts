@@ -49,6 +49,11 @@ export class AccountMongoRepository
   }
 
   async loadByToken(token: string, role?: string): Promise<AccountModel> {
-    return Promise.resolve(undefined);
+    const accountCollection = await MongoHelper.instance.getCollection(
+      'accounts',
+    );
+
+    const account = await accountCollection.findOne({ token, role });
+    return account && MongoHelper.instance.map<AccountModel>(account);
   }
 }
