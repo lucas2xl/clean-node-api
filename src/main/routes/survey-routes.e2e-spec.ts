@@ -81,5 +81,27 @@ describe('Survey Routes', () => {
     it('Should return 403 on load survey without token', async () => {
       await request(app).get('/api/surveys').expect(403);
     });
+
+    // it('Should return 201 on add survey with valid token', async () => {
+    //   const mongoRepository = makeAccountMongoRepository();
+    //   const fakeAccount = await makeAddAccountModel();
+    //   const account = await mongoRepository.add(fakeAccount);
+    //   const fakeToken = await makeToken(account.id);
+    //   await accountCollection.updateOne(
+    //     {
+    //       _id: account.id,
+    //     },
+    //     { $set: { token: fakeToken, role: 'admin' } },
+    //   );
+    //
+    //   await request(app)
+    //     .post('/api/surveys')
+    //     .set('x-access-token', fakeToken)
+    //     .send({
+    //       question: 'any-question',
+    //       answers: [{ image: 'any-image', answer: 'any-answer' }],
+    //     })
+    //     .expect(201);
+    // });
   });
 });
