@@ -2,6 +2,7 @@ import { AddAccountModel } from '@/domain/usecases/add-account-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { AccountMongoRepository } from '@/infra/database/mongodb/repositories/account/account-mongo-repository';
 import env from '@/main/config/env';
+import { Collection } from 'mongodb';
 
 function makeAddAccountModel(): AddAccountModel {
   return {
@@ -16,6 +17,8 @@ function makeSut(): AccountMongoRepository {
 }
 
 describe('Account Mongo Repository', () => {
+  let accountCollection: Collection;
+
   beforeAll(async () => {
     await MongoHelper.instance.connect(env.mongoUrl);
   });
@@ -25,9 +28,7 @@ describe('Account Mongo Repository', () => {
   });
 
   beforeEach(async () => {
-    const accountCollection = await MongoHelper.instance.getCollection(
-      'accounts',
-    );
+    accountCollection = await MongoHelper.instance.getCollection('accounts');
     await accountCollection.deleteMany({});
   });
 
@@ -45,7 +46,7 @@ describe('Account Mongo Repository', () => {
   });
 
   describe('loadByEmail()', () => {
-    it('should return an account loadByEmail on success', async () => {
+    it('should return an account on loadByEmail success', async () => {
       const sut = makeSut();
       await sut.add(makeAddAccountModel());
       const account = await sut.loadByEmail('any-email');
@@ -75,6 +76,21 @@ describe('Account Mongo Repository', () => {
       const account = await sut.loadByEmail(res.email);
 
       expect(account.token).toBeTruthy();
+    });
+  });
+
+  describe('loadByToken()', () => {
+    it('should return an account on loadByToken without role', async () => {
+      const sut = makeSut();
+      await accountCollection.insertOne({
+        ...makeAddAccountModel(),
+        token: 'any-token',
+      });
+      const account = await sut.loadByToken('any-token');
+
+      expect(account).toBeTruthy();
+      expect(account).toHaveProperty('id');
+      expect(account.token).toBe('any-token');
     });
   });
 });
