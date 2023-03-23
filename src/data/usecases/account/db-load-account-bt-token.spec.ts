@@ -9,6 +9,15 @@ interface SutTypes {
   loadAccountByTokenRepositoryStub: LoadAccountByTokenRepository;
 }
 
+function makeFakeAccount(): AccountModel {
+  return {
+    id: 'valid-id',
+    name: 'valid-name',
+    email: 'valid-email',
+    password: 'hashed-password',
+  };
+}
+
 function makeDecrypter(): Decrypter {
   class DecrypterStub implements Decrypter {
     async decrypt(): Promise<string> {
@@ -24,7 +33,7 @@ function makeLoadAccountByTokenRepository(): LoadAccountByTokenRepository {
     implements LoadAccountByTokenRepository
   {
     async loadByToken(): Promise<AccountModel> {
-      return Promise.resolve(undefined);
+      return makeFakeAccount();
     }
   }
 
@@ -77,5 +86,13 @@ describe('DbLoadAccountByToken Usecase', () => {
     const account = await sut.loadByToken('any-token', 'any-role');
 
     expect(account).toBeNull();
+  });
+
+  it('should return an account on success', async () => {
+    const { sut } = makeSut();
+
+    const account = await sut.loadByToken('any-token', 'any-role');
+
+    expect(account).toEqual(makeFakeAccount());
   });
 });
