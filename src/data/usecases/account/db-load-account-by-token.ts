@@ -13,6 +13,13 @@ export class DbLoadAccountByToken implements LoadAccountByTokenRepository {
 
     if (!accessToken) return null;
 
-    await this.loadAccountByTokenRepository.loadByToken(token, role);
+    const account = await this.loadAccountByTokenRepository.loadByToken(
+      token,
+      role,
+    );
+
+    if (!account) return null;
+
+    return account;
   }
 }
