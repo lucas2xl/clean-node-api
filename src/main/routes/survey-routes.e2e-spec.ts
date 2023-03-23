@@ -6,10 +6,14 @@ import { SurveyMongoRepository } from '@/infra/database/mongodb/repositories/sur
 import app from '@/main/config/app';
 import env from '@/main/config/env';
 import { sign } from 'jsonwebtoken';
-import { Collection } from 'mongodb';
 import * as request from 'supertest';
 
-async function makeAddAccountModel(): Promise<AddAccountModel> {
+interface MongoTypes {
+  accountMongo: AccountMongoRepository;
+  surveyMongo: SurveyMongoRepository;
+}
+
+function makeAddAccount(): AddAccountModel {
   return {
     name: 'any-name',
     email: 'any-email@mail.com',
@@ -29,18 +33,14 @@ async function makeToken(id: string): Promise<string> {
   return sign({ id }, env.jwtSecret);
 }
 
-function makeAccountMongoRepository(): AccountMongoRepository {
-  return new AccountMongoRepository();
-}
+function makeMongoRepository(): MongoTypes {
+  const accountMongo = new AccountMongoRepository();
+  const surveyMongo = new SurveyMongoRepository();
 
-function makeSurveyMongoRepository(): SurveyMongoRepository {
-  return new SurveyMongoRepository();
+  return { accountMongo, surveyMongo };
 }
 
 describe('Survey Routes', () => {
-  let surveyCollection: Collection;
-  let accountCollection: Collection;
-
   beforeAll(async () => {
     await MongoHelper.instance.connect(env.mongoUrl);
   });
@@ -50,8 +50,12 @@ describe('Survey Routes', () => {
   });
 
   beforeEach(async () => {
-    surveyCollection = await MongoHelper.instance.getCollection('surveys');
-    accountCollection = await MongoHelper.instance.getCollection('accounts');
+    const surveyCollection = await MongoHelper.instance.getCollection(
+      'surveys',
+    );
+    const accountCollection = await MongoHelper.instance.getCollection(
+      'accounts',
+    );
 
     await surveyCollection.deleteMany({});
     await accountCollection.deleteMany({});
@@ -69,16 +73,13 @@ describe('Survey Routes', () => {
     });
 
     it('Should return 201 on add survey with valid token', async () => {
-      const accountMongoRepository = makeAccountMongoRepository();
-      const fakeAccount = await makeAddAccountModel();
-      const account = await accountMongoRepository.add(fakeAccount);
+      const { accountMongo } = makeMongoRepository();
+      const account = await accountMongo.add({
+        ...makeAddAccount(),
+        role: 'admin',
+      });
       const fakeToken = await makeToken(account.id);
-      await accountCollection.updateOne(
-        {
-          _id: account.id,
-        },
-        { $set: { token: fakeToken, role: 'admin' } },
-      );
+      await accountMongo.updateAccessToken(account.id, fakeToken);
 
       await request(app)
         .post('/api/surveys')
@@ -97,18 +98,11 @@ describe('Survey Routes', () => {
     });
 
     it('Should return 200 on load surveys with valid token', async () => {
-      const accountMongoRepository = makeAccountMongoRepository();
-      const surveyMongoRepository = makeSurveyMongoRepository();
-      await surveyMongoRepository.add(makeAddSurveyModel());
-      const fakeAccount = await makeAddAccountModel();
-      const account = await accountMongoRepository.add(fakeAccount);
+      const { accountMongo, surveyMongo } = makeMongoRepository();
+      await surveyMongo.add(makeAddSurveyModel());
+      const account = await accountMongo.add({ ...makeAddAccount() });
       const fakeToken = await makeToken(account.id);
-      await accountCollection.updateOne(
-        {
-          _id: account.id,
-        },
-        { $set: { token: fakeToken } },
-      );
+      await accountMongo.updateAccessToken(account.id, fakeToken);
 
       await request(app)
         .get('/api/surveys')
