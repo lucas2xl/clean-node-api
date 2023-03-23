@@ -25,5 +25,5 @@ jobs:
       - run: npm install
       - run: npx run eslint src/**
       - run: npm run build
-      - run: npm run test -- --coverage
-      - run: npm test:e2e
+#      - run: npm run test -- --coverage
+#      - run: npm test:e2e

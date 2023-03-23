@@ -1,11 +1,8 @@
-interface SurveyAnswers {
-  image?: string;
-  answer: string;
-}
+import { SurveyAnswer } from '@/domain/models/survey-model';
 
 export interface AddSurveyModel {
   question: string;
-  answers: SurveyAnswers[];
+  answers: SurveyAnswer[];
   createdAt: Date;
 }
 
