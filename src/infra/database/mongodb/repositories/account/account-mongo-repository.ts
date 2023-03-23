@@ -53,7 +53,10 @@ export class AccountMongoRepository
       'accounts',
     );
 
-    const account = await accountCollection.findOne({ token, role });
+    const account = await accountCollection.findOne({
+      token,
+      $or: [{ role }, { role: 'admin' }],
+    });
     return account && MongoHelper.instance.map<AccountModel>(account);
   }
 }

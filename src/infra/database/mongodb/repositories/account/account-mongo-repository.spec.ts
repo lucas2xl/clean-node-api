@@ -93,19 +93,44 @@ describe('Account Mongo Repository', () => {
       expect(account.token).toBe('any-token');
     });
 
-    it('should return an account on loadByToken with role', async () => {
+    it('should return an account on loadByToken with admin role', async () => {
       const sut = makeSut();
       await accountCollection.insertOne({
         ...makeAddAccountModel(),
         token: 'any-token',
-        role: 'any-role',
+        role: 'admin',
       });
-      const account = await sut.loadByToken('any-token', 'any-role');
+      const account = await sut.loadByToken('any-token', 'admin');
 
       expect(account).toBeTruthy();
       expect(account).toHaveProperty('id');
       expect(account.token).toBe('any-token');
-      expect(account.role).toBe('any-role');
+      expect(account.role).toBe('admin');
+    });
+
+    it('should return null on loadByToken with invalid role', async () => {
+      const sut = makeSut();
+      await accountCollection.insertOne({
+        ...makeAddAccountModel(),
+        token: 'any-token',
+      });
+      const account = await sut.loadByToken('any-token', 'admin');
+
+      expect(account).toBeFalsy();
+    });
+
+    it('should return an account on loadByToken with user is admin', async () => {
+      const sut = makeSut();
+      await accountCollection.insertOne({
+        ...makeAddAccountModel(),
+        token: 'any-token',
+        role: 'admin',
+      });
+      const account = await sut.loadByToken('any-token');
+
+      expect(account).toBeTruthy();
+      expect(account).toHaveProperty('id');
+      expect(account.token).toBe('any-token');
     });
 
     it('should return null if loadByToken fails', async () => {
