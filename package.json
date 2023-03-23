@@ -53,7 +53,7 @@
     "*ts": [
       "eslint src/** --fix",
       "prettier --write",
-      "npm run test --",
+      "npm run test -- --coverage",
       "npm run test:e2e --"
     ]
   }
