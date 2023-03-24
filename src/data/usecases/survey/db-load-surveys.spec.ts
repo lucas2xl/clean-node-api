@@ -1,6 +1,7 @@
+import { mockLoadSurveysRepository } from '@/data/mock/mock-db-survey';
 import { LoadSurveysRepository } from '@/data/protocols/database/survey/load-surveys-repository';
 import { DbLoadSurveys } from '@/data/usecases/survey/db-load-surveys';
-import { SurveyModel } from '@/domain/models/survey-model';
+import { mockSurveyModels } from '@/domain/mock/mock-survey';
 import { LoadSurveysUsecase } from '@/domain/usecases/survey/load-surveys-usecase';
 import mockdate from 'mockdate';
 
@@ -9,29 +10,8 @@ type SutTypes = {
   loadSurveysRepositoryStub: LoadSurveysRepository;
 };
 
-function makeFakeSurveys(): SurveyModel[] {
-  return [
-    {
-      id: 'any-id',
-      question: 'any-question',
-      answers: [{ image: 'any-image', answer: 'any-answer' }],
-      createdAt: new Date(),
-    },
-  ];
-}
-
-function makeLoadSurveysRepository(): LoadSurveysRepository {
-  class LoadSurveysRepositoryStub implements LoadSurveysRepository {
-    async loadAll(): Promise<SurveyModel[]> {
-      return makeFakeSurveys();
-    }
-  }
-
-  return new LoadSurveysRepositoryStub();
-}
-
 function makeSut(): SutTypes {
-  const loadSurveysRepositoryStub = makeLoadSurveysRepository();
+  const loadSurveysRepositoryStub = mockLoadSurveysRepository();
   const sut = new DbLoadSurveys(loadSurveysRepositoryStub);
   return { sut, loadSurveysRepositoryStub };
 }
@@ -51,7 +31,7 @@ describe('DbLoadSurveys Usecase', () => {
     const { sut } = makeSut();
     const surveys = await sut.load();
 
-    expect(surveys).toEqual(makeFakeSurveys());
+    expect(surveys).toEqual(mockSurveyModels());
   });
 
   it('Should throw if LoadSurveysRepository throws', async () => {

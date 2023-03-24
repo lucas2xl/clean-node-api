@@ -1,5 +1,5 @@
 import { AddAccountParams } from '@/domain/usecases/account/add-account-usecase';
-import { SaveSurveyResultModel } from '@/domain/usecases/survey-result/save-survey-result-usecase';
+import { SaveSurveyResultParams } from '@/domain/usecases/survey-result/save-survey-result-usecase';
 import { AddSurveyParams } from '@/domain/usecases/survey/add-survey-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { SurveyResultMongoRepository } from '@/infra/database/mongodb/repositories/survey-result/survey-result-mongo-repository';
@@ -36,7 +36,7 @@ async function insertSurvey(): Promise<string> {
 }
 
 async function insertSurveyResult(
-  saveSurveyResult: SaveSurveyResultModel,
+  saveSurveyResult: SaveSurveyResultParams,
 ): Promise<string> {
   const { insertedId } = await surveyResultCollection.insertOne(
     saveSurveyResult,

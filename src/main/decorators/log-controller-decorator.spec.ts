@@ -1,3 +1,4 @@
+import { mockLogErrorRepository } from '@/data/mock/mock-db-log';
 import { LogErrorRepository } from '@/data/protocols/database/log/log-error-repository';
 import { LogControllerDecorator } from '@/main/decorators/log-controller-decorator';
 import { ok, serverError } from '@/presentation/helpers/http/http-helper';
@@ -47,19 +48,9 @@ function makeController(): Controller {
   return new ControllerStub();
 }
 
-function makeLogErrorRepository(): LogErrorRepository {
-  class LogErrorRepositoryStub implements LogErrorRepository {
-    async logError(): Promise<void> {
-      return;
-    }
-  }
-
-  return new LogErrorRepositoryStub();
-}
-
 function makeSut(): SutTypes {
   const controllerStub = makeController();
-  const logErrorRepositoryStub = makeLogErrorRepository();
+  const logErrorRepositoryStub = mockLogErrorRepository();
   const sut = new LogControllerDecorator(
     controllerStub,
     logErrorRepositoryStub,
