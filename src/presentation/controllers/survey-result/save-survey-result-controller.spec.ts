@@ -29,17 +29,26 @@ function makeFakeSurvey(): SurveyModel {
   };
 }
 
+function makeFakeSurveyResult(): SurveyResultModel {
+  return {
+    id: 'valid-id',
+    accountId: 'valid-account-id',
+    surveyId: 'valid-survey-id',
+    answer: 'valid-answer',
+    createdAt: new Date(),
+  };
+}
+
 function makeFakeRequest(): HttpRequest {
   return {
     params: {
       surveyId: 'any-survey-id',
     },
     body: {
-      accountId: 'any-account-id',
-      surveyId: 'any-survey-id',
       answer: 'any-answer',
       createdAt: new Date(),
     },
+    accountId: 'any-account-id',
   };
 }
 
@@ -56,7 +65,7 @@ function makeValidation(): Validation {
 function makeSaveSurveyResult(): SaveSurveyResultUsecase {
   class SaveSurveyResultStub implements SaveSurveyResultUsecase {
     async save(): Promise<SurveyResultModel> {
-      return;
+      return makeFakeSurveyResult();
     }
   }
 
@@ -79,8 +88,8 @@ function makeSut(): SutTypes {
   const loadSurveyByIdStub = makeLoadSurveyById();
   const sut = new SaveSurveyResultController(
     validationStub,
-    saveSurveyResultStub,
     loadSurveyByIdStub,
+    saveSurveyResultStub,
   );
   return { sut, validationStub, saveSurveyResultStub, loadSurveyByIdStub };
 }
@@ -95,8 +104,8 @@ describe('SaveSurveyResult Controller', () => {
     await sut.handle(httpRequest);
 
     expect(validateSpy).toHaveBeenCalledWith({
-      ...httpRequest.body,
       ...httpRequest.params,
+      ...httpRequest.body,
     });
   });
 
@@ -133,5 +142,18 @@ describe('SaveSurveyResult Controller', () => {
     const httpResponse = await sut.handle(httpRequest);
 
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('answer')));
+  });
+
+  it('should call Validation with correct values', async () => {
+    const { sut, saveSurveyResultStub } = makeSut();
+    const saveSpy = jest.spyOn(saveSurveyResultStub, 'save');
+    const httpRequest = makeFakeRequest();
+    await sut.handle(httpRequest);
+
+    expect(saveSpy).toHaveBeenCalledWith({
+      ...httpRequest.body,
+      ...httpRequest.params,
+      accountId: httpRequest.accountId,
+    });
   });
 });
