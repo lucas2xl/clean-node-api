@@ -13,9 +13,11 @@ export class AccountMongoRepository
     UpdateAccessTokenRepository,
     LoadAccountByTokenRepository
 {
+  private readonly collectionName = 'accounts';
+
   async add(accountData: AddAccountModel): Promise<AccountModel> {
     const accountCollection = await MongoHelper.instance.getCollection(
-      'accounts',
+      this.collectionName,
     );
 
     const { insertedId } = await accountCollection.insertOne(accountData);
@@ -26,7 +28,7 @@ export class AccountMongoRepository
 
   async loadByEmail(email: string): Promise<AccountModel> {
     const accountCollection = await MongoHelper.instance.getCollection(
-      'accounts',
+      this.collectionName,
     );
 
     const account = await accountCollection.findOne({ email });
@@ -35,7 +37,7 @@ export class AccountMongoRepository
 
   async updateAccessToken(id: string, token: string): Promise<void> {
     const accountCollection = await MongoHelper.instance.getCollection(
-      'accounts',
+      this.collectionName,
     );
 
     await accountCollection.updateOne(
@@ -50,7 +52,7 @@ export class AccountMongoRepository
 
   async loadByToken(token: string, role?: string): Promise<AccountModel> {
     const accountCollection = await MongoHelper.instance.getCollection(
-      'accounts',
+      this.collectionName,
     );
 
     const account = await accountCollection.findOne({
