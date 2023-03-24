@@ -68,5 +68,20 @@ describe('Survey Routes', () => {
         .send({ answer: 'any-answer' })
         .expect(403);
     });
+
+    it('Should return 200 on save survey result with token', async () => {
+      const { surveyMongo, accountMongo } = makeMongoRepository();
+      await surveyMongo.add(makeAddSurveyModel());
+      const surveys = await surveyMongo.loadAll();
+      const account = await accountMongo.add({ ...makeAddAccount() });
+      const fakeToken = await makeToken(account.id);
+      await accountMongo.updateAccessToken(account.id, fakeToken);
+
+      await request(app)
+        .put(`/api/surveys/${surveys[0].id}/results`)
+        .send({ answer: 'any-answer' })
+        .set('x-access-token', fakeToken)
+        .expect(200);
+    });
   });
 });

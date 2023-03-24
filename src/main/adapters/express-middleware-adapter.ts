@@ -19,8 +19,9 @@ export function ExpressMiddlewareAdapter(
     };
 
     const httpResponse = await middleware.handle(httpRequest);
+
     if (httpResponse.statusCode === 200) {
-      Object.assign(request, httpRequest.body);
+      request.accountId = httpResponse.body?.accountId;
       next();
     } else {
       response.status(httpResponse.statusCode).json({

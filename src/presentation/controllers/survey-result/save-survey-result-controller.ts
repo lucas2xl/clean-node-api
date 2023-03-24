@@ -20,7 +20,12 @@ export class SaveSurveyResultController implements Controller {
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const data = { ...httpRequest.params, ...httpRequest.body };
+      const data = {
+        ...httpRequest?.params,
+        ...httpRequest?.body,
+        accountId: httpRequest?.accountId,
+      };
+
       const error = this.validation.validate(data);
       if (error) {
         return badRequest(error);

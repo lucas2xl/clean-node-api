@@ -9,7 +9,9 @@ type ExpressReturn = {
 export function ExpressRouteAdapter(controller: Controller): ExpressReturn {
   return async (request: Request, response: Response): Promise<void> => {
     const httpRequest: HttpRequest = {
-      body: request.body,
+      body: request?.body,
+      params: request?.params,
+      accountId: request?.accountId,
     };
 
     const httpResponse = await controller.handle(httpRequest);

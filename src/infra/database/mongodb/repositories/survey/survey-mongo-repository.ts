@@ -4,7 +4,7 @@ import { LoadSurveysRepository } from '@/data/protocols/database/survey/load-sur
 import { SurveyModel } from '@/domain/models/survey-model';
 import { AddSurveyModel } from '@/domain/usecases/survey/add-survey-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
-import { Collection } from 'mongodb';
+import { Collection, ObjectId } from 'mongodb';
 
 export class SurveyMongoRepository
   implements
@@ -29,7 +29,11 @@ export class SurveyMongoRepository
 
   async loadById(id: string): Promise<SurveyModel> {
     const surveyCollection = await this.getCollection();
-    const survey = await surveyCollection.findOne({ _id: id });
+    console.log(id);
+    const survey = await surveyCollection.findOne({ _id: new ObjectId(id) });
+    const surveys = await surveyCollection.find().toArray();
+    console.log(survey);
+    console.log(surveys);
 
     return MongoHelper.instance.map<SurveyModel>(survey);
   }
