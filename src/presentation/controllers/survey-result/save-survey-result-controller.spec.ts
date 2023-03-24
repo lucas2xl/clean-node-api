@@ -4,7 +4,10 @@ import { SaveSurveyResultUsecase } from '@/domain/usecases/survey-result/save-su
 import { LoadSurveyByIdUsecase } from '@/domain/usecases/survey/load-survey-by-id-usecase';
 import { SaveSurveyResultController } from '@/presentation/controllers/survey-result/save-survey-result-controller';
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error';
-import { forbidden } from '@/presentation/helpers/http/http-helper';
+import {
+  forbidden,
+  serverError,
+} from '@/presentation/helpers/http/http-helper';
 import { Controller } from '@/presentation/protocols/controller';
 import { HttpRequest } from '@/presentation/protocols/http';
 import { Validation } from '@/presentation/protocols/validation';
@@ -85,6 +88,18 @@ function makeSut(): SutTypes {
 describe('SaveSurveyResult Controller', () => {
   beforeAll(() => mockdate.set(new Date()));
 
+  it('should call Validation with correct values', async () => {
+    const { sut, validationStub } = makeSut();
+    const validateSpy = jest.spyOn(validationStub, 'validate');
+    const httpRequest = makeFakeRequest();
+    await sut.handle(httpRequest);
+
+    expect(validateSpy).toHaveBeenCalledWith({
+      ...httpRequest.body,
+      ...httpRequest.params,
+    });
+  });
+
   it('should call LoadSurveyById with correct values', async () => {
     const { sut, loadSurveyByIdStub } = makeSut();
     const loadByIdSpy = jest.spyOn(loadSurveyByIdStub, 'loadById');
@@ -99,5 +114,15 @@ describe('SaveSurveyResult Controller', () => {
     const httpResponse = await sut.handle(makeFakeRequest());
 
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('surveyId')));
+  });
+
+  it('should return 500 if LoadSurveyById returns throw', async () => {
+    const { sut, loadSurveyByIdStub } = makeSut();
+    jest
+      .spyOn(loadSurveyByIdStub, 'loadById')
+      .mockRejectedValueOnce(new Error());
+    const httpResponse = await sut.handle(makeFakeRequest());
+
+    expect(httpResponse).toEqual(serverError(new Error()));
   });
 });
