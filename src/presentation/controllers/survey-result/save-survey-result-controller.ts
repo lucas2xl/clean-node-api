@@ -13,8 +13,8 @@ import { Validation } from '@/presentation/protocols/validation';
 export class SaveSurveyResultController implements Controller {
   constructor(
     private readonly validation: Validation,
-    private readonly saveSurveyResult: SaveSurveyResultUsecase,
     private readonly loadSurveyById: LoadSurveyByIdUsecase,
+    private readonly saveSurveyResult: SaveSurveyResultUsecase,
   ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -27,6 +27,7 @@ export class SaveSurveyResultController implements Controller {
 
       const { surveyId } = httpRequest.params;
       const { answer } = httpRequest.body;
+      const { accountId } = httpRequest;
       const survey = await this.loadSurveyById.loadById(surveyId);
       if (!survey) {
         return forbidden(new InvalidParamError('surveyId'));
@@ -37,6 +38,12 @@ export class SaveSurveyResultController implements Controller {
         return forbidden(new InvalidParamError('answer'));
       }
 
+      await this.saveSurveyResult.save({
+        accountId,
+        surveyId,
+        answer,
+        createdAt: new Date(),
+      });
       return Promise.resolve(undefined);
     } catch (e) {
       return serverError(e);

@@ -9,4 +9,5 @@ export type HttpRequest = {
   body?: K;
   headers?: K;
   params?: K;
+  accountId?: string;
 };
