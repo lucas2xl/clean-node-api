@@ -5,7 +5,7 @@ import { UpdateAccessTokenRepository } from '@/data/protocols/database/account/u
 import { DbAuthentication } from '@/data/usecases/authentication/db-authentication';
 import { AccountModel } from '@/domain/models/account-model';
 import {
-  AuthenticationModel,
+  AuthenticationParams,
   AuthenticationUsecase,
 } from '@/domain/usecases/authentication/authentication-usecase';
 
@@ -26,7 +26,7 @@ function makeFakeAccount(): AccountModel {
   };
 }
 
-function makeFakeAuthenticationData(): AuthenticationModel {
+function makeFakeAuthenticationData(): AuthenticationParams {
   return {
     email: 'any-email',
     password: 'any-password',

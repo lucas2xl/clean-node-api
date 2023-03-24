@@ -4,7 +4,7 @@ import { LoadAccountByEmailRepository } from '@/data/protocols/database/account/
 import { DbAddAccount } from '@/data/usecases/account/db-add-account';
 import { AccountModel } from '@/domain/models/account-model';
 import {
-  AddAccountModel,
+  AddAccountParams,
   AddAccountUsecase,
 } from '@/domain/usecases/account/add-account-usecase';
 
@@ -15,7 +15,7 @@ type SutTypes = {
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository;
 };
 
-function makeFakeAccountData(): AddAccountModel {
+function makeFakeAccountData(): AddAccountParams {
   return {
     name: 'valid-name',
     email: 'valid-email',

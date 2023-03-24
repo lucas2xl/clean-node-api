@@ -2,7 +2,7 @@ import { Encrypter } from '@/data/protocols/criptography/encrypter';
 import { HashComparer } from '@/data/protocols/criptography/hash-comparer';
 import { LoadAccountByEmailRepository } from '@/data/protocols/database/account/load-account-by-email-repository';
 import { UpdateAccessTokenRepository } from '@/data/protocols/database/account/update-access-token-repository';
-import { AuthenticationModel } from '@/domain/usecases/authentication/authentication-usecase';
+import { AuthenticationParams } from '@/domain/usecases/authentication/authentication-usecase';
 
 export class DbAuthentication implements DbAuthentication {
   constructor(
@@ -12,7 +12,7 @@ export class DbAuthentication implements DbAuthentication {
     private readonly encrypter: Encrypter,
   ) {}
 
-  async auth({ email, password }: AuthenticationModel): Promise<string> {
+  async auth({ email, password }: AuthenticationParams): Promise<string> {
     const account = await this.loadAccountByEmailRepository.loadByEmail(email);
     if (!account) return null;
 

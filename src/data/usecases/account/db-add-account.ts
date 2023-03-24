@@ -3,7 +3,7 @@ import { AddAccountRepository } from '@/data/protocols/database/account/add-acco
 import { LoadAccountByEmailRepository } from '@/data/protocols/database/account/load-account-by-email-repository';
 import { AccountModel } from '@/domain/models/account-model';
 import {
-  AddAccountModel,
+  AddAccountParams,
   AddAccountUsecase,
 } from '@/domain/usecases/account/add-account-usecase';
 
@@ -14,7 +14,7 @@ export class DbAddAccount implements AddAccountUsecase {
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
   ) {}
 
-  async add(accountData: AddAccountModel): Promise<AccountModel> {
+  async add(accountData: AddAccountParams): Promise<AccountModel> {
     const account = await this.loadAccountByEmailRepository.loadByEmail(
       accountData.email,
     );

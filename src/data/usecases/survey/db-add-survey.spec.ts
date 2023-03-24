@@ -1,7 +1,7 @@
 import { AddSurveyRepository } from '@/data/protocols/database/survey/add.survey-repository';
 import { DbAddSurvey } from '@/data/usecases/survey/db-add-survey';
 import {
-  AddSurveyModel,
+  AddSurveyParams,
   AddSurveyUsecase,
 } from '@/domain/usecases/survey/add-survey-usecase';
 import * as mockdate from 'mockdate';
@@ -11,7 +11,7 @@ type SutTypes = {
   addSurveyRepositoryStub: AddSurveyRepository;
 };
 
-function makeFakeSurveyData(): AddSurveyModel {
+function makeFakeSurveyData(): AddSurveyParams {
   return {
     question: 'any-question',
     answers: [{ image: 'any-image', answer: 'any-answer' }],

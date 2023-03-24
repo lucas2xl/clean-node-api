@@ -1,5 +1,5 @@
-import { AddAccountModel } from '@/domain/usecases/account/add-account-usecase';
-import { AddSurveyModel } from '@/domain/usecases/survey/add-survey-usecase';
+import { AddAccountParams } from '@/domain/usecases/account/add-account-usecase';
+import { AddSurveyParams } from '@/domain/usecases/survey/add-survey-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { AccountMongoRepository } from '@/infra/database/mongodb/repositories/account/account-mongo-repository';
 import { SurveyMongoRepository } from '@/infra/database/mongodb/repositories/survey/survey-mongo-repository';
@@ -13,7 +13,7 @@ type MongoTypes = {
   surveyMongo: SurveyMongoRepository;
 };
 
-function makeAddAccount(): AddAccountModel {
+function makeAddAccount(): AddAccountParams {
   return {
     name: 'any-name',
     email: 'any-email@mail.com',
@@ -21,7 +21,7 @@ function makeAddAccount(): AddAccountModel {
   };
 }
 
-function makeAddSurveyModel(): AddSurveyModel {
+function makeAddSurveyModel(): AddSurveyParams {
   return {
     question: 'any-question',
     answers: [{ image: 'any-image', answer: 'any-answer' }],

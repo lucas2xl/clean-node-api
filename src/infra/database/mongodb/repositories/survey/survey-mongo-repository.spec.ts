@@ -1,5 +1,5 @@
 import { SurveyModel } from '@/domain/models/survey-model';
-import { AddSurveyModel } from '@/domain/usecases/survey/add-survey-usecase';
+import { AddSurveyParams } from '@/domain/usecases/survey/add-survey-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { SurveyMongoRepository } from '@/infra/database/mongodb/repositories/survey/survey-mongo-repository';
 import env from '@/main/config/env';
@@ -8,7 +8,7 @@ import { Collection } from 'mongodb';
 
 let surveyCollection: Collection;
 
-function makeAddSurveyData(): AddSurveyModel {
+function makeAddSurveyData(): AddSurveyParams {
   return {
     question: 'any-question',
     answers: [{ image: 'any-image', answer: 'any-answer' }],

@@ -1,6 +1,6 @@
-import { AddAccountModel } from '@/domain/usecases/account/add-account-usecase';
+import { AddAccountParams } from '@/domain/usecases/account/add-account-usecase';
 import { SaveSurveyResultModel } from '@/domain/usecases/survey-result/save-survey-result-usecase';
-import { AddSurveyModel } from '@/domain/usecases/survey/add-survey-usecase';
+import { AddSurveyParams } from '@/domain/usecases/survey/add-survey-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { SurveyResultMongoRepository } from '@/infra/database/mongodb/repositories/survey-result/survey-result-mongo-repository';
 import env from '@/main/config/env';
@@ -11,7 +11,7 @@ let surveyCollection: Collection;
 let surveyResultCollection: Collection;
 let accountCollection: Collection;
 
-function makeAddSurveyData(): AddSurveyModel {
+function makeAddSurveyData(): AddSurveyParams {
   return {
     question: 'any-question',
     answers: [{ image: 'any-image', answer: 'any-answer' }],
@@ -19,7 +19,7 @@ function makeAddSurveyData(): AddSurveyModel {
   };
 }
 
-function makeAddAccountData(): AddAccountModel {
+function makeAddAccountData(): AddAccountParams {
   return {
     name: 'any-name',
     email: 'any-email',

@@ -1,4 +1,4 @@
-import { AddAccountModel } from '@/domain/usecases/account/add-account-usecase';
+import { AddAccountParams } from '@/domain/usecases/account/add-account-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { AccountMongoRepository } from '@/infra/database/mongodb/repositories/account/account-mongo-repository';
 import app from '@/main/config/app';
@@ -6,7 +6,7 @@ import env from '@/main/config/env';
 import { hash } from 'bcrypt';
 import * as request from 'supertest';
 
-async function makeAddAccountModel(): Promise<AddAccountModel> {
+async function makeAddAccountModel(): Promise<AddAccountParams> {
   const password = await hash('any-password', 12);
   return {
     name: 'any-name',

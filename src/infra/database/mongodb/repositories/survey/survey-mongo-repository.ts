@@ -2,7 +2,7 @@ import { AddSurveyRepository } from '@/data/protocols/database/survey/add.survey
 import { LoadSurveyByIdRepository } from '@/data/protocols/database/survey/load-survey-by-id-repository';
 import { LoadSurveysRepository } from '@/data/protocols/database/survey/load-surveys-repository';
 import { SurveyModel } from '@/domain/models/survey-model';
-import { AddSurveyModel } from '@/domain/usecases/survey/add-survey-usecase';
+import { AddSurveyParams } from '@/domain/usecases/survey/add-survey-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { Collection, ObjectId } from 'mongodb';
 
@@ -14,7 +14,7 @@ export class SurveyMongoRepository
 {
   private readonly collectionName = 'surveys';
 
-  async add(surveyData: AddSurveyModel): Promise<void> {
+  async add(surveyData: AddSurveyParams): Promise<void> {
     const surveyCollection = await this.getCollection();
     const { insertedId } = await surveyCollection.insertOne(surveyData);
     await surveyCollection.findOne({ _id: insertedId });

@@ -1,10 +1,10 @@
-import { AddAccountModel } from '@/domain/usecases/account/add-account-usecase';
+import { AddAccountParams } from '@/domain/usecases/account/add-account-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { AccountMongoRepository } from '@/infra/database/mongodb/repositories/account/account-mongo-repository';
 import env from '@/main/config/env';
 import { Collection } from 'mongodb';
 
-function makeAddAccountModel(): AddAccountModel {
+function makeAddAccountModel(): AddAccountParams {
   return {
     name: 'any-name',
     email: 'any-email',
