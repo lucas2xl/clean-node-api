@@ -47,7 +47,6 @@ function makeFakeRequest(): HttpRequest {
     },
     body: {
       answer: 'any-answer',
-      createdAt: new Date(),
     },
     accountId: 'any-account-id',
   };
@@ -155,6 +154,7 @@ describe('SaveSurveyResult Controller', () => {
       ...httpRequest.body,
       ...httpRequest.params,
       accountId: httpRequest.accountId,
+      createdAt: new Date(),
     });
   });
 
