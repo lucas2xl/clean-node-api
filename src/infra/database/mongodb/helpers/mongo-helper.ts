@@ -36,14 +36,15 @@ export class MongoHelper {
   }
 
   map<T>(collection: { [key: string]: any }): T {
+    if (!collection) return null;
     const { _id, ...collectionWithOutId } = collection;
     return { ...collectionWithOutId, id: _id } as T;
   }
 
   arrayMap<T>(collections: { [key: string]: any }[]): T {
-    return collections.map(collection => {
+    return collections?.map(collection => {
       const { _id, ...collectionWithOutId } = collection;
-      return { ...collectionWithOutId, id: _id } as T;
+      return { ...collectionWithOutId, id: _id };
     }) as T;
   }
 }

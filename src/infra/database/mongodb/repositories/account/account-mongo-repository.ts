@@ -22,14 +22,14 @@ export class AccountMongoRepository
     const { insertedId } = await accountCollection.insertOne(accountData);
     const account = await accountCollection.findOne({ _id: insertedId });
 
-    return account && MongoHelper.instance.map<AccountModel>(account);
+    return MongoHelper.instance.map<AccountModel>(account);
   }
 
   async loadByEmail(email: string): Promise<AccountModel> {
     const accountCollection = await this.getCollection();
 
     const account = await accountCollection.findOne({ email });
-    return account && MongoHelper.instance.map<AccountModel>(account);
+    return MongoHelper.instance.map<AccountModel>(account);
   }
 
   async updateAccessToken(id: string, token: string): Promise<void> {
@@ -52,7 +52,7 @@ export class AccountMongoRepository
       token,
       $or: [{ role }, { role: 'admin' }],
     });
-    return account && MongoHelper.instance.map<AccountModel>(account);
+    return MongoHelper.instance.map<AccountModel>(account);
   }
 
   private async getCollection(): Promise<Collection> {

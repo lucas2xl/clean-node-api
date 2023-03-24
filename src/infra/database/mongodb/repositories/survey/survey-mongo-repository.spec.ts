@@ -18,7 +18,7 @@ function makeAddSurveyData(): AddSurveyModel {
 
 async function findSurveyByQuestion(question: string): Promise<SurveyModel> {
   return MongoHelper.instance.map<SurveyModel>(
-    await surveyCollection.findOne({ question }),
+    await surveyCollection.findOne({ question: question }),
   );
 }
 

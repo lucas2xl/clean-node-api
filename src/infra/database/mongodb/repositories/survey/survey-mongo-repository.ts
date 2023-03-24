@@ -16,22 +16,21 @@ export class SurveyMongoRepository
 
   async add(surveyData: AddSurveyModel): Promise<void> {
     const surveyCollection = await this.getCollection();
-
     const { insertedId } = await surveyCollection.insertOne(surveyData);
     await surveyCollection.findOne({ _id: insertedId });
   }
 
   async loadAll(): Promise<SurveyModel[]> {
     const surveyCollection = await this.getCollection();
-
     const survey = await surveyCollection.find().toArray();
+
     return MongoHelper.instance.arrayMap<SurveyModel[]>(survey);
   }
 
   async loadById(id: string): Promise<SurveyModel> {
     const surveyCollection = await this.getCollection();
-
     const survey = await surveyCollection.findOne({ _id: id });
+
     return MongoHelper.instance.map<SurveyModel>(survey);
   }
 
