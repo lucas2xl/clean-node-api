@@ -1,5 +1,7 @@
 import { SaveSurveyResultUsecase } from '@/domain/usecases/survey-result/save-survey-result-usecase';
 import { LoadSurveyByIdUsecase } from '@/domain/usecases/survey/load-survey-by-id-usecase';
+import { InvalidParamError } from '@/presentation/errors/invalid-param-error';
+import { forbidden } from '@/presentation/helpers/http/http-helper';
 import { Controller } from '@/presentation/protocols/controller';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/http';
 import { Validation } from '@/presentation/protocols/validation';
@@ -12,7 +14,13 @@ export class SaveSurveyResultController implements Controller {
   ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    await this.loadSurveyById.loadById(httpRequest.params.surveyId);
+    const survey = await this.loadSurveyById.loadById(
+      httpRequest.params.surveyId,
+    );
+    if (!survey) {
+      return forbidden(new InvalidParamError('surveyId'));
+    }
+
     return Promise.resolve(undefined);
   }
 }
