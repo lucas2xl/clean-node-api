@@ -34,12 +34,12 @@ function makeFakeRequest(): HttpRequest {
     params: {
       surveyId: 'any-survey-id',
     },
-    // body: {
-    //   accountId: 'any-account-id',
-    //   surveyId: 'any-survey-id',
-    //   answer: 'any-answer',
-    //   createdAt: new Date(),
-    // },
+    body: {
+      accountId: 'any-account-id',
+      surveyId: 'any-survey-id',
+      answer: 'any-answer',
+      createdAt: new Date(),
+    },
   };
 }
 
@@ -124,5 +124,14 @@ describe('SaveSurveyResult Controller', () => {
     const httpResponse = await sut.handle(makeFakeRequest());
 
     expect(httpResponse).toEqual(serverError(new Error()));
+  });
+
+  it('should return 403 if an invalid answer is provider', async () => {
+    const { sut } = makeSut();
+    const httpRequest = makeFakeRequest();
+    httpRequest.body.answer = 'wrong-answer';
+    const httpResponse = await sut.handle(httpRequest);
+
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('answer')));
   });
 });
