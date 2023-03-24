@@ -11,7 +11,6 @@ export class DbSaveSurveyResult implements SaveSurveyResultUsecase {
   ) {}
 
   async save(data: SaveSurveyResultModel): Promise<SurveyResultModel> {
-    await this.saveSurveyResultRepository.save(data);
-    return;
+    return this.saveSurveyResultRepository.save(data);
   }
 }
