@@ -1,3 +1,4 @@
+import { SurveyModel } from '@/domain/models/survey-model';
 import { AddSurveyModel } from '@/domain/usecases/add-survey-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { SurveyMongoRepository } from '@/infra/database/mongodb/repositories/survey/survey-mongo-repository';
@@ -38,7 +39,7 @@ describe('Survey Mongo Repository', () => {
     it('should add a survey on success', async () => {
       const sut = makeSut();
       await sut.add(makeAddSurveyModel());
-      const survey = MongoHelper.instance.map<AddSurveyModel>(
+      const survey = MongoHelper.instance.map<SurveyModel>(
         await surveyCollection.findOne({ question: 'any-question' }),
       );
 
@@ -64,6 +65,19 @@ describe('Survey Mongo Repository', () => {
       const surveys = await sut.loadAll();
 
       expect(surveys.length).toBe(0);
+    });
+  });
+
+  describe('loadById()', () => {
+    it('should load by id a survey on success', async () => {
+      const sut = makeSut();
+      await sut.add(makeAddSurveyModel());
+      const { id } = MongoHelper.instance.map<SurveyModel>(
+        await surveyCollection.findOne({ question: 'any-question' }),
+      );
+      const survey = await sut.loadById(id);
+
+      expect(survey).toBeTruthy();
     });
   });
 });
