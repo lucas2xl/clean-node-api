@@ -6,7 +6,9 @@ import env from '@/main/config/env';
 import * as mockdate from 'mockdate';
 import { Collection } from 'mongodb';
 
-function makeAddSurveyModel(): AddSurveyModel {
+let surveyCollection: Collection;
+
+function makeAddSurveyData(): AddSurveyModel {
   return {
     question: 'any-question',
     answers: [{ image: 'any-image', answer: 'any-answer' }],
@@ -14,13 +16,17 @@ function makeAddSurveyModel(): AddSurveyModel {
   };
 }
 
+async function findSurveyByQuestion(question: string): Promise<SurveyModel> {
+  return MongoHelper.instance.map<SurveyModel>(
+    await surveyCollection.findOne({ question }),
+  );
+}
+
 function makeSut(): SurveyMongoRepository {
   return new SurveyMongoRepository();
 }
 
 describe('Survey Mongo Repository', () => {
-  let surveyCollection: Collection;
-
   beforeAll(async () => {
     mockdate.set(new Date());
     await MongoHelper.instance.connect(env.mongoUrl);
@@ -38,7 +44,7 @@ describe('Survey Mongo Repository', () => {
   describe('add()', () => {
     it('should add a survey on success', async () => {
       const sut = makeSut();
-      await sut.add(makeAddSurveyModel());
+      await sut.add(makeAddSurveyData());
       const survey = MongoHelper.instance.map<SurveyModel>(
         await surveyCollection.findOne({ question: 'any-question' }),
       );
@@ -53,7 +59,7 @@ describe('Survey Mongo Repository', () => {
   describe('loadAll()', () => {
     it('should loadAll a survey on success', async () => {
       const sut = makeSut();
-      await sut.add(makeAddSurveyModel());
+      await sut.add(makeAddSurveyData());
       const surveys = await sut.loadAll();
 
       expect(surveys.length).toBe(1);
@@ -71,10 +77,8 @@ describe('Survey Mongo Repository', () => {
   describe('loadById()', () => {
     it('should load by id a survey on success', async () => {
       const sut = makeSut();
-      await sut.add(makeAddSurveyModel());
-      const { id } = MongoHelper.instance.map<SurveyModel>(
-        await surveyCollection.findOne({ question: 'any-question' }),
-      );
+      await sut.add(makeAddSurveyData());
+      const { id } = await findSurveyByQuestion('any-question');
       const survey = await sut.loadById(id);
 
       expect(survey).toBeTruthy();

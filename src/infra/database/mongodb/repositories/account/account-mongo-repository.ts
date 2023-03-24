@@ -5,6 +5,7 @@ import { UpdateAccessTokenRepository } from '@/data/protocols/database/account/u
 import { AccountModel } from '@/domain/models/account-model';
 import { AddAccountModel } from '@/domain/usecases/add-account-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
+import { Collection } from 'mongodb';
 
 export class AccountMongoRepository
   implements
@@ -16,9 +17,7 @@ export class AccountMongoRepository
   private readonly collectionName = 'accounts';
 
   async add(accountData: AddAccountModel): Promise<AccountModel> {
-    const accountCollection = await MongoHelper.instance.getCollection(
-      this.collectionName,
-    );
+    const accountCollection = await this.getCollection();
 
     const { insertedId } = await accountCollection.insertOne(accountData);
     const account = await accountCollection.findOne({ _id: insertedId });
@@ -27,18 +26,14 @@ export class AccountMongoRepository
   }
 
   async loadByEmail(email: string): Promise<AccountModel> {
-    const accountCollection = await MongoHelper.instance.getCollection(
-      this.collectionName,
-    );
+    const accountCollection = await this.getCollection();
 
     const account = await accountCollection.findOne({ email });
     return account && MongoHelper.instance.map<AccountModel>(account);
   }
 
   async updateAccessToken(id: string, token: string): Promise<void> {
-    const accountCollection = await MongoHelper.instance.getCollection(
-      this.collectionName,
-    );
+    const accountCollection = await this.getCollection();
 
     await accountCollection.updateOne(
       { _id: id },
@@ -51,14 +46,16 @@ export class AccountMongoRepository
   }
 
   async loadByToken(token: string, role?: string): Promise<AccountModel> {
-    const accountCollection = await MongoHelper.instance.getCollection(
-      this.collectionName,
-    );
+    const accountCollection = await this.getCollection();
 
     const account = await accountCollection.findOne({
       token,
       $or: [{ role }, { role: 'admin' }],
     });
     return account && MongoHelper.instance.map<AccountModel>(account);
+  }
+
+  private async getCollection(): Promise<Collection> {
+    return MongoHelper.instance.getCollection(this.collectionName);
   }
 }
