@@ -1,7 +1,7 @@
-import { SaveSurveyResultRepository } from '@/data/protocols/database/survey/save-survey-result-repository';
-import { DbSaveSurveyResult } from '@/data/usecases/survey/db-save-survey-result';
+import { SaveSurveyResultRepository } from '@/data/protocols/database/survey-result/save-survey-result-repository';
+import { DbSaveSurveyResult } from '@/data/usecases/survey-result/db-save-survey-result';
 import { SurveyResultModel } from '@/domain/models/survey-result-model';
-import { SaveSurveyResultUsecase } from '@/domain/usecases/survey/save-survey-result-usecase';
+import { SaveSurveyResultUsecase } from '@/domain/usecases/survey-result/save-survey-result-usecase';
 import * as mockdate from 'mockdate';
 
 type SutTypes = {

@@ -1,8 +1,8 @@
 import { AddAccountModel } from '@/domain/usecases/account/add-account-usecase';
+import { SaveSurveyResultModel } from '@/domain/usecases/survey-result/save-survey-result-usecase';
 import { AddSurveyModel } from '@/domain/usecases/survey/add-survey-usecase';
-import { SaveSurveyResultModel } from '@/domain/usecases/survey/save-survey-result-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
-import { SurveyResultMongoRepository } from '@/infra/database/mongodb/repositories/survey/survey-result-mongo-repository';
+import { SurveyResultMongoRepository } from '@/infra/database/mongodb/repositories/survey-result/survey-result-mongo-repository';
 import env from '@/main/config/env';
 import * as mockdate from 'mockdate';
 import { Collection } from 'mongodb';

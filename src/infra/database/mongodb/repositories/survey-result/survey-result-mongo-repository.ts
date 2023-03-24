@@ -1,6 +1,6 @@
-import { SaveSurveyResultRepository } from '@/data/protocols/database/survey/save-survey-result-repository';
+import { SaveSurveyResultRepository } from '@/data/protocols/database/survey-result/save-survey-result-repository';
 import { SurveyResultModel } from '@/domain/models/survey-result-model';
-import { SaveSurveyResultModel } from '@/domain/usecases/survey/save-survey-result-usecase';
+import { SaveSurveyResultModel } from '@/domain/usecases/survey-result/save-survey-result-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { Collection } from 'mongodb';
 
