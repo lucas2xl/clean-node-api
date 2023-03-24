@@ -144,7 +144,7 @@ describe('SaveSurveyResult Controller', () => {
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('answer')));
   });
 
-  it('should call Validation with correct values', async () => {
+  it('should call SaveSurveyResult with correct values', async () => {
     const { sut, saveSurveyResultStub } = makeSut();
     const saveSpy = jest.spyOn(saveSurveyResultStub, 'save');
     const httpRequest = makeFakeRequest();
@@ -155,5 +155,13 @@ describe('SaveSurveyResult Controller', () => {
       ...httpRequest.params,
       accountId: httpRequest.accountId,
     });
+  });
+
+  it('should return 500 if SaveSurveyResult returns throw', async () => {
+    const { sut, saveSurveyResultStub } = makeSut();
+    jest.spyOn(saveSurveyResultStub, 'save').mockRejectedValueOnce(new Error());
+    const httpResponse = await sut.handle(makeFakeRequest());
+
+    expect(httpResponse).toEqual(serverError(new Error()));
   });
 });
