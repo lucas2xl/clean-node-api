@@ -106,6 +106,7 @@ describe('SaveSurveyResult Controller', () => {
     expect(validateSpy).toHaveBeenCalledWith({
       ...httpRequest.params,
       ...httpRequest.body,
+      accountId: httpRequest?.accountId,
     });
   });
 

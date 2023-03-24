@@ -29,11 +29,7 @@ export class SurveyMongoRepository
 
   async loadById(id: string): Promise<SurveyModel> {
     const surveyCollection = await this.getCollection();
-    console.log(id);
     const survey = await surveyCollection.findOne({ _id: new ObjectId(id) });
-    const surveys = await surveyCollection.find().toArray();
-    console.log(survey);
-    console.log(surveys);
 
     return MongoHelper.instance.map<SurveyModel>(survey);
   }
