@@ -11,8 +11,8 @@ type SutTypes = {
 
 function makeFakeSurveyResultData(): Omit<SurveyResultModel, 'id'> {
   return {
-    accountId: 'any-accountId',
-    surveyId: 'any-surveyId',
+    accountId: 'any-account-id',
+    surveyId: 'any-survey-id',
     answer: 'any-answer',
     createdAt: new Date(),
   };
