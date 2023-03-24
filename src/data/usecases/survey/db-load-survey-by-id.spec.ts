@@ -44,4 +44,11 @@ describe('DbLoadSurveyById Usecase', () => {
 
     expect(loadByIdSpy).toHaveBeenCalledWith('any-id');
   });
+
+  it('should return survey on success', async () => {
+    const { sut } = makeSut();
+    const survey = await sut.loadById('any-id');
+
+    expect(survey).toEqual(makeFakeSurvey());
+  });
 });
