@@ -3,7 +3,7 @@ import { DbAddSurvey } from '@/data/usecases/survey/db-add-survey';
 import {
   AddSurveyModel,
   AddSurveyUsecase,
-} from '@/domain/usecases/add-survey-usecase';
+} from '@/domain/usecases/survey/add-survey-usecase';
 import * as mockdate from 'mockdate';
 
 type SutTypes = {

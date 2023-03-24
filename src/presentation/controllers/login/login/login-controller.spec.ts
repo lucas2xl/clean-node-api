@@ -1,4 +1,4 @@
-import { AuthenticationUsecase } from '@/domain/usecases/authentication-usecase';
+import { AuthenticationUsecase } from '@/domain/usecases/authentication/authentication-usecase';
 import { LoginController } from '@/presentation/controllers/login/login/login-controller';
 import { MissingParamError } from '@/presentation/errors/missing-param-error';
 import {

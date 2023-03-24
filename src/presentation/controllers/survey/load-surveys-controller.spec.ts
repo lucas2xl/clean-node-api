@@ -1,5 +1,5 @@
 import { SurveyModel } from '@/domain/models/survey-model';
-import { LoadSurveysUsecase } from '@/domain/usecases/load-surveys-usecase';
+import { LoadSurveysUsecase } from '@/domain/usecases/survey/load-surveys-usecase';
 import { LoadSurveysController } from '@/presentation/controllers/survey/load-surveys-controller';
 import {
   noContent,

@@ -2,7 +2,7 @@ import { AddSurveyRepository } from '@/data/protocols/database/survey/add.survey
 import {
   AddSurveyModel,
   AddSurveyUsecase,
-} from '@/domain/usecases/add-survey-usecase';
+} from '@/domain/usecases/survey/add-survey-usecase';
 
 export class DbAddSurvey implements AddSurveyUsecase {
   constructor(private readonly addSurveyRepository: AddSurveyRepository) {}

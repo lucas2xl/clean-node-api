@@ -1,6 +1,6 @@
-import { AddAccountModel } from '@/domain/usecases/add-account-usecase';
-import { AddSurveyModel } from '@/domain/usecases/add-survey-usecase';
-import { SaveSurveyResultModel } from '@/domain/usecases/save-survey-result-usecase';
+import { AddAccountModel } from '@/domain/usecases/account/add-account-usecase';
+import { AddSurveyModel } from '@/domain/usecases/survey/add-survey-usecase';
+import { SaveSurveyResultModel } from '@/domain/usecases/survey/save-survey-result-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { SurveyResultMongoRepository } from '@/infra/database/mongodb/repositories/survey/survey-result-mongo-repository';
 import env from '@/main/config/env';

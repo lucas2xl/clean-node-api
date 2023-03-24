@@ -1,4 +1,4 @@
-import { AddSurveyUsecase } from '@/domain/usecases/add-survey-usecase';
+import { AddSurveyUsecase } from '@/domain/usecases/survey/add-survey-usecase';
 import {
   badRequest,
   created,

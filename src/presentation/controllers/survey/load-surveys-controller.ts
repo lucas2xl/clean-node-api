@@ -1,4 +1,4 @@
-import { LoadSurveysUsecase } from '@/domain/usecases/load-surveys-usecase';
+import { LoadSurveysUsecase } from '@/domain/usecases/survey/load-surveys-usecase';
 import {
   noContent,
   ok,

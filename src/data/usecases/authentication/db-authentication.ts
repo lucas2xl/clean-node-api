@@ -2,7 +2,7 @@ import { Encrypter } from '@/data/protocols/criptography/encrypter';
 import { HashComparer } from '@/data/protocols/criptography/hash-comparer';
 import { LoadAccountByEmailRepository } from '@/data/protocols/database/account/load-account-by-email-repository';
 import { UpdateAccessTokenRepository } from '@/data/protocols/database/account/update-access-token-repository';
-import { AuthenticationModel } from '@/domain/usecases/authentication-usecase';
+import { AuthenticationModel } from '@/domain/usecases/authentication/authentication-usecase';
 
 export class DbAuthentication implements DbAuthentication {
   constructor(

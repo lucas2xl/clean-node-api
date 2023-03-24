@@ -1,5 +1,5 @@
 import { SurveyModel } from '@/domain/models/survey-model';
-import { AddSurveyModel } from '@/domain/usecases/add-survey-usecase';
+import { AddSurveyModel } from '@/domain/usecases/survey/add-survey-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { SurveyMongoRepository } from '@/infra/database/mongodb/repositories/survey/survey-mongo-repository';
 import env from '@/main/config/env';

@@ -1,6 +1,6 @@
 import { AccountModel } from '@/domain/models/account-model';
-import { AddAccountUsecase } from '@/domain/usecases/add-account-usecase';
-import { AuthenticationUsecase } from '@/domain/usecases/authentication-usecase';
+import { AddAccountUsecase } from '@/domain/usecases/account/add-account-usecase';
+import { AuthenticationUsecase } from '@/domain/usecases/authentication/authentication-usecase';
 import { SignUpController } from '@/presentation/controllers/login/signup/signup-controller';
 import { EmailInUseError } from '@/presentation/errors/email-in-use-error';
 import { MissingParamError } from '@/presentation/errors/missing-param-error';

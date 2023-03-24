@@ -2,7 +2,7 @@ import { AddSurveyRepository } from '@/data/protocols/database/survey/add.survey
 import { LoadSurveyByIdRepository } from '@/data/protocols/database/survey/load-survey-by-id-repository';
 import { LoadSurveysRepository } from '@/data/protocols/database/survey/load-surveys-repository';
 import { SurveyModel } from '@/domain/models/survey-model';
-import { AddSurveyModel } from '@/domain/usecases/add-survey-usecase';
+import { AddSurveyModel } from '@/domain/usecases/survey/add-survey-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { Collection } from 'mongodb';
 

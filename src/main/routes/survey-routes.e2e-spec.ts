@@ -1,5 +1,5 @@
-import { AddAccountModel } from '@/domain/usecases/add-account-usecase';
-import { AddSurveyModel } from '@/domain/usecases/add-survey-usecase';
+import { AddAccountModel } from '@/domain/usecases/account/add-account-usecase';
+import { AddSurveyModel } from '@/domain/usecases/survey/add-survey-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { AccountMongoRepository } from '@/infra/database/mongodb/repositories/account/account-mongo-repository';
 import { SurveyMongoRepository } from '@/infra/database/mongodb/repositories/survey/survey-mongo-repository';

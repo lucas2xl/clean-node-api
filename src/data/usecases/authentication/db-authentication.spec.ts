@@ -7,7 +7,7 @@ import { AccountModel } from '@/domain/models/account-model';
 import {
   AuthenticationModel,
   AuthenticationUsecase,
-} from '@/domain/usecases/authentication-usecase';
+} from '@/domain/usecases/authentication/authentication-usecase';
 
 type SutTypes = {
   sut: AuthenticationUsecase;

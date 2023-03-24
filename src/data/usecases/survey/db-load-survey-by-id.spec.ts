@@ -1,7 +1,7 @@
 import { LoadSurveyByIdRepository } from '@/data/protocols/database/survey/load-survey-by-id-repository';
 import { DbLoadSurveyById } from '@/data/usecases/survey/db-load-survey-by-id';
 import { SurveyModel } from '@/domain/models/survey-model';
-import { LoadSurveyByIdUsecase } from '@/domain/usecases/load-survey-by-id-usecase';
+import { LoadSurveyByIdUsecase } from '@/domain/usecases/survey/load-survey-by-id-usecase';
 import mockdate from 'mockdate';
 
 type SutTypes = {

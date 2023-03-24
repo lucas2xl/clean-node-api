@@ -1,5 +1,5 @@
-import { AddAccountUsecase } from '@/domain/usecases/add-account-usecase';
-import { AuthenticationUsecase } from '@/domain/usecases/authentication-usecase';
+import { AddAccountUsecase } from '@/domain/usecases/account/add-account-usecase';
+import { AuthenticationUsecase } from '@/domain/usecases/authentication/authentication-usecase';
 import { EmailInUseError } from '@/presentation/errors/email-in-use-error';
 import {
   badRequest,
