@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node dist/main/server.js",
     "build": "rimraf dist && tsc --project tsconfig-build.json && tscpaths -p tsconfig-build.json -s ./src -o ./dist",
-    "dev": "ts-node-dev -r tsconfig-paths/register src/main/server.ts",
+    "dev": "ts-node-dev --files -r tsconfig-paths/register src/main/server.ts",
     "pretest": "docker-compose up -d dbtest",
     "test": "jest --passWithNoTests --runInBand --forceExit",
     "posttest": "docker-compose stop dbtest",
