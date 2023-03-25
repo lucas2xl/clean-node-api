@@ -1,6 +1,14 @@
-import { loginPath } from '@/main/docs/paths/login';
-import { accountSchema } from '@/main/docs/schemas/account';
-import { loginParamsSchema } from '@/main/docs/schemas/login-params';
+import { badRequestComponent } from '@/main/docs/components/bad-request-component';
+import { createdComponent } from '@/main/docs/components/created-component';
+import { loginResponseComponent } from '@/main/docs/components/login-response-component';
+import { notFoundComponent } from '@/main/docs/components/not-found-component';
+import { serverErrorComponent } from '@/main/docs/components/server-error-component';
+import { unauthorizedComponent } from '@/main/docs/components/unauthorized-component';
+import { loginPath } from '@/main/docs/paths/login-path';
+import { signupPath } from '@/main/docs/paths/signup-path';
+import { accountSchema } from '@/main/docs/schemas/account-schema';
+import { errorSchema } from '@/main/docs/schemas/error-schema';
+import { loginBodySchema } from '@/main/docs/schemas/login-body-schema';
 
 export default {
   openapi: '3.0.0',
@@ -9,27 +17,23 @@ export default {
     description: 'API para realizar enquetes',
     version: '1.0.0',
   },
+  servers: [{ url: '/api' }],
+  tags: [{ name: 'Login' }, { name: 'Survey' }],
 
-  servers: [
-    {
-      url: '/api',
-    },
-  ],
+  paths: { '/signup': signupPath, '/login': loginPath },
 
-  tags: [
-    {
-      name: 'Login',
-    },
-    {
-      name: 'Survey',
-    },
-  ],
-
-  paths: {
-    '/login': loginPath,
-  },
   schemas: {
     account: accountSchema,
-    'login-params': loginParamsSchema,
+    'login-body': loginBodySchema,
+    error: errorSchema,
+  },
+
+  components: {
+    'bad-request': badRequestComponent,
+    unauthorized: unauthorizedComponent,
+    'server-error': serverErrorComponent,
+    'not-found': notFoundComponent,
+    'login-response': loginResponseComponent,
+    created: createdComponent,
   },
 };
