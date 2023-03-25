@@ -1,14 +1,20 @@
 import { badRequestComponent } from '@/main/docs/components/bad-request-component';
 import { createdComponent } from '@/main/docs/components/created-component';
+import { forbiddenComponent } from '@/main/docs/components/forbidden-component';
 import { notFoundComponent } from '@/main/docs/components/not-found-component';
 import { loginResponseComponent } from '@/main/docs/components/responses/login-response-component';
+import { surveyResponseComponent } from '@/main/docs/components/responses/survey-response-component';
 import { serverErrorComponent } from '@/main/docs/components/server-error-component';
 import { unauthorizedComponent } from '@/main/docs/components/unauthorized-component';
 import { loginPath } from '@/main/docs/paths/login-path';
 import { signupPath } from '@/main/docs/paths/signup-path';
+import { surveyPath } from '@/main/docs/paths/survey-path';
 import { accountSchema } from '@/main/docs/schemas/account-schema';
+import { apiKeyAuthSchema } from '@/main/docs/schemas/api-key-auth-schema';
+import { loginBodySchema } from '@/main/docs/schemas/body/login-body-schema';
 import { errorSchema } from '@/main/docs/schemas/error-schema';
-import { loginBodySchema } from '@/main/docs/schemas/login-body-schema';
+import { surveySchema } from '@/main/docs/schemas/survey-schema';
+import { surveysSchema } from '@/main/docs/schemas/surveys-schema';
 
 export default {
   openapi: '3.0.0',
@@ -24,20 +30,32 @@ export default {
   servers: [{ url: '/api' }],
   tags: [{ name: 'Login' }, { name: 'Survey' }],
 
-  paths: { '/signup': signupPath, '/login': loginPath },
+  paths: {
+    '/signup': signupPath,
+    '/login': loginPath,
+    '/surveys': surveyPath,
+  },
 
   schemas: {
     account: accountSchema,
+    survey: surveySchema,
+    surveys: surveysSchema,
+
     'login-body': loginBodySchema,
     error: errorSchema,
   },
 
   components: {
+    securitySchemes: { 'api-key-auth': apiKeyAuthSchema },
+
+    'login-response': loginResponseComponent,
+    'survey-response': surveyResponseComponent,
+
     'bad-request': badRequestComponent,
     unauthorized: unauthorizedComponent,
     'server-error': serverErrorComponent,
     'not-found': notFoundComponent,
-    'login-response': loginResponseComponent,
     created: createdComponent,
+    forbidden: forbiddenComponent,
   },
 };
