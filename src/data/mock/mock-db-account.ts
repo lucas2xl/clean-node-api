@@ -29,18 +29,6 @@ export function mockLoadAccountByEmailRepository(): LoadAccountByEmailRepository
   return new LoadAccountByEmailRepositoryStub();
 }
 
-export function mockLoadAccountByEmailRepositoryWithNull(): LoadAccountByEmailRepository {
-  class LoadAccountByEmailRepositoryStub
-    implements LoadAccountByEmailRepository
-  {
-    async loadByEmail(): Promise<AccountModel> {
-      return null;
-    }
-  }
-
-  return new LoadAccountByEmailRepositoryStub();
-}
-
 export function mockLoadAccountByTokenRepository(): LoadAccountByTokenRepository {
   class LoadAccountByTokenRepositoryStub
     implements LoadAccountByTokenRepository
