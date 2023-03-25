@@ -1,6 +1,7 @@
 import { badRequestComponent } from '@/main/docs/components/bad-request-component';
 import { createdComponent } from '@/main/docs/components/created-component';
 import { forbiddenComponent } from '@/main/docs/components/forbidden-component';
+import { noContentComponent } from '@/main/docs/components/no-content-component';
 import { notFoundComponent } from '@/main/docs/components/not-found-component';
 import { loginResponseComponent } from '@/main/docs/components/responses/login-response-component';
 import { signupResponseComponent } from '@/main/docs/components/responses/signup-response-component';
@@ -13,6 +14,7 @@ import { surveyPath } from '@/main/docs/paths/survey-path';
 import { accountSchema } from '@/main/docs/schemas/account-schema';
 import { apiKeyAuthSchema } from '@/main/docs/schemas/api-key-auth-schema';
 import { loginBodySchema } from '@/main/docs/schemas/body/login-body-schema';
+import { surveyBodySchema } from '@/main/docs/schemas/body/survey-body-schema';
 import { errorSchema } from '@/main/docs/schemas/error-schema';
 import { surveySchema } from '@/main/docs/schemas/survey-schema';
 import { surveysSchema } from '@/main/docs/schemas/surveys-schema';
@@ -43,6 +45,8 @@ export default {
     surveys: surveysSchema,
 
     'login-body': loginBodySchema,
+    'survey-body': surveyBodySchema,
+
     error: errorSchema,
   },
 
@@ -53,11 +57,12 @@ export default {
     'signup-response': signupResponseComponent,
     'survey-response': surveyResponseComponent,
 
+    created: createdComponent,
+    'no-content': noContentComponent,
+    'not-found': notFoundComponent,
     'bad-request': badRequestComponent,
     unauthorized: unauthorizedComponent,
-    'server-error': serverErrorComponent,
-    'not-found': notFoundComponent,
-    created: createdComponent,
     forbidden: forbiddenComponent,
+    'server-error': serverErrorComponent,
   },
 };
