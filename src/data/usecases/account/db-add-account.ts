@@ -18,10 +18,10 @@ export class DbAddAccount implements AddAccountUsecase {
     const account = await this.loadAccountByEmailRepository.loadByEmail(
       accountData.email,
     );
-
-    if (!account) return null;
+    if (account) return null;
 
     const hashedPassword = await this.hasher.hash(accountData.password);
+
     return this.addAccountRepository.add({
       ...accountData,
       password: hashedPassword,

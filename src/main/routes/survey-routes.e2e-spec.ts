@@ -1,11 +1,14 @@
-import { AddAccountParams } from '@/domain/usecases/account/add-account-usecase';
-import { AddSurveyParams } from '@/domain/usecases/survey/add-survey-usecase';
+import {
+  mockAccountModel,
+  mockAddAccountWithTokenAndRoleParams,
+} from '@/domain/mock/mock-account';
+import { mockAddSurveyParams } from '@/domain/mock/mock-survey';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { AccountMongoRepository } from '@/infra/database/mongodb/repositories/account/account-mongo-repository';
 import { SurveyMongoRepository } from '@/infra/database/mongodb/repositories/survey/survey-mongo-repository';
 import app from '@/main/config/app';
 import env from '@/main/config/env';
-import { sign } from 'jsonwebtoken';
+import { mockToken } from '@/main/mock/mock-token';
 import * as request from 'supertest';
 
 type MongoTypes = {
@@ -13,27 +16,7 @@ type MongoTypes = {
   surveyMongo: SurveyMongoRepository;
 };
 
-function makeAddAccount(): AddAccountParams {
-  return {
-    name: 'any-name',
-    email: 'any-email@mail.com',
-    password: 'any-password',
-  };
-}
-
-function makeAddSurveyModel(): AddSurveyParams {
-  return {
-    question: 'any-question',
-    answers: [{ image: 'any-image', answer: 'any-answer' }],
-    createdAt: new Date(),
-  };
-}
-
-async function makeToken(id: string): Promise<string> {
-  return sign({ id }, env.jwtSecret);
-}
-
-function makeMongoRepository(): MongoTypes {
+function mockMongoRepository(): MongoTypes {
   const accountMongo = new AccountMongoRepository();
   const surveyMongo = new SurveyMongoRepository();
 
@@ -73,12 +56,11 @@ describe('Survey Routes', () => {
     });
 
     it('Should return 201 on add survey with valid token', async () => {
-      const { accountMongo } = makeMongoRepository();
-      const account = await accountMongo.add({
-        ...makeAddAccount(),
-        role: 'admin',
-      });
-      const fakeToken = await makeToken(account.id);
+      const { accountMongo } = mockMongoRepository();
+      const account = await accountMongo.add(
+        mockAddAccountWithTokenAndRoleParams(),
+      );
+      const fakeToken = await mockToken(account.id);
       await accountMongo.updateAccessToken(account.id, fakeToken);
 
       await request(app)
@@ -98,10 +80,10 @@ describe('Survey Routes', () => {
     });
 
     it('Should return 200 on load surveys with valid token', async () => {
-      const { accountMongo, surveyMongo } = makeMongoRepository();
-      await surveyMongo.add(makeAddSurveyModel());
-      const account = await accountMongo.add({ ...makeAddAccount() });
-      const fakeToken = await makeToken(account.id);
+      const { accountMongo, surveyMongo } = mockMongoRepository();
+      await surveyMongo.add(mockAddSurveyParams());
+      const account = await accountMongo.add(mockAccountModel());
+      const fakeToken = await mockToken(account.id);
       await accountMongo.updateAccessToken(account.id, fakeToken);
 
       await request(app)

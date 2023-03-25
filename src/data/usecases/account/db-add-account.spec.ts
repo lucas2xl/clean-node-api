@@ -1,7 +1,7 @@
 import { mockHasher } from '@/data/mock/mock-criptografy';
 import {
   mockAddAccountRepository,
-  mockLoadAccountByEmailRepository,
+  mockLoadAccountByEmailRepositoryWithNull,
 } from '@/data/mock/mock-db-account';
 import { Hasher } from '@/data/protocols/criptography/hasher';
 import { AddAccountRepository } from '@/data/protocols/database/account/add-account-repository';
@@ -22,7 +22,8 @@ type SutTypes = {
 
 function makeSut(): SutTypes {
   const hasherStub = mockHasher();
-  const loadAccountByEmailRepositoryStub = mockLoadAccountByEmailRepository();
+  const loadAccountByEmailRepositoryStub =
+    mockLoadAccountByEmailRepositoryWithNull();
   const addAccountRepositoryStub = mockAddAccountRepository();
   const sut = new DbAddAccount(
     hasherStub,
@@ -78,7 +79,7 @@ describe('DbAddAccount Usecase', () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut();
     jest
       .spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
-      .mockReturnValueOnce(null);
+      .mockReturnValueOnce(Promise.resolve(mockAccountModel()));
     const account = await sut.add(mockAddAccountParams());
 
     await expect(account).toBeNull();

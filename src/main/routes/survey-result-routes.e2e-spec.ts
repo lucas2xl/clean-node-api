@@ -1,5 +1,5 @@
-import { AddAccountParams } from '@/domain/usecases/account/add-account-usecase';
-import { AddSurveyParams } from '@/domain/usecases/survey/add-survey-usecase';
+import { mockAddAccountParams } from '@/domain/mock/mock-account';
+import { mockAddSurveyParams } from '@/domain/mock/mock-survey';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { AccountMongoRepository } from '@/infra/database/mongodb/repositories/account/account-mongo-repository';
 import { SurveyMongoRepository } from '@/infra/database/mongodb/repositories/survey/survey-mongo-repository';
@@ -12,22 +12,6 @@ type MongoTypes = {
   accountMongo: AccountMongoRepository;
   surveyMongo: SurveyMongoRepository;
 };
-
-function makeAddAccount(): AddAccountParams {
-  return {
-    name: 'any-name',
-    email: 'any-email@mail.com',
-    password: 'any-password',
-  };
-}
-
-function makeAddSurveyModel(): AddSurveyParams {
-  return {
-    question: 'any-question',
-    answers: [{ image: 'any-image', answer: 'any-answer' }],
-    createdAt: new Date(),
-  };
-}
 
 async function makeToken(id: string): Promise<string> {
   return sign({ id }, env.jwtSecret);
@@ -71,9 +55,9 @@ describe('Survey Routes', () => {
 
     it('Should return 200 on save survey result with token', async () => {
       const { surveyMongo, accountMongo } = makeMongoRepository();
-      await surveyMongo.add(makeAddSurveyModel());
+      await surveyMongo.add(mockAddSurveyParams());
       const surveys = await surveyMongo.loadAll();
-      const account = await accountMongo.add({ ...makeAddAccount() });
+      const account = await accountMongo.add(mockAddAccountParams());
       const fakeToken = await makeToken(account.id);
       await accountMongo.updateAccessToken(account.id, fakeToken);
 

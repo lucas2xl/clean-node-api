@@ -45,7 +45,6 @@ describe('Login Routes', () => {
           password: 'any-password',
           passwordConfirmation: 'any-password',
         })
-
         .expect(200);
     });
   });
