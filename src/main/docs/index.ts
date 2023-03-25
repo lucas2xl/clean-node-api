@@ -1,7 +1,7 @@
 import { badRequestComponent } from '@/main/docs/components/bad-request-component';
 import { createdComponent } from '@/main/docs/components/created-component';
-import { loginResponseComponent } from '@/main/docs/components/login-response-component';
 import { notFoundComponent } from '@/main/docs/components/not-found-component';
+import { loginResponseComponent } from '@/main/docs/components/responses/login-response-component';
 import { serverErrorComponent } from '@/main/docs/components/server-error-component';
 import { unauthorizedComponent } from '@/main/docs/components/unauthorized-component';
 import { loginPath } from '@/main/docs/paths/login-path';
@@ -16,6 +16,10 @@ export default {
     title: 'Clean Node API',
     description: 'API para realizar enquetes',
     version: '1.0.0',
+  },
+  license: {
+    name: 'GPL-3.0-or-later',
+    url: 'https://spdx.org/licenses/GPL-3.0-or-later.html',
   },
   servers: [{ url: '/api' }],
   tags: [{ name: 'Login' }, { name: 'Survey' }],
