@@ -1,4 +1,4 @@
-import { SurveyModel } from '@/domain/models/survey-model';
+import { mockSurveyModels } from '@/domain/mock/mock-survey';
 import { LoadSurveysUsecase } from '@/domain/usecases/survey/load-surveys-usecase';
 import { LoadSurveysController } from '@/presentation/controllers/survey/load-surveys-controller';
 import {
@@ -6,6 +6,7 @@ import {
   ok,
   serverError,
 } from '@/presentation/helpers/http/http-helper';
+import { mockLoadSurveysUsecase } from '@/presentation/mock/mock-survey';
 import { Controller } from '@/presentation/protocols/controller';
 import * as mockdate from 'mockdate';
 
@@ -14,29 +15,8 @@ type SutTypes = {
   loadSurveyStub: LoadSurveysUsecase;
 };
 
-function makeFakeSurveys(): SurveyModel[] {
-  return [
-    {
-      id: 'any-id',
-      question: 'any-question',
-      answers: [{ image: 'any-image', answer: 'any-answer' }],
-      createdAt: new Date(),
-    },
-  ];
-}
-
-function makeLoadSurvey(): LoadSurveysUsecase {
-  class LoadSurveyStub implements LoadSurveysUsecase {
-    async load(): Promise<SurveyModel[]> {
-      return makeFakeSurveys();
-    }
-  }
-
-  return new LoadSurveyStub();
-}
-
 function makeSut(): SutTypes {
-  const loadSurveyStub = makeLoadSurvey();
+  const loadSurveyStub = mockLoadSurveysUsecase();
   const sut = new LoadSurveysController(loadSurveyStub);
   return { sut, loadSurveyStub };
 }
@@ -58,7 +38,7 @@ describe('LoadSurveys Controller', () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle({});
 
-    expect(httpResponse).toEqual(ok(makeFakeSurveys()));
+    expect(httpResponse).toEqual(ok(mockSurveyModels()));
   });
 
   it('should return 204 if LoadSurveys returns empty', async () => {

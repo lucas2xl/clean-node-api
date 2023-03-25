@@ -1,6 +1,6 @@
-import { AddAccountParams } from '@/domain/usecases/account/add-account-usecase';
+import { mockAddAccountParams } from '@/domain/mock/mock-account';
+import { mockAddSurveyParams } from '@/domain/mock/mock-survey';
 import { SaveSurveyResultParams } from '@/domain/usecases/survey-result/save-survey-result-usecase';
-import { AddSurveyParams } from '@/domain/usecases/survey/add-survey-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { SurveyResultMongoRepository } from '@/infra/database/mongodb/repositories/survey-result/survey-result-mongo-repository';
 import env from '@/main/config/env';
@@ -11,26 +11,10 @@ let surveyCollection: Collection;
 let surveyResultCollection: Collection;
 let accountCollection: Collection;
 
-function makeAddSurveyData(): AddSurveyParams {
-  return {
-    question: 'any-question',
-    answers: [{ image: 'any-image', answer: 'any-answer' }],
-    createdAt: new Date(),
-  };
-}
-
-function makeAddAccountData(): AddAccountParams {
-  return {
-    name: 'any-name',
-    email: 'any-email',
-    password: 'any-password',
-  };
-}
-
 async function insertSurvey(): Promise<string> {
-  const { insertedId } = await surveyCollection.insertOne({
-    ...makeAddSurveyData(),
-  });
+  const { insertedId } = await surveyCollection.insertOne(
+    mockAddSurveyParams(),
+  );
 
   return insertedId.toJSON();
 }
@@ -46,9 +30,9 @@ async function insertSurveyResult(
 }
 
 async function insertAccount(): Promise<string> {
-  const { insertedId } = await accountCollection.insertOne({
-    ...makeAddAccountData(),
-  });
+  const { insertedId } = await accountCollection.insertOne(
+    mockAddAccountParams(),
+  );
 
   return insertedId.toJSON();
 }

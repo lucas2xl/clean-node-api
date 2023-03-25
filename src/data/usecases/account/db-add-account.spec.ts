@@ -61,8 +61,7 @@ describe('DbAddAccount Usecase', () => {
     await sut.add(mockAddAccountParams());
 
     expect(addSpy).toHaveBeenCalledWith({
-      name: 'any-name',
-      email: 'any-email',
+      ...mockAddAccountParams(),
       password: 'hashed-password',
     });
   });
