@@ -1,7 +1,7 @@
 import { SurveyModel } from '@/domain/models/survey-model';
-import { AddSurveyParams } from '@/domain/usecases/survey/add-survey-usecase';
+import { AddSurveyUsecase } from '@/domain/usecases/survey/add-survey-usecase';
 
-export function mockAddSurveyParams(): AddSurveyParams {
+export function mockAddSurveyParams(): AddSurveyUsecase.Params {
   return {
     question: 'any-question',
     answers: [{ image: 'any-image', answer: 'any-answer' }],

@@ -9,7 +9,6 @@ import {
 } from '@/presentation/helpers/http/http-helper';
 import { mockAuthenticationUsecase } from '@/presentation/mock/mock-authentication';
 import { Controller } from '@/presentation/protocols/controller';
-import { HttpRequest } from '@/presentation/protocols/http';
 import { Validation } from '@/presentation/protocols/validation';
 import { mockValidation } from '@/validations/mock/mock-validation';
 
@@ -19,12 +18,10 @@ type SutTypes = {
   authenticationStub: AuthenticationUsecase;
 };
 
-function mockRequest(): HttpRequest {
+function mockRequest(): LoginController.Request {
   return {
-    body: {
-      email: 'any-email',
-      password: 'any-password',
-    },
+    email: 'any-email',
+    password: 'any-password',
   };
 }
 
@@ -90,9 +87,9 @@ describe('Login Controller', () => {
     const { sut, validationStub } = makeSut();
     const validateSpy = jest.spyOn(validationStub, 'validate');
 
-    const httpRequest = mockRequest();
-    await sut.handle(httpRequest);
+    const request = mockRequest();
+    await sut.handle(request);
 
-    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body);
+    expect(validateSpy).toHaveBeenCalledWith(request);
   });
 });

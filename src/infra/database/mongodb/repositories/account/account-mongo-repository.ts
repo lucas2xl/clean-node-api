@@ -3,7 +3,9 @@ import { LoadAccountByEmailRepository } from '@/data/protocols/database/account/
 import { LoadAccountByTokenRepository } from '@/data/protocols/database/account/load-account-by-token-repository';
 import { UpdateAccessTokenRepository } from '@/data/protocols/database/account/update-access-token-repository';
 import { AccountModel } from '@/domain/models/account-model';
-import { AddAccountParams } from '@/domain/usecases/account/add-account-usecase';
+import { AddAccountUsecase } from '@/domain/usecases/account/add-account-usecase';
+import { LoadAccountByTokenUsecase } from '@/domain/usecases/account/load-account-by-token-usecase';
+
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { Collection } from 'mongodb';
 
@@ -16,7 +18,9 @@ export class AccountMongoRepository
 {
   private readonly collectionName = 'accounts';
 
-  async add(accountData: AddAccountParams): Promise<AccountModel> {
+  async add(
+    accountData: AddAccountUsecase.Params,
+  ): Promise<AddAccountUsecase.Result> {
     const accountCollection = await this.getCollection();
 
     const { insertedId } = await accountCollection.insertOne(accountData);
@@ -25,14 +29,19 @@ export class AccountMongoRepository
     return MongoHelper.instance.map<AccountModel>(account);
   }
 
-  async loadByEmail(email: string): Promise<AccountModel> {
+  async loadByEmail({
+    email,
+  }: LoadAccountByEmailRepository.Params): Promise<LoadAccountByEmailRepository.Result> {
     const accountCollection = await this.getCollection();
 
     const account = await accountCollection.findOne({ email });
     return MongoHelper.instance.map<AccountModel>(account);
   }
 
-  async updateAccessToken(id: string, token: string): Promise<void> {
+  async updateAccessToken({
+    id,
+    token,
+  }: UpdateAccessTokenRepository.Params): Promise<UpdateAccessTokenRepository.Result> {
     const accountCollection = await this.getCollection();
 
     await accountCollection.updateOne(
@@ -45,7 +54,10 @@ export class AccountMongoRepository
     );
   }
 
-  async loadByToken(token: string, role?: string): Promise<AccountModel> {
+  async loadByToken({
+    token,
+    role,
+  }: LoadAccountByTokenUsecase.Params): Promise<LoadAccountByTokenUsecase.Result> {
     const accountCollection = await this.getCollection();
 
     const account = await accountCollection.findOne({

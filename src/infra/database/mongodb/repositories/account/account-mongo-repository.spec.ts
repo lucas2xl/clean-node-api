@@ -45,7 +45,7 @@ describe('Account Mongo Repository', () => {
     it('should return an account on loadByEmail success', async () => {
       const sut = makeSut();
       await sut.add(mockAddAccountParams());
-      const account = await sut.loadByEmail('any-email');
+      const account = await sut.loadByEmail({ email: 'any-email' });
 
       expect(account).toBeTruthy();
       expect(account).toHaveProperty('id');
@@ -56,7 +56,7 @@ describe('Account Mongo Repository', () => {
 
     it('should return null if loadByEmail fails', async () => {
       const sut = makeSut();
-      const account = await sut.loadByEmail('any-email');
+      const account = await sut.loadByEmail({ email: 'any-email' });
 
       expect(account).toBeFalsy();
     });
@@ -68,8 +68,8 @@ describe('Account Mongo Repository', () => {
       const res = await sut.add(mockAddAccountParams());
       expect(res.token).toBeFalsy();
 
-      await sut.updateAccessToken(res.id, 'any-token');
-      const account = await sut.loadByEmail(res.email);
+      await sut.updateAccessToken({ id: res.id, token: 'any-token' });
+      const account = await sut.loadByEmail({ email: res.email });
 
       expect(account.token).toBeTruthy();
     });
@@ -79,7 +79,7 @@ describe('Account Mongo Repository', () => {
     it('should return an account on loadByToken without role', async () => {
       const sut = makeSut();
       await accountCollection.insertOne(mockAddAccountWithTokenParams());
-      const account = await sut.loadByToken('any-token');
+      const account = await sut.loadByToken({ token: 'any-token' });
 
       expect(account).toBeTruthy();
       expect(account).toHaveProperty('id');
@@ -89,7 +89,10 @@ describe('Account Mongo Repository', () => {
     it('should return an account on loadByToken with admin role', async () => {
       const sut = makeSut();
       await accountCollection.insertOne(mockAddAccountWithTokenAndRoleParams());
-      const account = await sut.loadByToken('any-token', 'admin');
+      const account = await sut.loadByToken({
+        token: 'any-token',
+        role: 'admin',
+      });
 
       expect(account).toBeTruthy();
       expect(account).toHaveProperty('id');
@@ -100,7 +103,10 @@ describe('Account Mongo Repository', () => {
     it('should return null on loadByToken with invalid role', async () => {
       const sut = makeSut();
       await accountCollection.insertOne(mockAddAccountWithTokenParams());
-      const account = await sut.loadByToken('any-token', 'admin');
+      const account = await sut.loadByToken({
+        token: 'any-token',
+        role: 'admin',
+      });
 
       expect(account).toBeFalsy();
     });
@@ -108,7 +114,7 @@ describe('Account Mongo Repository', () => {
     it('should return an account on loadByToken with user is admin', async () => {
       const sut = makeSut();
       await accountCollection.insertOne(mockAddAccountWithTokenAndRoleParams());
-      const account = await sut.loadByToken('any-token');
+      const account = await sut.loadByToken({ token: 'any-token' });
 
       expect(account).toBeTruthy();
       expect(account).toHaveProperty('id');
@@ -117,7 +123,7 @@ describe('Account Mongo Repository', () => {
 
     it('should return null if loadByToken fails', async () => {
       const sut = makeSut();
-      const account = await sut.loadByToken('any-token');
+      const account = await sut.loadByToken({ token: 'any-token' });
 
       expect(account).toBeFalsy();
     });

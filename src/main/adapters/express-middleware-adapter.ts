@@ -1,4 +1,3 @@
-import { HttpRequest } from '@/presentation/protocols/http';
 import { Middleware } from '@/presentation/protocols/middleware';
 import { NextFunction, Request, Response } from 'express';
 
@@ -14,11 +13,11 @@ export function ExpressMiddlewareAdapter(
     response: Response,
     next: NextFunction,
   ): Promise<void> => {
-    const httpRequest: HttpRequest = {
-      headers: request.headers,
+    const req = {
+      token: request.headers?.['x-access-token'],
+      ...request.headers,
     };
-
-    const httpResponse = await middleware.handle(httpRequest);
+    const httpResponse = await middleware.handle(req);
 
     if (httpResponse.statusCode === 200) {
       request.accountId = httpResponse.body?.accountId;

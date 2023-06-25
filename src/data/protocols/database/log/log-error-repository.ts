@@ -1,3 +1,10 @@
 export interface LogErrorRepository {
-  logError(stack: string): Promise<void>;
+  logError(data: LogErrorRepository.Params): Promise<LogErrorRepository.Result>;
+}
+
+export namespace LogErrorRepository {
+  export type Params = {
+    stack: string;
+  };
+  export type Result = void;
 }

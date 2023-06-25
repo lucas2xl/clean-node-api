@@ -4,5 +4,8 @@ import { SurveyResultMongoRepository } from '@/infra/database/mongodb/repositori
 
 export function makeDbSaveSurveyResult(): SaveSurveyResultUsecase {
   const surveyResultMongoRepository = new SurveyResultMongoRepository();
-  return new DbSaveSurveyResult(surveyResultMongoRepository);
+  return new DbSaveSurveyResult(
+    surveyResultMongoRepository,
+    surveyResultMongoRepository,
+  );
 }

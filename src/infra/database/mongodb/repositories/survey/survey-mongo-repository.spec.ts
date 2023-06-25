@@ -65,7 +65,7 @@ describe('Survey Mongo Repository', () => {
       const sut = makeSut();
       await sut.add(mockAddSurveyParams());
       const surveys = await sut.loadAll();
-      const survey = await sut.loadById(surveys[0].id);
+      const survey = await sut.loadById({ id: surveys[0].id });
 
       expect(survey).toBeTruthy();
     });

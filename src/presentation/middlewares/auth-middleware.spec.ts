@@ -7,19 +7,14 @@ import {
   serverError,
 } from '@/presentation/helpers/http/http-helper';
 import { AuthMiddleware } from '@/presentation/middlewares/auth-middleware';
-import { HttpRequest } from '@/presentation/protocols/http';
 
 type SutTypes = {
   sut: AuthMiddleware;
   loadAccountByTokenStub: LoadAccountByTokenRepository;
 };
 
-function mockRequest(): HttpRequest {
-  return {
-    headers: {
-      'x-access-token': 'any-token',
-    },
-  };
+function mockRequest(): AuthMiddleware.Request {
+  return { token: 'any-token' };
 }
 
 function makeSut(role?: string): SutTypes {
@@ -59,7 +54,10 @@ describe('Auth Middleware', () => {
     const loadSpy = jest.spyOn(loadAccountByTokenStub, 'loadByToken');
     await sut.handle(mockRequest());
 
-    expect(loadSpy).toHaveBeenCalledWith('any-token', undefined);
+    expect(loadSpy).toHaveBeenCalledWith({
+      token: 'any-token',
+      role: undefined,
+    });
   });
 
   it('should call LoadAccountByToken with correct token and role', async () => {
@@ -68,7 +66,7 @@ describe('Auth Middleware', () => {
     const loadSpy = jest.spyOn(loadAccountByTokenStub, 'loadByToken');
     await sut.handle(mockRequest());
 
-    expect(loadSpy).toHaveBeenCalledWith('any-token', role);
+    expect(loadSpy).toHaveBeenCalledWith({ token: 'any-token', role });
   });
 
   it('should return 200 if LoadAccountByToken returns an account', async () => {

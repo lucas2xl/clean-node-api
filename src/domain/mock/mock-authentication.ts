@@ -1,6 +1,6 @@
-import { AuthenticationParams } from '@/domain/usecases/authentication/authentication-usecase';
+import { AuthenticationUsecase } from '@/domain/usecases/authentication/authentication-usecase';
 
-export function mockAuthenticationParams(): AuthenticationParams {
+export function mockAuthenticationParams(): AuthenticationUsecase.Params {
   return {
     email: 'any-email',
     password: 'any-password',

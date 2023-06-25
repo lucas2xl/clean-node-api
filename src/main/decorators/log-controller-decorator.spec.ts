@@ -3,9 +3,9 @@ import { LogErrorRepository } from '@/data/protocols/database/log/log-error-repo
 import { LogControllerDecorator } from '@/main/decorators/log-controller-decorator';
 import { mockController } from '@/main/mock/mock-controller';
 import { mockServerError } from '@/main/mock/mock-erros';
+import { SignUpController } from '@/presentation/controllers/login/signup/signup-controller';
 import { ok } from '@/presentation/helpers/http/http-helper';
 import { Controller } from '@/presentation/protocols/controller';
-import { HttpRequest } from '@/presentation/protocols/http';
 
 type SutTypes = {
   sut: Controller;
@@ -13,14 +13,12 @@ type SutTypes = {
   logErrorRepositoryStub: LogErrorRepository;
 };
 
-function mockRequest(): HttpRequest {
+function mockRequest(): SignUpController.Request {
   return {
-    body: {
-      name: 'any-name',
-      email: 'any-email',
-      password: 'any-password',
-      passwordConfirmation: 'any-password',
-    },
+    name: 'any-name',
+    email: 'any-email',
+    password: 'any-password',
+    passwordConfirmation: 'any-password',
   };
 }
 

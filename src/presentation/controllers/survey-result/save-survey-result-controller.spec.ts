@@ -11,7 +11,6 @@ import {
 import { mockLoadSurveyByIdUsecase } from '@/presentation/mock/mock-survey';
 import { mockSaveSurveyResultUsecase } from '@/presentation/mock/mock-survey-result';
 import { Controller } from '@/presentation/protocols/controller';
-import { HttpRequest } from '@/presentation/protocols/http';
 import { Validation } from '@/presentation/protocols/validation';
 import { mockValidation } from '@/validations/mock/mock-validation';
 import * as mockdate from 'mockdate';
@@ -23,14 +22,10 @@ type SutTypes = {
   loadSurveyByIdStub: LoadSurveyByIdUsecase;
 };
 
-function mockRequest(): HttpRequest {
+function mockRequest(): SaveSurveyResultController.Request {
   return {
-    params: {
-      surveyId: 'any-survey-id',
-    },
-    body: {
-      answer: 'any-answer',
-    },
+    surveyId: 'any-survey-id',
+    answer: 'any-answer',
     accountId: 'any-account-id',
   };
 }
@@ -53,14 +48,10 @@ describe('SaveSurveyResult Controller', () => {
   it('should call Validation with correct values', async () => {
     const { sut, validationStub } = makeSut();
     const validateSpy = jest.spyOn(validationStub, 'validate');
-    const httpRequest = mockRequest();
-    await sut.handle(httpRequest);
+    const request = mockRequest();
+    await sut.handle(request);
 
-    expect(validateSpy).toHaveBeenCalledWith({
-      ...httpRequest.params,
-      ...httpRequest.body,
-      accountId: httpRequest?.accountId,
-    });
+    expect(validateSpy).toHaveBeenCalledWith(request);
   });
 
   it('should call LoadSurveyById with correct values', async () => {
@@ -68,7 +59,7 @@ describe('SaveSurveyResult Controller', () => {
     const loadByIdSpy = jest.spyOn(loadSurveyByIdStub, 'loadById');
     await sut.handle(mockRequest());
 
-    expect(loadByIdSpy).toHaveBeenCalledWith('any-survey-id');
+    expect(loadByIdSpy).toHaveBeenCalledWith({ id: 'any-survey-id' });
   });
 
   it('should return 403 if LoadSurveyById returns null', async () => {
@@ -91,9 +82,9 @@ describe('SaveSurveyResult Controller', () => {
 
   it('should return 403 if an invalid answer is provider', async () => {
     const { sut } = makeSut();
-    const httpRequest = mockRequest();
-    httpRequest.body.answer = 'wrong-answer';
-    const httpResponse = await sut.handle(httpRequest);
+    const request = mockRequest();
+    request.answer = 'wrong-answer';
+    const httpResponse = await sut.handle(request);
 
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('answer')));
   });
@@ -101,13 +92,11 @@ describe('SaveSurveyResult Controller', () => {
   it('should call SaveSurveyResult with correct values', async () => {
     const { sut, saveSurveyResultStub } = makeSut();
     const saveSpy = jest.spyOn(saveSurveyResultStub, 'save');
-    const httpRequest = mockRequest();
-    await sut.handle(httpRequest);
+    const request = mockRequest();
+    await sut.handle(request);
 
     expect(saveSpy).toHaveBeenCalledWith({
-      ...httpRequest.body,
-      ...httpRequest.params,
-      accountId: httpRequest?.accountId,
+      ...request,
       createdAt: new Date(),
     });
   });

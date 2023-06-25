@@ -7,7 +7,6 @@ import {
 } from '@/presentation/helpers/http/http-helper';
 import { mockAddSurveyUsecase } from '@/presentation/mock/mock-survey';
 import { Controller } from '@/presentation/protocols/controller';
-import { HttpRequest } from '@/presentation/protocols/http';
 import { Validation } from '@/presentation/protocols/validation';
 import { mockValidation } from '@/validations/mock/mock-validation';
 import * as mockdate from 'mockdate';
@@ -18,13 +17,10 @@ type SutTypes = {
   addSurveyStub: AddSurveyUsecase;
 };
 
-function mockRequest(): HttpRequest {
+function mockRequest(): AddSurveyController.Request {
   return {
-    body: {
-      question: 'any-question',
-      answers: [{ image: 'any-image', answer: 'any-answer' }],
-      createdAt: new Date(),
-    },
+    question: 'any-question',
+    answers: [{ image: 'any-image', answer: 'any-answer' }],
   };
 }
 
@@ -41,10 +37,10 @@ describe('AddSurvey Controller', () => {
   it('should call Validation with correct values', async () => {
     const { sut, validationStub } = makeSut();
     const validateSpy = jest.spyOn(validationStub, 'validate');
-    const httpRequest = mockRequest();
-    await sut.handle(httpRequest);
+    const request = mockRequest();
+    await sut.handle(request);
 
-    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body);
+    expect(validateSpy).toHaveBeenCalledWith(request);
   });
 
   it('should return 400 if Validation fails', async () => {
@@ -58,10 +54,10 @@ describe('AddSurvey Controller', () => {
   it('should call AddSurvey with correct values', async () => {
     const { sut, addSurveyStub } = makeSut();
     const addSpy = jest.spyOn(addSurveyStub, 'add');
-    const httpRequest = mockRequest();
-    await sut.handle(httpRequest);
+    const request = mockRequest();
+    await sut.handle(request);
 
-    expect(addSpy).toHaveBeenCalledWith(httpRequest.body);
+    expect(addSpy).toHaveBeenCalledWith({ ...request, createdAt: new Date() });
   });
 
   it('should return 500 if AddSurvey throws', async () => {

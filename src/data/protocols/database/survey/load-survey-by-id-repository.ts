@@ -1,5 +1,12 @@
-import { SurveyModel } from '@/domain/models/survey-model';
+import { LoadSurveyByIdUsecase } from '@/domain/usecases/survey/load-survey-by-id-usecase';
 
 export interface LoadSurveyByIdRepository {
-  loadById(id: string): Promise<SurveyModel>;
+  loadById(
+    id: LoadSurveyByIdUsecase.Params,
+  ): Promise<LoadSurveyByIdUsecase.Result>;
+}
+
+export namespace LoadSurveyByIdRepository {
+  export type Params = LoadSurveyByIdUsecase.Params;
+  export type Result = void;
 }

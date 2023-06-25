@@ -22,14 +22,14 @@ describe('DbLoadSurveyById Usecase', () => {
   it('should call LoadSurveyByIdRepository with correct id', async () => {
     const { sut, loadSurveyByIdRepositoryStub } = makeSut();
     const loadByIdSpy = jest.spyOn(loadSurveyByIdRepositoryStub, 'loadById');
-    await sut.loadById('any-id');
+    await sut.loadById({ id: 'any-id' });
 
-    expect(loadByIdSpy).toHaveBeenCalledWith('any-id');
+    expect(loadByIdSpy).toHaveBeenCalledWith({ id: 'any-id' });
   });
 
   it('should return survey on success', async () => {
     const { sut } = makeSut();
-    const survey = await sut.loadById('any-id');
+    const survey = await sut.loadById({ id: 'any-id' });
 
     expect(survey).toEqual(mockSurveyModel());
   });
@@ -39,7 +39,7 @@ describe('DbLoadSurveyById Usecase', () => {
     jest
       .spyOn(loadSurveyByIdRepositoryStub, 'loadById')
       .mockRejectedValue(new Error());
-    const promise = sut.loadById('any-id');
+    const promise = sut.loadById({ id: 'any-id' });
 
     await expect(promise).rejects.toThrow();
   });

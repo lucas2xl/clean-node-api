@@ -1,7 +1,7 @@
 import { SurveyResultModel } from '@/domain/models/survey-result-model';
-import { SaveSurveyResultParams } from '@/domain/usecases/survey-result/save-survey-result-usecase';
+import { SaveSurveyResultUsecase } from '@/domain/usecases/survey-result/save-survey-result-usecase';
 
-export function mockSaveSurveyResultParams(): SaveSurveyResultParams {
+export function mockSaveSurveyResultParams(): SaveSurveyResultUsecase.Params {
   return {
     accountId: 'any-account-id',
     surveyId: 'any-survey-id',
@@ -12,10 +12,16 @@ export function mockSaveSurveyResultParams(): SaveSurveyResultParams {
 
 export function mockSurveyResultModel(): SurveyResultModel {
   return {
-    id: 'any-id',
-    accountId: 'any-account-id',
     surveyId: 'any-survey-id',
-    answer: 'any-answer',
+    question: 'any-question',
+    answers: [
+      {
+        image: 'any-image',
+        answer: 'any-answer',
+        count: 0,
+        percent: 0,
+      },
+    ],
     createdAt: new Date(),
   };
 }

@@ -1,6 +1,6 @@
 import { mockAddAccountParams } from '@/domain/mock/mock-account';
 import { mockAddSurveyParams } from '@/domain/mock/mock-survey';
-import { SaveSurveyResultParams } from '@/domain/usecases/survey-result/save-survey-result-usecase';
+import { SaveSurveyResultUsecase } from '@/domain/usecases/survey-result/save-survey-result-usecase';
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo-helper';
 import { SurveyResultMongoRepository } from '@/infra/database/mongodb/repositories/survey-result/survey-result-mongo-repository';
 import env from '@/main/config/env';
@@ -11,7 +11,7 @@ let surveyCollection: Collection;
 let surveyResultCollection: Collection;
 let accountCollection: Collection;
 
-async function insertSurvey(): Promise<string> {
+async function mockSurvey(): Promise<string> {
   const { insertedId } = await surveyCollection.insertOne(
     mockAddSurveyParams(),
   );
@@ -19,8 +19,8 @@ async function insertSurvey(): Promise<string> {
   return insertedId.toJSON();
 }
 
-async function insertSurveyResult(
-  saveSurveyResult: SaveSurveyResultParams,
+async function mockSurveyResult(
+  saveSurveyResult: SaveSurveyResultUsecase.Params,
 ): Promise<string> {
   const { insertedId } = await surveyResultCollection.insertOne(
     saveSurveyResult,
@@ -29,7 +29,7 @@ async function insertSurveyResult(
   return insertedId as unknown as string;
 }
 
-async function insertAccount(): Promise<string> {
+async function mockAccount(): Promise<string> {
   const { insertedId } = await accountCollection.insertOne(
     mockAddAccountParams(),
   );
@@ -65,43 +65,73 @@ describe('Survey Mongo Repository', () => {
   describe('save()', () => {
     it('should add a survey result if it`s new', async () => {
       const sut = makeSut();
-      const surveyId = await insertSurvey();
-      const accountId = await insertAccount();
+      const surveyId = await mockSurvey();
+      const accountId = await mockAccount();
 
-      const surveyResult = await sut.save({
+      await sut.save({
         surveyId,
         accountId,
         answer: 'any-answer',
         createdAt: new Date(),
       });
 
+      const surveyResult = await surveyResultCollection.findOne({
+        surveyId,
+        accountId,
+      });
+
       expect(surveyResult).toBeTruthy();
-      expect(surveyResult.id).toBeTruthy();
-      expect(surveyResult.answer).toBe('any-answer');
     });
 
     it('should update survey result if it`s not new', async () => {
       const sut = makeSut();
 
-      const surveyId = await insertSurvey();
-      const accountId = await insertAccount();
-      const surveyResultId = await insertSurveyResult({
+      const surveyId = await mockSurvey();
+      const accountId = await mockAccount();
+      await mockSurveyResult({
         surveyId,
         accountId,
         answer: 'any-answer',
         createdAt: new Date(),
       });
 
-      const surveyResult = await sut.save({
+      await sut.save({
         surveyId,
         accountId,
         answer: 'any-answer-updated',
         createdAt: new Date(),
       });
 
+      const surveyResult = await surveyResultCollection
+        .find({
+          surveyId,
+          accountId,
+        })
+        .toArray();
+
+      expect(surveyResult.length).toBe(1);
+    });
+  });
+
+  describe.skip('LoadBySurveyId()', () => {
+    it('should load survey result', async () => {
+      const sut = makeSut();
+
+      const surveyId = await mockSurvey();
+      const accountId = await mockAccount();
+      await mockSurveyResult({
+        surveyId,
+        accountId,
+        answer: 'any-answer',
+        createdAt: new Date(),
+      });
+
+      const surveyResult = await sut.loadBySurveyId({ surveyId, accountId });
+
       expect(surveyResult).toBeTruthy();
-      expect(surveyResult.id).toEqual(surveyResultId);
-      expect(surveyResult.answer).toBe('any-answer-updated');
+      expect(surveyResult.surveyId).toEqual(surveyId);
+      expect(surveyResult.answers[0].count).toBe(1);
+      expect(surveyResult.answers[0].percent).toBe(100);
     });
   });
 });

@@ -44,7 +44,7 @@ describe('DbAuthentication UseCase', () => {
     const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail');
     await sut.auth(mockAuthenticationParams());
 
-    expect(loadSpy).toHaveBeenCalledWith('any-email');
+    expect(loadSpy).toHaveBeenCalledWith({ email: 'any-email' });
   });
 
   it('should return null if LoadAccountByEmailRepository return null', async () => {
@@ -134,6 +134,9 @@ describe('DbAuthentication UseCase', () => {
     );
     await sut.auth(mockAuthenticationParams());
 
-    expect(updateSpy).toHaveBeenCalledWith('any-id', 'any-token');
+    expect(updateSpy).toHaveBeenCalledWith({
+      id: 'any-id',
+      token: 'any-token',
+    });
   });
 });

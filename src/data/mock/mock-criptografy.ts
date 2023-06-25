@@ -3,6 +3,17 @@ import { Encrypter } from '@/data/protocols/criptography/encrypter';
 import { HashComparer } from '@/data/protocols/criptography/hash-comparer';
 import { Hasher } from '@/data/protocols/criptography/hasher';
 
+//HasherSpy
+// class HasherSpy implements Hasher {
+//   digest = randomUUID();
+//   plainText: string;
+//
+//   async hash(value: string): Promise<string> {
+//     this.plainText = value;
+//     return this.digest;
+//   }
+// }
+
 export function mockHasher(): Hasher {
   class HasherStub implements Hasher {
     async hash(): Promise<string> {

@@ -1,8 +1,14 @@
-export type AuthenticationParams = {
-  email: string;
-  password: string;
-};
-
 export interface AuthenticationUsecase {
-  auth(authenticationData: AuthenticationParams): Promise<string>;
+  auth(
+    data: AuthenticationUsecase.Params,
+  ): Promise<AuthenticationUsecase.Result>;
+}
+
+export namespace AuthenticationUsecase {
+  export type Params = {
+    email: string;
+    password: string;
+  };
+
+  export type Result = string;
 }

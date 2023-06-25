@@ -12,6 +12,7 @@
     ".husky",
     ".docker",
     "**/*.spec.ts",
-    "**/*.e2e-spec.ts"
+    "**/*.e2e-spec.ts",
+    "test"
   ]
 }

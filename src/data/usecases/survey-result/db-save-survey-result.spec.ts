@@ -1,4 +1,8 @@
-import { mockSaveSurveyResultRepository } from '@/data/mock/mock-db-survey-result';
+import {
+  mockLoadSurveyResultRepository,
+  mockSaveSurveyResultRepository,
+} from '@/data/mock/mock-db-survey-result';
+import { LoadSurveyResultRepository } from '@/data/protocols/database/survey-result/load-survey-result-repository';
 import { SaveSurveyResultRepository } from '@/data/protocols/database/survey-result/save-survey-result-repository';
 import { DbSaveSurveyResult } from '@/data/usecases/survey-result/db-save-survey-result';
 import {
@@ -11,12 +15,21 @@ import * as mockdate from 'mockdate';
 type SutTypes = {
   sut: SaveSurveyResultUsecase;
   saveSurveyResultRepositoryStub: SaveSurveyResultRepository;
+  loadSurveyResultRepositoryStub: LoadSurveyResultRepository;
 };
 
 function makeSut(): SutTypes {
   const saveSurveyResultRepositoryStub = mockSaveSurveyResultRepository();
-  const sut = new DbSaveSurveyResult(saveSurveyResultRepositoryStub);
-  return { sut, saveSurveyResultRepositoryStub };
+  const loadSurveyResultRepositoryStub = mockLoadSurveyResultRepository();
+  const sut = new DbSaveSurveyResult(
+    saveSurveyResultRepositoryStub,
+    loadSurveyResultRepositoryStub,
+  );
+  return {
+    sut,
+    saveSurveyResultRepositoryStub,
+    loadSurveyResultRepositoryStub,
+  };
 }
 
 describe('DbSaveSurvey Usecase', () => {
@@ -29,6 +42,21 @@ describe('DbSaveSurvey Usecase', () => {
     await sut.save(surveyResultData);
 
     expect(saveSpy).toHaveBeenCalledWith(surveyResultData);
+  });
+
+  it('should call LoadSurveyRepository with correct values', async () => {
+    const { sut, loadSurveyResultRepositoryStub } = makeSut();
+    const loadBySurveyIdSpy = jest.spyOn(
+      loadSurveyResultRepositoryStub,
+      'loadBySurveyId',
+    );
+    const surveyResultData = mockSaveSurveyResultParams();
+    await sut.save(surveyResultData);
+
+    expect(loadBySurveyIdSpy).toHaveBeenCalledWith({
+      surveyId: surveyResultData.surveyId,
+      accountId: surveyResultData.accountId,
+    });
   });
 
   it('Should throw if SaveSurveyResultRepository throws', async () => {

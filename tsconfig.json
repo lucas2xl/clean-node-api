@@ -17,6 +17,10 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": false,
     "resolveJsonModule": true,
+    "rootDirs": [
+      "src",
+      "test"
+    ],
     "paths": {
       "@/*": [
         "src/*"

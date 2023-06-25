@@ -1,7 +1,17 @@
-import { SurveyModel } from '@/domain/models/survey-model';
-
-export type AddSurveyParams = Omit<SurveyModel, 'id'>;
-
 export interface AddSurveyUsecase {
-  add(surveyData: AddSurveyParams): Promise<void>;
+  add(data: AddSurveyUsecase.Params): Promise<AddSurveyUsecase.Result>;
+}
+
+export namespace AddSurveyUsecase {
+  type Answer = {
+    image?: string;
+    answer: string;
+  };
+  export type Params = {
+    question: string;
+    answers: Answer[];
+    createdAt: Date;
+  };
+
+  export type Result = void;
 }

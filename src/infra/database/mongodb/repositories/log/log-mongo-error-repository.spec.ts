@@ -25,7 +25,7 @@ describe('Log Mongo Error Repository', () => {
 
   it('should create an error log on success', async () => {
     const sut = makeSut();
-    await sut.logError('any-error');
+    await sut.logError({ stack: 'any-error' });
     const count = await errorCollection.countDocuments();
 
     expect(count).toBe(1);

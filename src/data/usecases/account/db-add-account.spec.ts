@@ -99,6 +99,6 @@ describe('DbAddAccount Usecase', () => {
     const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail');
     await sut.add(mockAccountModel());
 
-    expect(loadSpy).toHaveBeenCalledWith('any-email');
+    expect(loadSpy).toHaveBeenCalledWith({ email: 'any-email' });
   });
 });

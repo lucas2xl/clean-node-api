@@ -5,7 +5,9 @@ import { Collection } from 'mongodb';
 export class LogMongoErrorRepository implements LogErrorRepository {
   private readonly collectionName = 'errors';
 
-  async logError(stack: string): Promise<void> {
+  async logError({
+    stack,
+  }: LogErrorRepository.Params): Promise<LogErrorRepository.Result> {
     const errorCollection = await this.getCollection();
 
     await errorCollection.insertOne({

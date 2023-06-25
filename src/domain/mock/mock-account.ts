@@ -1,7 +1,7 @@
 import { AccountModel } from '@/domain/models/account-model';
-import { AddAccountParams } from '@/domain/usecases/account/add-account-usecase';
+import { AddAccountUsecase } from '@/domain/usecases/account/add-account-usecase';
 
-export function mockAddAccountParams(): AddAccountParams {
+export function mockAddAccountParams(): AddAccountUsecase.Params {
   return {
     name: 'any-name',
     email: 'any-email',
@@ -9,7 +9,7 @@ export function mockAddAccountParams(): AddAccountParams {
   };
 }
 
-export function mockAddAccountWithTokenParams(): AddAccountParams {
+export function mockAddAccountWithTokenParams(): AddAccountUsecase.Params {
   return {
     name: 'any-name',
     email: 'any-email',
@@ -20,7 +20,7 @@ export function mockAddAccountWithTokenParams(): AddAccountParams {
 
 export function mockAddAccountWithTokenAndRoleParams(
   role = 'admin',
-): AddAccountParams {
+): AddAccountUsecase.Params {
   return {
     name: 'any-name',
     email: 'any-email',

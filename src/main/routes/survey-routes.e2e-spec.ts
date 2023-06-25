@@ -61,7 +61,10 @@ describe('Survey Routes', () => {
         mockAddAccountWithTokenAndRoleParams(),
       );
       const fakeToken = await mockToken(account.id);
-      await accountMongo.updateAccessToken(account.id, fakeToken);
+      await accountMongo.updateAccessToken({
+        id: account.id,
+        token: fakeToken,
+      });
 
       await request(app)
         .post('/api/surveys')
@@ -84,7 +87,10 @@ describe('Survey Routes', () => {
       await surveyMongo.add(mockAddSurveyParams());
       const account = await accountMongo.add(mockAccountModel());
       const fakeToken = await mockToken(account.id);
-      await accountMongo.updateAccessToken(account.id, fakeToken);
+      await accountMongo.updateAccessToken({
+        id: account.id,
+        token: fakeToken,
+      });
 
       await request(app)
         .get('/api/surveys')

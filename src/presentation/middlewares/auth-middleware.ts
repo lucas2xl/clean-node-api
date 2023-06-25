@@ -5,7 +5,7 @@ import {
   ok,
   serverError,
 } from '@/presentation/helpers/http/http-helper';
-import { HttpRequest, HttpResponse } from '@/presentation/protocols/http';
+import { HttpResponse } from '@/presentation/protocols/http';
 import { Middleware } from '@/presentation/protocols/middleware';
 
 export class AuthMiddleware implements Middleware {
@@ -14,17 +14,17 @@ export class AuthMiddleware implements Middleware {
     private readonly role: string,
   ) {}
 
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(request: AuthMiddleware.Request): Promise<HttpResponse> {
     try {
-      const token = httpRequest.headers?.['x-access-token'];
+      const token = request?.token;
       if (!token) {
         return forbidden(new AccessDeniedError());
       }
 
-      const account = await this.loadAccountByToken.loadByToken(
+      const account = await this.loadAccountByToken.loadByToken({
         token,
-        this.role,
-      );
+        role: this.role,
+      });
 
       if (!account) {
         return forbidden(new AccessDeniedError());
@@ -35,4 +35,10 @@ export class AuthMiddleware implements Middleware {
       return serverError(e);
     }
   }
+}
+
+export namespace AuthMiddleware {
+  export type Request = {
+    token?: string;
+  };
 }

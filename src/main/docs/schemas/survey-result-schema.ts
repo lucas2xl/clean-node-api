@@ -1,10 +1,11 @@
 export const surveyResultSchema = {
   type: 'object',
   properties: {
-    id: { type: 'string' },
-    surveyId: { type: 'string' },
-    accountId: { type: 'string' },
+    image: { type: 'string' },
     answer: { type: 'string' },
-    createdAt: { type: 'string' },
+    count: { type: 'number' },
+    percent: { type: 'number' },
+    isCurrentAccountAnswer: { type: 'boolean' },
   },
+  required: ['answer', 'count', 'percent', 'isCurrentAccountAnswer'],
 };

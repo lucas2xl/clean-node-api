@@ -1,7 +1,16 @@
 import { AccountModel } from '@/domain/models/account-model';
 
-export type AddAccountParams = Omit<AccountModel, 'id'>;
-
 export interface AddAccountUsecase {
-  add(accountData: AddAccountParams): Promise<AccountModel>;
+  add(data: AddAccountUsecase.Params): Promise<AddAccountUsecase.Result>;
+}
+
+export namespace AddAccountUsecase {
+  export type Params = {
+    name: string;
+    email: string;
+    password: string;
+    token?: string;
+    role?: string;
+  };
+  export type Result = AccountModel;
 }
